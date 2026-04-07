@@ -8,8 +8,7 @@ type: Index
 position: Consumer
 access: 3rd-Party
 image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
-tags:
-  - API
+tags: []
 created: '2025-05-02'
 modified: '2025-05-02'
 url: >-
@@ -24,8 +23,7 @@ apis:
       your application. To access the API, you will need to request keys here. Outlined
       below are the different categories of calls and some of the features they provide.
     humanURL: ' https://blubrry.com/developer/api/'
-    tags:
-      - API
+    tags: []
     properties:
       - type: Documentation
         url: ' https://blubrry.com/developer/api/'
