@@ -1,41 +1,28 @@
-# Blubrry API - RESTful API for podcast publishing & statistics (blubrry-api-restful-api-for-podcast-publishing-statistics)
-The Blubrry API offers a variety of functionality that you can integrate into your application. To access the API, you will need to request keys here.  Outlined below are the different categories of calls and some of the features they provide. 
+# Blubrry API
 
-**URL:** [Visit APIs.json URL](https://raw.githubusercontent.com/api-evangelist/blubrry-api-restful-api-for-podcast-publishing-statistics/refs/heads/main/apis.yml)
+Blubrry is a podcast hosting and statistics platform providing a RESTful API for podcast publishing, media management, episode management, audience statistics, and podcast network functionality. The API uses OAuth 2.0 authentication and enables third-party applications to integrate with podcast hosting workflows.
 
-## Scope
-
-- **Type:** Index 
-- **Position:** Consuming 
-- **Access:** 3rd-Party 
-
-## Tags:
-
- - API
-
-## Timestamps
-
-- **Created:** 2025-05-02 
-- **Modified:** 2025-05-02 
+**URL:** [View APIs.yml](https://raw.githubusercontent.com/api-evangelist/blubrry-api-restful-api-for-podcast-publishing-statistics/refs/heads/main/apis.yml)
 
 ## APIs
 
-### Blubrry API - RESTful API for podcast publishing & statistics
-The Blubrry API offers a variety of functionality that you can integrate into your application. To access the API, you will need to request keys here.  Outlined below are the different categories of calls and some of the features they provide. 
+### Blubrry Podcast Media Hosting API
+Upload and manage podcast media files, list shows, retrieve unpublished media, and publish podcast content for shows hosted on Blubrry.
 
-**Human URL:** [ https://blubrry.com/developer/api/]( https://blubrry.com/developer/api/)
+### Blubrry Episode Management API
+Create podcast episodes (publish, schedule, or draft) and update episode metadata. Enables CMS and production tool integrations.
 
+### Blubrry Podcast Statistics API
+Analytics for podcast episodes including download and play counts, monthly breakdowns, and show-level summaries for measuring audience reach.
 
-#### Tags:
+### Blubrry Podcast Network API
+User subscriptions, show management, episode playback position tracking, show directory navigation by category and search.
 
- - API
+## Links
 
-#### Properties
-
-- [Documentation]( https://blubrry.com/developer/api/)
+- [Website](https://blubrry.com)
+- [Developer API Documentation](https://blubrry.com/developer/api/)
 
 ## Maintainers
 
-**FN:** Kin Lane
-
-**Email:** info@apievangelist.com
+- **Kin Lane** - kinlane@gmail.com
