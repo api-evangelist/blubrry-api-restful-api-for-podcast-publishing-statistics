@@ -95,6 +95,16 @@ common:
     url: https://blubrry.com/developer/api/
   - type: Authentication
     url: https://blubrry.com/developer/api/
+  - type: Integrations
+    url: https://blubrry.com/services/partners/
+integrations:
+  - name: fbpx
+  - name: Blubrry Podcasting
+  - name: Instagram
+  - name: YouTube
+  - name: Twitter
+  - name: Tiktok
+  - name: LinkedIn
 maintainers:
   - FN: Kin Lane
     email: kinlane@gmail.com
