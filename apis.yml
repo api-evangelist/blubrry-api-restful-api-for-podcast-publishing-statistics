@@ -87,6 +87,10 @@ apis:
         url: https://blubrry.com/developer/api/
 
 common:
+  - type: GitHubOrganization
+    url: https://github.com/blubrry
+  - type: LinkedIn
+    url: https://www.linkedin.com/company/rawvoice
   - type: Website
     url: https://blubrry.com
   - type: Portal
