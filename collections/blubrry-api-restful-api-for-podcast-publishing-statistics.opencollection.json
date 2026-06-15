@@ -1,0 +1,670 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Blubrry Podcast Hosting & Statistics API",
+    "version": "2"
+  },
+  "request": {
+    "auth": {
+      "type": "oauth2",
+      "flow": "authorization_code",
+      "authorizationUrl": "https://api.blubrry.com/oauth2/authorize",
+      "accessTokenUrl": "https://api.blubrry.com/oauth2/token",
+      "credentials": {
+        "clientId": "{{clientId}}",
+        "clientSecret": "{{clientSecret}}"
+      }
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Episode",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List episodes",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.blubrry.com/2/episode/:keyword/",
+            "params": [
+              {
+                "name": "keyword",
+                "value": "",
+                "type": "path",
+                "description": "Program keyword that identifies the show."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Returns a list of most recent episodes for a show identified by its program keyword."
+        },
+        {
+          "info": {
+            "name": "Get an episode",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.blubrry.com/2/episode/:keyword/:episode_id/",
+            "params": [
+              {
+                "name": "keyword",
+                "value": "",
+                "type": "path",
+                "description": "Program keyword that identifies the show."
+              },
+              {
+                "name": "episode_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get an episode"
+        },
+        {
+          "info": {
+            "name": "Create an episode",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.blubrry.com/2/episode/:keyword/add",
+            "params": [
+              {
+                "name": "keyword",
+                "value": "",
+                "type": "path",
+                "description": "Program keyword that identifies the show."
+              }
+            ],
+            "body": {
+              "type": "form-urlencoded",
+              "data": []
+            }
+          },
+          "docs": "Publish, schedule, or save a new episode as draft for a show."
+        },
+        {
+          "info": {
+            "name": "Update an episode",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.blubrry.com/2/episode/:keyword/update/:episode_id/",
+            "params": [
+              {
+                "name": "keyword",
+                "value": "",
+                "type": "path",
+                "description": "Program keyword that identifies the show."
+              },
+              {
+                "name": "episode_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "form-urlencoded",
+              "data": []
+            }
+          },
+          "docs": "Update an episode"
+        },
+        {
+          "info": {
+            "name": "Update episode image",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.blubrry.com/2/episode/:keyword/update-image/:episode_id/",
+            "params": [
+              {
+                "name": "keyword",
+                "value": "",
+                "type": "path",
+                "description": "Program keyword that identifies the show."
+              },
+              {
+                "name": "episode_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "multipart-form",
+              "data": [
+                {
+                  "name": "image",
+                  "type": "text",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "docs": "Update episode image"
+        },
+        {
+          "info": {
+            "name": "Delete episode image",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.blubrry.com/2/episode/:keyword/delete-image/:episode_id/",
+            "params": [
+              {
+                "name": "keyword",
+                "value": "",
+                "type": "path",
+                "description": "Program keyword that identifies the show."
+              },
+              {
+                "name": "episode_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Delete episode image"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Media",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List shows",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.blubrry.com/2/media/index.:format",
+            "params": [
+              {
+                "name": "format",
+                "value": "",
+                "type": "path",
+                "description": "Response serialization format."
+              }
+            ]
+          },
+          "docs": "Returns the list of shows the authorized account has access to."
+        },
+        {
+          "info": {
+            "name": "List media for a show",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.blubrry.com/2/media/:keyword/index.:format",
+            "params": [
+              {
+                "name": "keyword",
+                "value": "",
+                "type": "path",
+                "description": "Program keyword that identifies the show."
+              },
+              {
+                "name": "format",
+                "value": "",
+                "type": "path",
+                "description": "Response serialization format."
+              }
+            ]
+          },
+          "docs": "Returns unpublished and recently published media files for the show."
+        },
+        {
+          "info": {
+            "name": "Get a media file's metadata",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.blubrry.com/2/media/:keyword/:filename",
+            "params": [
+              {
+                "name": "keyword",
+                "value": "",
+                "type": "path",
+                "description": "Program keyword that identifies the show."
+              },
+              {
+                "name": "filename",
+                "value": "",
+                "type": "path",
+                "description": "Media filename including extension."
+              }
+            ]
+          },
+          "docs": "Get a media file's metadata"
+        },
+        {
+          "info": {
+            "name": "Upload (or replace) a media file",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.blubrry.com/2/media/:keyword/:filename",
+            "params": [
+              {
+                "name": "keyword",
+                "value": "",
+                "type": "path",
+                "description": "Program keyword that identifies the show."
+              },
+              {
+                "name": "filename",
+                "value": "",
+                "type": "path",
+                "description": "Media filename including extension."
+              }
+            ]
+          },
+          "docs": "Upload (or replace) a media file"
+        },
+        {
+          "info": {
+            "name": "Delete a media file",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.blubrry.com/2/media/:keyword/:filename",
+            "params": [
+              {
+                "name": "keyword",
+                "value": "",
+                "type": "path",
+                "description": "Program keyword that identifies the show."
+              },
+              {
+                "name": "filename",
+                "value": "",
+                "type": "path",
+                "description": "Media filename including extension."
+              }
+            ]
+          },
+          "docs": "Delete a media file"
+        },
+        {
+          "info": {
+            "name": "Queue a media file for migration into Blubrry hosting",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.blubrry.com/2/media/:keyword/migrate_add.json",
+            "params": [
+              {
+                "name": "keyword",
+                "value": "",
+                "type": "path",
+                "description": "Program keyword that identifies the show."
+              }
+            ],
+            "body": {
+              "type": "form-urlencoded",
+              "data": [
+                {
+                  "name": "source_url",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "docs": "Queue a media file for migration into Blubrry hosting"
+        },
+        {
+          "info": {
+            "name": "Remove a migration request",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.blubrry.com/2/media/:keyword/migrate_remove.json",
+            "params": [
+              {
+                "name": "keyword",
+                "value": "",
+                "type": "path",
+                "description": "Program keyword that identifies the show."
+              }
+            ],
+            "body": {
+              "type": "form-urlencoded",
+              "data": [
+                {
+                  "name": "source_url",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "docs": "Remove a migration request"
+        },
+        {
+          "info": {
+            "name": "Get migration status",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.blubrry.com/2/media/:keyword/migrate_status.json",
+            "params": [
+              {
+                "name": "keyword",
+                "value": "",
+                "type": "path",
+                "description": "Program keyword that identifies the show."
+              }
+            ]
+          },
+          "docs": "Get migration status"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Statistics",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List shows with statistics access",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.blubrry.com/2/stats/index.:format",
+            "params": [
+              {
+                "name": "format",
+                "value": "",
+                "type": "path",
+                "description": "Response serialization format."
+              }
+            ]
+          },
+          "docs": "List shows with statistics access"
+        },
+        {
+          "info": {
+            "name": "Show statistics summary",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.blubrry.com/2/stats/:keyword/summary.:format",
+            "params": [
+              {
+                "name": "keyword",
+                "value": "",
+                "type": "path",
+                "description": "Program keyword that identifies the show."
+              },
+              {
+                "name": "format",
+                "value": "",
+                "type": "path",
+                "description": "Response serialization format."
+              }
+            ]
+          },
+          "docs": "Overall download summary for a show."
+        },
+        {
+          "info": {
+            "name": "Episode-level download counts for a show",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.blubrry.com/2/stats/:keyword/show-episodes/",
+            "params": [
+              {
+                "name": "keyword",
+                "value": "",
+                "type": "path",
+                "description": "Program keyword that identifies the show."
+              }
+            ]
+          },
+          "docs": "Episode-level download counts for a show"
+        },
+        {
+          "info": {
+            "name": "Monthly download breakdown for a show",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.blubrry.com/2/stats/:keyword/",
+            "params": [
+              {
+                "name": "keyword",
+                "value": "",
+                "type": "path",
+                "description": "Program keyword that identifies the show."
+              }
+            ]
+          },
+          "docs": "Monthly download breakdown for a show"
+        },
+        {
+          "info": {
+            "name": "Show downloads by country",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.blubrry.com/2/stats/:keyword/countries/",
+            "params": [
+              {
+                "name": "keyword",
+                "value": "",
+                "type": "path",
+                "description": "Program keyword that identifies the show."
+              }
+            ]
+          },
+          "docs": "Show downloads by country"
+        },
+        {
+          "info": {
+            "name": "Show downloads by application type",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.blubrry.com/2/stats/:keyword/app-types/",
+            "params": [
+              {
+                "name": "keyword",
+                "value": "",
+                "type": "path",
+                "description": "Program keyword that identifies the show."
+              }
+            ]
+          },
+          "docs": "Show downloads by application type"
+        },
+        {
+          "info": {
+            "name": "Show downloads by application",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.blubrry.com/2/stats/:keyword/apps/",
+            "params": [
+              {
+                "name": "keyword",
+                "value": "",
+                "type": "path",
+                "description": "Program keyword that identifies the show."
+              }
+            ]
+          },
+          "docs": "Show downloads by application"
+        },
+        {
+          "info": {
+            "name": "List episodes with stats",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.blubrry.com/2/stats/:keyword/episodes/",
+            "params": [
+              {
+                "name": "keyword",
+                "value": "",
+                "type": "path",
+                "description": "Program keyword that identifies the show."
+              }
+            ]
+          },
+          "docs": "List episodes with stats"
+        },
+        {
+          "info": {
+            "name": "Episode downloads by country",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.blubrry.com/2/stats/:keyword/:episode_id/countries/",
+            "params": [
+              {
+                "name": "keyword",
+                "value": "",
+                "type": "path",
+                "description": "Program keyword that identifies the show."
+              },
+              {
+                "name": "episode_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Episode downloads by country"
+        },
+        {
+          "info": {
+            "name": "Episode downloads by application type",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.blubrry.com/2/stats/:keyword/:episode_id/app-types/",
+            "params": [
+              {
+                "name": "keyword",
+                "value": "",
+                "type": "path",
+                "description": "Program keyword that identifies the show."
+              },
+              {
+                "name": "episode_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Episode downloads by application type"
+        },
+        {
+          "info": {
+            "name": "Episode downloads by application",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.blubrry.com/2/stats/:keyword/:episode_id/apps/",
+            "params": [
+              {
+                "name": "keyword",
+                "value": "",
+                "type": "path",
+                "description": "Program keyword that identifies the show."
+              },
+              {
+                "name": "episode_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Episode downloads by application"
+        },
+        {
+          "info": {
+            "name": "Stats widget preview",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.blubrry.com/2/stats/:keyword/widget/preview.json",
+            "params": [
+              {
+                "name": "keyword",
+                "value": "",
+                "type": "path",
+                "description": "Program keyword that identifies the show."
+              }
+            ]
+          },
+          "docs": "Stats widget preview"
+        },
+        {
+          "info": {
+            "name": "Lifetime totals for a show",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.blubrry.com/2/stats/:keyword/totals.json",
+            "params": [
+              {
+                "name": "keyword",
+                "value": "",
+                "type": "path",
+                "description": "Program keyword that identifies the show."
+              }
+            ]
+          },
+          "docs": "Lifetime totals for a show"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
