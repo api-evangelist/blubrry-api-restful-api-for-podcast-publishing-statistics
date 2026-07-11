@@ -87,6 +87,10 @@ apis:
         url: https://blubrry.com/developer/api/
 
 common:
+  - type: DomainSecurity
+    url: security/blubrry-api-restful-api-for-podcast-publishing-statistics-domain-security.yml
+  - type: Authentication
+    url: authentication/blubrry-api-restful-api-for-podcast-publishing-statistics-authentication.yml
   - type: OAuthScopes
     url: scopes/blubrry-api-restful-api-for-podcast-publishing-statistics-scopes.yml
   - type: GitHubOrganization
