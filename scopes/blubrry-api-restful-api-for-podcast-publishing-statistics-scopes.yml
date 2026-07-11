@@ -1,0 +1,18 @@
+generated: '2026-07-11'
+method: derived
+source: openapi/blubrry-api-restful-api-for-podcast-publishing-statistics-openapi.yml
+docs: https://blubrry.com/developer/api/oauth-2/
+note: Blubrry's OAuth 2.0 implementation does not use or document scopes — the token
+  response returns "scope":null and access is granted at the level of the account
+  authorized during the authorization code flow (https://blubrry.com/developer/api/oauth-2/).
+schemes:
+- name: OAuth2
+  source: openapi/blubrry-api-restful-api-for-podcast-publishing-statistics-openapi.yml
+  flows:
+  - flow: authorizationCode
+    authorizationUrl: https://api.blubrry.com/oauth2/authorize
+    tokenUrl: https://api.blubrry.com/oauth2/token
+  description: |-
+    OAuth 2.0 Bearer token. Contact Blubrry to receive a client_id and
+    secret. Tokens expire after one hour; refresh tokens do not expire.
+scopes: []

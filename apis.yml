@@ -87,6 +87,8 @@ apis:
         url: https://blubrry.com/developer/api/
 
 common:
+  - type: OAuthScopes
+    url: scopes/blubrry-api-restful-api-for-podcast-publishing-statistics-scopes.yml
   - type: GitHubOrganization
     url: https://github.com/blubrry
   - type: LinkedIn
@@ -101,6 +103,8 @@ common:
     url: https://blubrry.com/developer/api/
   - type: Integrations
     url: https://blubrry.com/services/partners/
+  - url: https://blubrry.com/podcast-insider/feed/
+    type: Blog
 integrations:
   - name: fbpx
   - name: Blubrry Podcasting
