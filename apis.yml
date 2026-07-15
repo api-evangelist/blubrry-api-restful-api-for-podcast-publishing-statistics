@@ -87,6 +87,8 @@ apis:
         url: https://blubrry.com/developer/api/
 
 common:
+  - type: AgenticAccess
+    url: agentic-access/blubrry-api-restful-api-for-podcast-publishing-statistics-agentic-access.yml
   - type: DomainSecurity
     url: security/blubrry-api-restful-api-for-podcast-publishing-statistics-domain-security.yml
   - type: Authentication
