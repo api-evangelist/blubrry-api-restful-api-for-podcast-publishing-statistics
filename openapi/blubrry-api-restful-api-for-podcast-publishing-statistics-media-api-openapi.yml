@@ -1,0 +1,212 @@
+openapi: 3.1.0
+info:
+  title: Blubrry Podcast Hosting & Statistics Episode Media API
+  version: '2'
+  description: 'REST API for podcast publishing, media hosting, episode management, and
+
+    podcast download statistics on Blubrry. Authentication is OAuth 2.0
+
+    Bearer; obtain a client_id / secret from Blubrry and request an access
+
+    token at https://api.blubrry.com/oauth2/token.
+
+
+    Source spec: https://blubrry.com/developer/api/podcaster.yaml
+
+    '
+  contact:
+    name: Blubrry Developer
+    url: https://blubrry.com/developer/api/
+servers:
+- url: https://api.blubrry.com/2
+  description: Production
+security:
+- OAuth2: []
+tags:
+- name: Media
+  description: Upload and manage media files hosted on Blubrry.
+paths:
+  /media/index.{format}:
+    get:
+      tags:
+      - Media
+      summary: List shows
+      description: Returns the list of shows the authorized account has access to.
+      operationId: listShows
+      parameters:
+      - $ref: '#/components/parameters/Format'
+      responses:
+        '200':
+          description: Shows returned.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /media/{keyword}/index.{format}:
+    get:
+      tags:
+      - Media
+      summary: List media for a show
+      description: Returns unpublished and recently published media files for the show.
+      operationId: listShowMedia
+      parameters:
+      - $ref: '#/components/parameters/Keyword'
+      - $ref: '#/components/parameters/Format'
+      responses:
+        '200':
+          description: Media list returned.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /media/{keyword}/{filename}:
+    get:
+      tags:
+      - Media
+      summary: Get a media file's metadata
+      operationId: getMedia
+      parameters:
+      - $ref: '#/components/parameters/Keyword'
+      - $ref: '#/components/parameters/Filename'
+      responses:
+        '200':
+          description: Media metadata returned.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          description: Media not found.
+    put:
+      tags:
+      - Media
+      summary: Upload (or replace) a media file
+      operationId: uploadMedia
+      parameters:
+      - $ref: '#/components/parameters/Keyword'
+      - $ref: '#/components/parameters/Filename'
+      requestBody:
+        required: true
+        content:
+          application/octet-stream:
+            schema:
+              type: string
+              format: binary
+      responses:
+        '200':
+          description: Media uploaded.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    delete:
+      tags:
+      - Media
+      summary: Delete a media file
+      operationId: deleteMedia
+      parameters:
+      - $ref: '#/components/parameters/Keyword'
+      - $ref: '#/components/parameters/Filename'
+      responses:
+        '204':
+          description: Media deleted.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /media/{keyword}/migrate_add.json:
+    post:
+      tags:
+      - Media
+      summary: Queue a media file for migration into Blubrry hosting
+      operationId: migrateAddMedia
+      parameters:
+      - $ref: '#/components/parameters/Keyword'
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              required:
+              - source_url
+              properties:
+                source_url:
+                  type: string
+                  format: uri
+      responses:
+        '200':
+          description: Migration queued.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /media/{keyword}/migrate_remove.json:
+    post:
+      tags:
+      - Media
+      summary: Remove a migration request
+      operationId: migrateRemoveMedia
+      parameters:
+      - $ref: '#/components/parameters/Keyword'
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              required:
+              - source_url
+              properties:
+                source_url:
+                  type: string
+                  format: uri
+      responses:
+        '200':
+          description: Migration request removed.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /media/{keyword}/migrate_status.json:
+    get:
+      tags:
+      - Media
+      summary: Get migration status
+      operationId: getMigrationStatus
+      parameters:
+      - $ref: '#/components/parameters/Keyword'
+      responses:
+        '200':
+          description: Migration status returned.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+components:
+  parameters:
+    Keyword:
+      name: keyword
+      in: path
+      required: true
+      description: Program keyword that identifies the show.
+      schema:
+        type: string
+    Format:
+      name: format
+      in: path
+      required: true
+      description: Response serialization format.
+      schema:
+        type: string
+        enum:
+        - json
+        - xml
+    Filename:
+      name: filename
+      in: path
+      required: true
+      description: Media filename including extension.
+      schema:
+        type: string
+  responses:
+    Unauthorized:
+      description: Missing or invalid access token.
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      description: 'OAuth 2.0 Bearer token. Contact Blubrry to receive a client_id and
+
+        secret. Tokens expire after one hour; refresh tokens do not expire.
+
+        '
+      flows:
+        authorizationCode:
+          authorizationUrl: https://api.blubrry.com/oauth2/authorize
+          tokenUrl: https://api.blubrry.com/oauth2/token
+          refreshUrl: https://api.blubrry.com/oauth2/token
+          scopes: {}

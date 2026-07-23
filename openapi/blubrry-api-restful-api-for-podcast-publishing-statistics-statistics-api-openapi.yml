@@ -1,0 +1,244 @@
+openapi: 3.1.0
+info:
+  title: Blubrry Podcast Hosting & Episode Statistics API
+  version: '2'
+  description: 'REST API for podcast publishing, media hosting, episode management, and
+
+    podcast download statistics on Blubrry. Authentication is OAuth 2.0
+
+    Bearer; obtain a client_id / secret from Blubrry and request an access
+
+    token at https://api.blubrry.com/oauth2/token.
+
+
+    Source spec: https://blubrry.com/developer/api/podcaster.yaml
+
+    '
+  contact:
+    name: Blubrry Developer
+    url: https://blubrry.com/developer/api/
+servers:
+- url: https://api.blubrry.com/2
+  description: Production
+security:
+- OAuth2: []
+tags:
+- name: Statistics
+  description: Podcast download statistics.
+paths:
+  /stats/index.{format}:
+    get:
+      tags:
+      - Statistics
+      summary: List shows with statistics access
+      operationId: listStatsShows
+      parameters:
+      - $ref: '#/components/parameters/Format'
+      responses:
+        '200':
+          description: Shows returned.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /stats/{keyword}/summary.{format}:
+    get:
+      tags:
+      - Statistics
+      summary: Show statistics summary
+      description: Overall download summary for a show.
+      operationId: getShowStatsSummary
+      parameters:
+      - $ref: '#/components/parameters/Keyword'
+      - $ref: '#/components/parameters/Format'
+      responses:
+        '200':
+          description: Summary returned.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /stats/{keyword}/show-episodes/:
+    get:
+      tags:
+      - Statistics
+      summary: Episode-level download counts for a show
+      operationId: getShowEpisodeStats
+      parameters:
+      - $ref: '#/components/parameters/Keyword'
+      responses:
+        '200':
+          description: Episode stats returned.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /stats/{keyword}/:
+    get:
+      tags:
+      - Statistics
+      summary: Monthly download breakdown for a show
+      operationId: getShowMonthlyStats
+      parameters:
+      - $ref: '#/components/parameters/Keyword'
+      responses:
+        '200':
+          description: Monthly stats returned.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /stats/{keyword}/countries/:
+    get:
+      tags:
+      - Statistics
+      summary: Show downloads by country
+      operationId: getShowCountryStats
+      parameters:
+      - $ref: '#/components/parameters/Keyword'
+      responses:
+        '200':
+          description: Country stats returned.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /stats/{keyword}/app-types/:
+    get:
+      tags:
+      - Statistics
+      summary: Show downloads by application type
+      operationId: getShowAppTypeStats
+      parameters:
+      - $ref: '#/components/parameters/Keyword'
+      responses:
+        '200':
+          description: App type stats returned.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /stats/{keyword}/apps/:
+    get:
+      tags:
+      - Statistics
+      summary: Show downloads by application
+      operationId: getShowAppStats
+      parameters:
+      - $ref: '#/components/parameters/Keyword'
+      responses:
+        '200':
+          description: App stats returned.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /stats/{keyword}/episodes/:
+    get:
+      tags:
+      - Statistics
+      summary: List episodes with stats
+      operationId: listStatsEpisodes
+      parameters:
+      - $ref: '#/components/parameters/Keyword'
+      responses:
+        '200':
+          description: Episode list returned.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /stats/{keyword}/{episode_id}/countries/:
+    get:
+      tags:
+      - Statistics
+      summary: Episode downloads by country
+      operationId: getEpisodeCountryStats
+      parameters:
+      - $ref: '#/components/parameters/Keyword'
+      - $ref: '#/components/parameters/EpisodeId'
+      responses:
+        '200':
+          description: Country stats returned.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /stats/{keyword}/{episode_id}/app-types/:
+    get:
+      tags:
+      - Statistics
+      summary: Episode downloads by application type
+      operationId: getEpisodeAppTypeStats
+      parameters:
+      - $ref: '#/components/parameters/Keyword'
+      - $ref: '#/components/parameters/EpisodeId'
+      responses:
+        '200':
+          description: App type stats returned.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /stats/{keyword}/{episode_id}/apps/:
+    get:
+      tags:
+      - Statistics
+      summary: Episode downloads by application
+      operationId: getEpisodeAppStats
+      parameters:
+      - $ref: '#/components/parameters/Keyword'
+      - $ref: '#/components/parameters/EpisodeId'
+      responses:
+        '200':
+          description: App stats returned.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /stats/{keyword}/widget/preview.json:
+    get:
+      tags:
+      - Statistics
+      summary: Stats widget preview
+      operationId: getStatsWidgetPreview
+      parameters:
+      - $ref: '#/components/parameters/Keyword'
+      responses:
+        '200':
+          description: Widget preview returned.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /stats/{keyword}/totals.json:
+    get:
+      tags:
+      - Statistics
+      summary: Lifetime totals for a show
+      operationId: getShowStatsTotals
+      parameters:
+      - $ref: '#/components/parameters/Keyword'
+      responses:
+        '200':
+          description: Totals returned.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+components:
+  parameters:
+    Keyword:
+      name: keyword
+      in: path
+      required: true
+      description: Program keyword that identifies the show.
+      schema:
+        type: string
+    Format:
+      name: format
+      in: path
+      required: true
+      description: Response serialization format.
+      schema:
+        type: string
+        enum:
+        - json
+        - xml
+    EpisodeId:
+      name: episode_id
+      in: path
+      required: true
+      schema:
+        type: integer
+  responses:
+    Unauthorized:
+      description: Missing or invalid access token.
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      description: 'OAuth 2.0 Bearer token. Contact Blubrry to receive a client_id and
+
+        secret. Tokens expire after one hour; refresh tokens do not expire.
+
+        '
+      flows:
+        authorizationCode:
+          authorizationUrl: https://api.blubrry.com/oauth2/authorize
+          tokenUrl: https://api.blubrry.com/oauth2/token
+          refreshUrl: https://api.blubrry.com/oauth2/token
+          scopes: {}

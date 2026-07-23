@@ -1,0 +1,223 @@
+openapi: 3.1.0
+info:
+  title: Blubrry Podcast Hosting & Statistics Episode API
+  version: '2'
+  description: 'REST API for podcast publishing, media hosting, episode management, and
+
+    podcast download statistics on Blubrry. Authentication is OAuth 2.0
+
+    Bearer; obtain a client_id / secret from Blubrry and request an access
+
+    token at https://api.blubrry.com/oauth2/token.
+
+
+    Source spec: https://blubrry.com/developer/api/podcaster.yaml
+
+    '
+  contact:
+    name: Blubrry Developer
+    url: https://blubrry.com/developer/api/
+servers:
+- url: https://api.blubrry.com/2
+  description: Production
+security:
+- OAuth2: []
+tags:
+- name: Episode
+  description: Read, create, and update episodes for shows hosted on Blubrry.
+paths:
+  /episode/{keyword}/:
+    get:
+      tags:
+      - Episode
+      summary: List episodes
+      description: Returns a list of most recent episodes for a show identified by its program keyword.
+      operationId: listEpisodes
+      parameters:
+      - $ref: '#/components/parameters/Keyword'
+      - $ref: '#/components/parameters/Limit'
+      - $ref: '#/components/parameters/Offset'
+      responses:
+        '200':
+          description: Episode list returned.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /episode/{keyword}/{episode_id}/:
+    get:
+      tags:
+      - Episode
+      summary: Get an episode
+      operationId: getEpisode
+      parameters:
+      - $ref: '#/components/parameters/Keyword'
+      - $ref: '#/components/parameters/EpisodeId'
+      responses:
+        '200':
+          description: Episode returned.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          description: Episode not found.
+  /episode/{keyword}/add:
+    post:
+      tags:
+      - Episode
+      summary: Create an episode
+      description: Publish, schedule, or save a new episode as draft for a show.
+      operationId: createEpisode
+      parameters:
+      - $ref: '#/components/parameters/Keyword'
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/EpisodeInput'
+      responses:
+        '201':
+          description: Episode created.
+        '400':
+          description: Validation error.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /episode/{keyword}/update/{episode_id}/:
+    post:
+      tags:
+      - Episode
+      summary: Update an episode
+      operationId: updateEpisode
+      parameters:
+      - $ref: '#/components/parameters/Keyword'
+      - $ref: '#/components/parameters/EpisodeId'
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/EpisodeInput'
+      responses:
+        '200':
+          description: Episode updated.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          description: Episode not found.
+  /episode/{keyword}/update-image/{episode_id}/:
+    put:
+      tags:
+      - Episode
+      summary: Update episode image
+      operationId: updateEpisodeImage
+      parameters:
+      - $ref: '#/components/parameters/Keyword'
+      - $ref: '#/components/parameters/EpisodeId'
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                image:
+                  type: string
+                  format: binary
+      responses:
+        '200':
+          description: Image updated.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /episode/{keyword}/delete-image/{episode_id}/:
+    delete:
+      tags:
+      - Episode
+      summary: Delete episode image
+      operationId: deleteEpisodeImage
+      parameters:
+      - $ref: '#/components/parameters/Keyword'
+      - $ref: '#/components/parameters/EpisodeId'
+      responses:
+        '204':
+          description: Image deleted.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+components:
+  parameters:
+    Limit:
+      name: limit
+      in: query
+      schema:
+        type: integer
+        default: 10
+    Offset:
+      name: offset
+      in: query
+      schema:
+        type: integer
+        default: 0
+    Keyword:
+      name: keyword
+      in: path
+      required: true
+      description: Program keyword that identifies the show.
+      schema:
+        type: string
+    EpisodeId:
+      name: episode_id
+      in: path
+      required: true
+      schema:
+        type: integer
+  responses:
+    Unauthorized:
+      description: Missing or invalid access token.
+  schemas:
+    EpisodeInput:
+      type: object
+      description: Episode fields. Send the subset you want to set or update.
+      properties:
+        title:
+          type: string
+        subtitle:
+          type: string
+        summary:
+          type: string
+        link:
+          type: string
+          format: uri
+        author:
+          type: string
+        explicit:
+          type: string
+          enum:
+          - clean
+          - true
+          - 'no'
+        media_url:
+          type: string
+          format: uri
+        duration:
+          type: string
+          description: HH:MM:SS
+        publish_date:
+          type: string
+          format: date-time
+        status:
+          type: string
+          enum:
+          - publish
+          - draft
+          - future
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      description: 'OAuth 2.0 Bearer token. Contact Blubrry to receive a client_id and
+
+        secret. Tokens expire after one hour; refresh tokens do not expire.
+
+        '
+      flows:
+        authorizationCode:
+          authorizationUrl: https://api.blubrry.com/oauth2/authorize
+          tokenUrl: https://api.blubrry.com/oauth2/token
+          refreshUrl: https://api.blubrry.com/oauth2/token
+          scopes: {}
