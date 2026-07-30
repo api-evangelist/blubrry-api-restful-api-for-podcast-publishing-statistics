@@ -6,7 +6,20 @@ description: >-
   podcast network functionality. The API uses OAuth 2.0 authentication and enables
   third-party applications to integrate with podcast hosting workflows.
 type: Index
-image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+accessModel:
+  pricing: freemium
+  onboarding: self-serve
+  trial: false
+  try_now: true
+  public: false
+  label: Freemium · Self-serve signup
+  confidence: high
+  source:
+  - plans
+  - authentication
+  generated: '2026-07-22'
+  method: derived
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/blubrry-api-restful-api-for-podcast-publishing-statistics.png
 url: https://raw.githubusercontent.com/api-evangelist/blubrry-api-restful-api-for-podcast-publishing-statistics/refs/heads/main/apis.yml
 created: '2025-05-02'
 modified: '2026-04-21'
@@ -18,74 +31,102 @@ tags:
   - Publishing
   - Statistics
 apis:
-  - aid: blubrry-api-restful-api-for-podcast-publishing-statistics:blubrry-podcast-media-hosting-api
-    name: Blubrry Podcast Media Hosting API
-    description: >-
-      The Blubrry Podcast Media Hosting API enables uploading and managing podcast
-      media files through third-party applications. Supports listing shows, retrieving
-      unpublished media files, deleting media, and publishing podcast media for shows
-      hosted on Blubrry.
-    humanURL: https://blubrry.com/developer/api/
-    tags:
-      - Podcasting
-      - Media
-      - Hosting
-      - Publishing
-    properties:
-      - type: Documentation
-        url: https://blubrry.com/developer/api/
-      - type: Authentication
-        url: https://blubrry.com/developer/api/
-
-  - aid: blubrry-api-restful-api-for-podcast-publishing-statistics:blubrry-episode-management-api
-    name: Blubrry Episode Management API
-    description: >-
-      The Blubrry Episode Management API supports creating new podcast episodes
-      (publish, schedule, or save as draft) and updating existing episode fields.
-      Enables CMS and podcast production tools to manage episode metadata programmatically.
-    humanURL: https://blubrry.com/developer/api/
-    tags:
-      - Podcasting
-      - Episodes
-      - Publishing
-      - CMS
-    properties:
-      - type: Documentation
-        url: https://blubrry.com/developer/api/
-
-  - aid: blubrry-api-restful-api-for-podcast-publishing-statistics:blubrry-podcast-statistics-api
-    name: Blubrry Podcast Statistics API
-    description: >-
-      The Blubrry Podcast Statistics API provides analytics for podcast episodes including
-      download and play counts, overall show download summaries, monthly download breakdowns,
-      and episode-level statistics for measuring podcast audience reach and growth.
-    humanURL: https://blubrry.com/developer/api/
-    tags:
-      - Podcasting
-      - Statistics
-      - Analytics
-      - Downloads
-      - Audience
-    properties:
-      - type: Documentation
-        url: https://blubrry.com/developer/api/
-
-  - aid: blubrry-api-restful-api-for-podcast-publishing-statistics:blubrry-podcast-network-api
-    name: Blubrry Podcast Network API
-    description: >-
-      The Blubrry Podcast Network API provides access to user subscriptions with show
-      management, episode metadata storage including playback status and position, show
-      navigation by category and search, and access to Blubrry's podcast directory.
-    humanURL: https://blubrry.com/developer/api/
-    tags:
-      - Podcasting
-      - Network
-      - Subscriptions
-      - Directory
-    properties:
-      - type: Documentation
-        url: https://blubrry.com/developer/api/
-
+- aid: >-
+    blubrry-api-restful-api-for-podcast-publishing-statistics:blubrry-podcast-media-hosting-api
+  name: Blubrry Podcast Media Hosting API
+  description: >-
+    The Blubrry Podcast Media Hosting API enables uploading and managing podcast media files through third-party
+    applications. Supports listing shows, retrieving unpublished media files, deleting media, and publishing
+    podcast media for shows hosted on Blubrry.
+  humanURL: https://blubrry.com/developer/api/
+  tags:
+  - Podcasting
+  - Media
+  - Hosting
+  - Publishing
+  properties:
+  - type: Documentation
+    url: https://blubrry.com/developer/api/
+  - type: Authentication
+    url: https://blubrry.com/developer/api/
+- aid: blubrry-api-restful-api-for-podcast-publishing-statistics:blubrry-episode-management-api
+  name: Blubrry Episode Management API
+  description: >-
+    The Blubrry Episode Management API supports creating new podcast episodes (publish, schedule, or save
+    as draft) and updating existing episode fields. Enables CMS and podcast production tools to manage
+    episode metadata programmatically.
+  humanURL: https://blubrry.com/developer/api/
+  tags:
+  - Podcasting
+  - Episodes
+  - Publishing
+  - CMS
+  properties:
+  - type: Documentation
+    url: https://blubrry.com/developer/api/
+- aid: blubrry-api-restful-api-for-podcast-publishing-statistics:blubrry-podcast-statistics-api
+  name: Blubrry Podcast Statistics API
+  description: >-
+    The Blubrry Podcast Statistics API provides analytics for podcast episodes including download and
+    play counts, overall show download summaries, monthly download breakdowns, and episode-level statistics
+    for measuring podcast audience reach and growth.
+  humanURL: https://blubrry.com/developer/api/
+  tags:
+  - Podcasting
+  - Statistics
+  - Analytics
+  - Downloads
+  - Audience
+  properties:
+  - type: Documentation
+    url: https://blubrry.com/developer/api/
+- aid: blubrry-api-restful-api-for-podcast-publishing-statistics:blubrry-podcast-network-api
+  name: Blubrry Podcast Network API
+  description: >-
+    The Blubrry Podcast Network API provides access to user subscriptions with show management, episode
+    metadata storage including playback status and position, show navigation by category and search, and
+    access to Blubrry's podcast directory.
+  humanURL: https://blubrry.com/developer/api/
+  tags:
+  - Podcasting
+  - Network
+  - Subscriptions
+  - Directory
+  properties:
+  - type: Documentation
+    url: https://blubrry.com/developer/api/
+- aid: >-
+    blubrry-api-restful-api-for-podcast-publishing-statistics:blubrry-api-restful-api-for-podcast-publishing-statistics-episode-api
+  name: Blubrry API Episode API
+  description: Read, create, and update episodes for shows hosted on Blubrry.
+  humanURL: https://blubrry.com/developer/api/
+  tags:
+  - Episode
+  properties:
+  - type: OpenAPI
+    url: >-
+      openapi/blubrry-api-restful-api-for-podcast-publishing-statistics-episode-api-openapi.yml
+- aid: >-
+    blubrry-api-restful-api-for-podcast-publishing-statistics:blubrry-api-restful-api-for-podcast-publishing-statistics-media-api
+  name: Blubrry API Media API
+  description: Upload and manage media files hosted on Blubrry.
+  humanURL: https://blubrry.com/developer/api/
+  tags:
+  - Media
+  properties:
+  - type: OpenAPI
+    url: openapi/blubrry-api-restful-api-for-podcast-publishing-statistics-media-api-openapi.yml
+- aid: >-
+    blubrry-api-restful-api-for-podcast-publishing-statistics:blubrry-api-restful-api-for-podcast-publishing-statistics-statistics-api
+  name: Blubrry API Statistics API
+  description: Podcast download statistics.
+  humanURL: https://blubrry.com/developer/api/
+  tags:
+  - Statistics
+  properties:
+  - type: OpenAPI
+    url: >-
+      openapi/blubrry-api-restful-api-for-podcast-publishing-statistics-statistics-api-openapi.yml
 common:
   - type: AgenticAccess
     url: agentic-access/blubrry-api-restful-api-for-podcast-publishing-statistics-agentic-access.yml
