@@ -1,0 +1,18 @@
+{
+  "provider": "blubrry-api-restful-api-for-podcast-publishing-statistics",
+  "sources": [
+    "blubrry-api-restful-api-for-podcast-publishing-statistics-episode-api-openapi.yml",
+    "blubrry-api-restful-api-for-podcast-publishing-statistics-media-api-openapi.yml",
+    "blubrry-api-restful-api-for-podcast-publishing-statistics-statistics-api-openapi.yml"
+  ],
+  "outputs": [
+    "blubrry-api-restful-api-for-podcast-publishing-statistics-episode-api-openapi.yml",
+    "blubrry-api-restful-api-for-podcast-publishing-statistics-media-api-openapi.yml",
+    "blubrry-api-restful-api-for-podcast-publishing-statistics-statistics-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}
