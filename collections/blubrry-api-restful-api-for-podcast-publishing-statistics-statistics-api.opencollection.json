@@ -1,0 +1,298 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Blubrry Podcast Hosting & Episode Statistics API",
+    "version": "2"
+  },
+  "request": {
+    "auth": {
+      "type": "oauth2",
+      "flow": "authorization_code",
+      "authorizationUrl": "https://api.blubrry.com/oauth2/authorize",
+      "accessTokenUrl": "https://api.blubrry.com/oauth2/token",
+      "credentials": {
+        "clientId": "{{clientId}}",
+        "clientSecret": "{{clientSecret}}"
+      }
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Statistics",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List shows with statistics access",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.blubrry.com/2/stats/index.:format",
+            "params": [
+              {
+                "name": "format",
+                "value": "",
+                "type": "path",
+                "description": "Response serialization format."
+              }
+            ]
+          },
+          "docs": "List shows with statistics access"
+        },
+        {
+          "info": {
+            "name": "Show statistics summary",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.blubrry.com/2/stats/:keyword/summary.:format",
+            "params": [
+              {
+                "name": "keyword",
+                "value": "",
+                "type": "path",
+                "description": "Program keyword that identifies the show."
+              },
+              {
+                "name": "format",
+                "value": "",
+                "type": "path",
+                "description": "Response serialization format."
+              }
+            ]
+          },
+          "docs": "Overall download summary for a show."
+        },
+        {
+          "info": {
+            "name": "Episode-level download counts for a show",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.blubrry.com/2/stats/:keyword/show-episodes/",
+            "params": [
+              {
+                "name": "keyword",
+                "value": "",
+                "type": "path",
+                "description": "Program keyword that identifies the show."
+              }
+            ]
+          },
+          "docs": "Episode-level download counts for a show"
+        },
+        {
+          "info": {
+            "name": "Monthly download breakdown for a show",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.blubrry.com/2/stats/:keyword/",
+            "params": [
+              {
+                "name": "keyword",
+                "value": "",
+                "type": "path",
+                "description": "Program keyword that identifies the show."
+              }
+            ]
+          },
+          "docs": "Monthly download breakdown for a show"
+        },
+        {
+          "info": {
+            "name": "Show downloads by country",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.blubrry.com/2/stats/:keyword/countries/",
+            "params": [
+              {
+                "name": "keyword",
+                "value": "",
+                "type": "path",
+                "description": "Program keyword that identifies the show."
+              }
+            ]
+          },
+          "docs": "Show downloads by country"
+        },
+        {
+          "info": {
+            "name": "Show downloads by application type",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.blubrry.com/2/stats/:keyword/app-types/",
+            "params": [
+              {
+                "name": "keyword",
+                "value": "",
+                "type": "path",
+                "description": "Program keyword that identifies the show."
+              }
+            ]
+          },
+          "docs": "Show downloads by application type"
+        },
+        {
+          "info": {
+            "name": "Show downloads by application",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.blubrry.com/2/stats/:keyword/apps/",
+            "params": [
+              {
+                "name": "keyword",
+                "value": "",
+                "type": "path",
+                "description": "Program keyword that identifies the show."
+              }
+            ]
+          },
+          "docs": "Show downloads by application"
+        },
+        {
+          "info": {
+            "name": "List episodes with stats",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.blubrry.com/2/stats/:keyword/episodes/",
+            "params": [
+              {
+                "name": "keyword",
+                "value": "",
+                "type": "path",
+                "description": "Program keyword that identifies the show."
+              }
+            ]
+          },
+          "docs": "List episodes with stats"
+        },
+        {
+          "info": {
+            "name": "Episode downloads by country",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.blubrry.com/2/stats/:keyword/:episode_id/countries/",
+            "params": [
+              {
+                "name": "keyword",
+                "value": "",
+                "type": "path",
+                "description": "Program keyword that identifies the show."
+              },
+              {
+                "name": "episode_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Episode downloads by country"
+        },
+        {
+          "info": {
+            "name": "Episode downloads by application type",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.blubrry.com/2/stats/:keyword/:episode_id/app-types/",
+            "params": [
+              {
+                "name": "keyword",
+                "value": "",
+                "type": "path",
+                "description": "Program keyword that identifies the show."
+              },
+              {
+                "name": "episode_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Episode downloads by application type"
+        },
+        {
+          "info": {
+            "name": "Episode downloads by application",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.blubrry.com/2/stats/:keyword/:episode_id/apps/",
+            "params": [
+              {
+                "name": "keyword",
+                "value": "",
+                "type": "path",
+                "description": "Program keyword that identifies the show."
+              },
+              {
+                "name": "episode_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Episode downloads by application"
+        },
+        {
+          "info": {
+            "name": "Stats widget preview",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.blubrry.com/2/stats/:keyword/widget/preview.json",
+            "params": [
+              {
+                "name": "keyword",
+                "value": "",
+                "type": "path",
+                "description": "Program keyword that identifies the show."
+              }
+            ]
+          },
+          "docs": "Stats widget preview"
+        },
+        {
+          "info": {
+            "name": "Lifetime totals for a show",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.blubrry.com/2/stats/:keyword/totals.json",
+            "params": [
+              {
+                "name": "keyword",
+                "value": "",
+                "type": "path",
+                "description": "Program keyword that identifies the show."
+              }
+            ]
+          },
+          "docs": "Lifetime totals for a show"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

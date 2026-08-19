@@ -1,0 +1,1675 @@
+{
+  "item": [
+    {
+      "id": "246ae10b-2f69-4600-8336-5d5d4246c0de",
+      "name": "Episode",
+      "description": {
+        "content": "Read, create, and update episodes for shows hosted on Blubrry.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "4fe36d1a-2277-4a4a-aabf-dae1da036fc1",
+          "name": "List episodes",
+          "request": {
+            "name": "List episodes",
+            "description": {
+              "content": "Returns a list of most recent episodes for a show identified by its program keyword.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "episode",
+                ":keyword",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "10"
+                },
+                {
+                  "disabled": false,
+                  "key": "offset",
+                  "value": "0"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "keyword",
+                  "description": "(Required) Program keyword that identifies the show."
+                }
+              ]
+            },
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "4b21f953-c03c-48a1-847f-b708930044eb",
+              "name": "Episode list returned.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "episode",
+                    ":keyword",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "limit",
+                      "value": "10"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "0"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "keyword",
+                      "description": "(Required) Program keyword that identifies the show."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "63549408-0695-4f76-8988-b86387a60896",
+              "name": "Missing or invalid access token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "episode",
+                    ":keyword",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "limit",
+                      "value": "10"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "0"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "keyword",
+                      "description": "(Required) Program keyword that identifies the show."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "a2a0ad75-4392-4bde-a586-357e6596aa16",
+          "name": "Get an episode",
+          "request": {
+            "name": "Get an episode",
+            "description": {},
+            "url": {
+              "path": [
+                "episode",
+                ":keyword",
+                ":episode_id",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "keyword",
+                  "description": "(Required) Program keyword that identifies the show."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "episode_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "a4e45b7a-09e4-48a4-a8ab-b9ad7692ed9d",
+              "name": "Episode returned.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "episode",
+                    ":keyword",
+                    ":episode_id",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "keyword",
+                      "description": "(Required) Program keyword that identifies the show."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "episode_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "e495e198-d802-4b1c-9d19-37a326241730",
+              "name": "Missing or invalid access token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "episode",
+                    ":keyword",
+                    ":episode_id",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "keyword",
+                      "description": "(Required) Program keyword that identifies the show."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "episode_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "e1cd6a1e-e62b-4ff7-90ad-3c5258395495",
+              "name": "Episode not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "episode",
+                    ":keyword",
+                    ":episode_id",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "keyword",
+                      "description": "(Required) Program keyword that identifies the show."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "episode_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "1550cf67-5f06-4640-90be-36909715faa4",
+          "name": "Create an episode",
+          "request": {
+            "name": "Create an episode",
+            "description": {
+              "content": "Publish, schedule, or save a new episode as draft for a show.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "episode",
+                ":keyword",
+                "add"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "keyword",
+                  "description": "(Required) Program keyword that identifies the show."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/x-www-form-urlencoded"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "disabled": false,
+                  "key": "title",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "subtitle",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "summary",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "link",
+                  "value": "<uri>"
+                },
+                {
+                  "disabled": false,
+                  "key": "author",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "explicit",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "media_url",
+                  "value": "<uri>"
+                },
+                {
+                  "disabled": false,
+                  "key": "duration",
+                  "value": "<string>",
+                  "description": "HH:MM:SS"
+                },
+                {
+                  "disabled": false,
+                  "key": "publish_date",
+                  "value": "<dateTime>"
+                },
+                {
+                  "disabled": false,
+                  "key": "status",
+                  "value": "<string>"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "539dcba9-857c-4823-96fa-c7ee4f121798",
+              "name": "Episode created.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "episode",
+                    ":keyword",
+                    "add"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "keyword",
+                      "description": "(Required) Program keyword that identifies the show."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "disabled": false,
+                      "key": "title",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "subtitle",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "summary",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "link",
+                      "value": "<uri>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "author",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "explicit",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "media_url",
+                      "value": "<uri>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "HH:MM:SS",
+                        "type": "text/plain"
+                      },
+                      "key": "duration",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "publish_date",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "status",
+                      "value": "<string>"
+                    }
+                  ]
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "602805ea-19d7-453b-82f6-8420a087af8b",
+              "name": "Validation error.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "episode",
+                    ":keyword",
+                    "add"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "keyword",
+                      "description": "(Required) Program keyword that identifies the show."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "disabled": false,
+                      "key": "title",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "subtitle",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "summary",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "link",
+                      "value": "<uri>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "author",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "explicit",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "media_url",
+                      "value": "<uri>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "HH:MM:SS",
+                        "type": "text/plain"
+                      },
+                      "key": "duration",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "publish_date",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "status",
+                      "value": "<string>"
+                    }
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "23bc43aa-7051-4683-92a5-7837b0e5bf47",
+              "name": "Missing or invalid access token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "episode",
+                    ":keyword",
+                    "add"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "keyword",
+                      "description": "(Required) Program keyword that identifies the show."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "disabled": false,
+                      "key": "title",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "subtitle",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "summary",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "link",
+                      "value": "<uri>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "author",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "explicit",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "media_url",
+                      "value": "<uri>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "HH:MM:SS",
+                        "type": "text/plain"
+                      },
+                      "key": "duration",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "publish_date",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "status",
+                      "value": "<string>"
+                    }
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "81560be8-4579-48b0-98c2-e65cfb0845c5",
+          "name": "Update an episode",
+          "request": {
+            "name": "Update an episode",
+            "description": {},
+            "url": {
+              "path": [
+                "episode",
+                ":keyword",
+                "update",
+                ":episode_id",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "keyword",
+                  "description": "(Required) Program keyword that identifies the show."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "episode_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/x-www-form-urlencoded"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "disabled": false,
+                  "key": "title",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "subtitle",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "summary",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "link",
+                  "value": "<uri>"
+                },
+                {
+                  "disabled": false,
+                  "key": "author",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "explicit",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "media_url",
+                  "value": "<uri>"
+                },
+                {
+                  "disabled": false,
+                  "key": "duration",
+                  "value": "<string>",
+                  "description": "HH:MM:SS"
+                },
+                {
+                  "disabled": false,
+                  "key": "publish_date",
+                  "value": "<dateTime>"
+                },
+                {
+                  "disabled": false,
+                  "key": "status",
+                  "value": "<string>"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "cb01740d-2529-4706-826e-8b55d25272da",
+              "name": "Episode updated.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "episode",
+                    ":keyword",
+                    "update",
+                    ":episode_id",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "keyword",
+                      "description": "(Required) Program keyword that identifies the show."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "episode_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "disabled": false,
+                      "key": "title",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "subtitle",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "summary",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "link",
+                      "value": "<uri>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "author",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "explicit",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "media_url",
+                      "value": "<uri>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "HH:MM:SS",
+                        "type": "text/plain"
+                      },
+                      "key": "duration",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "publish_date",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "status",
+                      "value": "<string>"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "03202c6f-6efe-49ba-aeec-5c4bff94df61",
+              "name": "Missing or invalid access token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "episode",
+                    ":keyword",
+                    "update",
+                    ":episode_id",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "keyword",
+                      "description": "(Required) Program keyword that identifies the show."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "episode_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "disabled": false,
+                      "key": "title",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "subtitle",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "summary",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "link",
+                      "value": "<uri>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "author",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "explicit",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "media_url",
+                      "value": "<uri>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "HH:MM:SS",
+                        "type": "text/plain"
+                      },
+                      "key": "duration",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "publish_date",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "status",
+                      "value": "<string>"
+                    }
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "df748e04-1958-44cd-8ce7-90e14fc55831",
+              "name": "Episode not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "episode",
+                    ":keyword",
+                    "update",
+                    ":episode_id",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "keyword",
+                      "description": "(Required) Program keyword that identifies the show."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "episode_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "disabled": false,
+                      "key": "title",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "subtitle",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "summary",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "link",
+                      "value": "<uri>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "author",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "explicit",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "media_url",
+                      "value": "<uri>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "HH:MM:SS",
+                        "type": "text/plain"
+                      },
+                      "key": "duration",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "publish_date",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "status",
+                      "value": "<string>"
+                    }
+                  ]
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "f48bc6b3-349a-4bb1-9ce7-cb59e225927e",
+          "name": "Update episode image",
+          "request": {
+            "name": "Update episode image",
+            "description": {},
+            "url": {
+              "path": [
+                "episode",
+                ":keyword",
+                "update-image",
+                ":episode_id",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "keyword",
+                  "description": "(Required) Program keyword that identifies the show."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "episode_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "multipart/form-data"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "image",
+                  "type": "file",
+                  "description": ""
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "bd68983b-cbca-41a7-be6a-39d1ff9a5449",
+              "name": "Image updated.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "episode",
+                    ":keyword",
+                    "update-image",
+                    ":episode_id",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "keyword",
+                      "description": "(Required) Program keyword that identifies the show."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "episode_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "key": "image",
+                      "value": "<binary>",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "00374dad-b112-4492-bcc5-fe48cf6f70a3",
+              "name": "Missing or invalid access token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "episode",
+                    ":keyword",
+                    "update-image",
+                    ":episode_id",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "keyword",
+                      "description": "(Required) Program keyword that identifies the show."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "episode_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "key": "image",
+                      "value": "<binary>",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "46af0f0d-cf2d-4f88-b813-3d5ba4f0e5f1",
+          "name": "Delete episode image",
+          "request": {
+            "name": "Delete episode image",
+            "description": {},
+            "url": {
+              "path": [
+                "episode",
+                ":keyword",
+                "delete-image",
+                ":episode_id",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "keyword",
+                  "description": "(Required) Program keyword that identifies the show."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "episode_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "844afeaf-2d21-47ca-9b42-6dd0e30ff2bc",
+              "name": "Image deleted.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "episode",
+                    ":keyword",
+                    "delete-image",
+                    ":episode_id",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "keyword",
+                      "description": "(Required) Program keyword that identifies the show."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "episode_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "8c7d8108-2198-444d-8cc8-72f58a95cdc0",
+              "name": "Missing or invalid access token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "episode",
+                    ":keyword",
+                    "delete-image",
+                    ":episode_id",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "keyword",
+                      "description": "(Required) Program keyword that identifies the show."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "episode_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.blubrry.com/2",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "oauth2",
+    "oauth2": [
+      {
+        "key": "redirect_uri",
+        "value": "https://api.blubrry.com/oauth2/token"
+      },
+      {
+        "key": "accessTokenUrl",
+        "value": "https://api.blubrry.com/oauth2/token"
+      },
+      {
+        "key": "authUrl",
+        "value": "https://api.blubrry.com/oauth2/authorize"
+      },
+      {
+        "key": "grant_type",
+        "value": "authorization_code"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "0f5c39b1-dfcd-4328-919f-f91298c6fe72",
+    "name": "Blubrry Podcast Hosting & Statistics Episode API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "REST API for podcast publishing, media hosting, episode management, and\npodcast download statistics on Blubrry. Authentication is OAuth 2.0\nBearer; obtain a client_id / secret from Blubrry and request an access\ntoken at https://api.blubrry.com/oauth2/token.\n\nSource spec: https://blubrry.com/developer/api/podcaster.yaml\n\n\nContact Support:\n Name: Blubrry Developer",
+      "type": "text/plain"
+    }
+  }
+}

@@ -1,0 +1,192 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Blubrry Podcast Hosting & Statistics Episode API",
+    "version": "2"
+  },
+  "request": {
+    "auth": {
+      "type": "oauth2",
+      "flow": "authorization_code",
+      "authorizationUrl": "https://api.blubrry.com/oauth2/authorize",
+      "accessTokenUrl": "https://api.blubrry.com/oauth2/token",
+      "credentials": {
+        "clientId": "{{clientId}}",
+        "clientSecret": "{{clientSecret}}"
+      }
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Episode",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List episodes",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.blubrry.com/2/episode/:keyword/",
+            "params": [
+              {
+                "name": "keyword",
+                "value": "",
+                "type": "path",
+                "description": "Program keyword that identifies the show."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Returns a list of most recent episodes for a show identified by its program keyword."
+        },
+        {
+          "info": {
+            "name": "Get an episode",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.blubrry.com/2/episode/:keyword/:episode_id/",
+            "params": [
+              {
+                "name": "keyword",
+                "value": "",
+                "type": "path",
+                "description": "Program keyword that identifies the show."
+              },
+              {
+                "name": "episode_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get an episode"
+        },
+        {
+          "info": {
+            "name": "Create an episode",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.blubrry.com/2/episode/:keyword/add",
+            "params": [
+              {
+                "name": "keyword",
+                "value": "",
+                "type": "path",
+                "description": "Program keyword that identifies the show."
+              }
+            ],
+            "body": {
+              "type": "form-urlencoded",
+              "data": []
+            }
+          },
+          "docs": "Publish, schedule, or save a new episode as draft for a show."
+        },
+        {
+          "info": {
+            "name": "Update an episode",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.blubrry.com/2/episode/:keyword/update/:episode_id/",
+            "params": [
+              {
+                "name": "keyword",
+                "value": "",
+                "type": "path",
+                "description": "Program keyword that identifies the show."
+              },
+              {
+                "name": "episode_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "form-urlencoded",
+              "data": []
+            }
+          },
+          "docs": "Update an episode"
+        },
+        {
+          "info": {
+            "name": "Update episode image",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.blubrry.com/2/episode/:keyword/update-image/:episode_id/",
+            "params": [
+              {
+                "name": "keyword",
+                "value": "",
+                "type": "path",
+                "description": "Program keyword that identifies the show."
+              },
+              {
+                "name": "episode_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "multipart-form",
+              "data": [
+                {
+                  "name": "image",
+                  "type": "text",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "docs": "Update episode image"
+        },
+        {
+          "info": {
+            "name": "Delete episode image",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.blubrry.com/2/episode/:keyword/delete-image/:episode_id/",
+            "params": [
+              {
+                "name": "keyword",
+                "value": "",
+                "type": "path",
+                "description": "Program keyword that identifies the show."
+              },
+              {
+                "name": "episode_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Delete episode image"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
