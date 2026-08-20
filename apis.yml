@@ -90,6 +90,11 @@ apis:
   tags:
   - Podcasting
   - Network
+  - Subscription
+  - Directory
+  tags_raw:
+  - Podcasting
+  - Network
   - Subscriptions
   - Directory
   properties:
