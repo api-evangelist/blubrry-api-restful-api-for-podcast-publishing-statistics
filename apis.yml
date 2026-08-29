@@ -144,6 +144,9 @@ apis:
     url: >-
       openapi/blubrry-api-restful-api-for-podcast-publishing-statistics-statistics-api-openapi.yml
 common:
+  - type: CapabilityMap
+    url: capabilities/blubrry-api-restful-api-for-podcast-publishing-statistics-capability-edges.yml
+    name: Blubrry API Business Capability Map
   - type: AgenticAccess
     url: agentic-access/blubrry-api-restful-api-for-podcast-publishing-statistics-agentic-access.yml
   - type: DomainSecurity
