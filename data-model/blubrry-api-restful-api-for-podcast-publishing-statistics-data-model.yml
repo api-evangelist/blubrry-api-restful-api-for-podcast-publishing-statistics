@@ -1,0 +1,186 @@
+generated: '2026-09-06'
+method: derived
+source: openapi/blubrry-api-restful-api-for-podcast-publishing-statistics-podcaster-openapi.yaml
+note: >-
+  Entity graph derived from the 35 component schemas and the path structure of Blubrry's own
+  published contract. Blubrry's schemas contain almost no $ref links between entities — the
+  graph is carried by the URL path and by id-reference FIELDS (program_keyword, episode_id,
+  program_id) rather than by embedded objects, so relationships below are read from those
+  fields and from what each operation addresses. Nothing here is invented; every entity and
+  field name appears in the contract.
+identifier_scheme:
+  primary_key: keyword
+  detail: >-
+    The program keyword — a human-readable show slug, not an opaque id — is the root of every
+    addressable path in the API (/episode/{keyword}/, /media/{keyword}/, /stats/{keyword}/).
+    Numeric ids exist alongside it (program_id, podcast_id, stats_program_id, episode_id, media
+    id) but only episode_id is ever used in a path. There are no prefixed ids.
+  note: >-
+    Three distinct numeric ids for one show appear side by side on the Hosted schema —
+    program_id, podcast_id and stats_program_id — which is the clearest sign of the platform's
+    seams: hosting, directory and statistics were separate systems and the contract still shows
+    it. An integrator must not treat them as interchangeable.
+entities:
+- name: Program
+  aka: [Show, Podcast]
+  schema: Program
+  description: A podcast hosted on Blubrry, addressed everywhere by its keyword.
+  key: keyword
+  fields: [keyword, title, description, author, location, frequency, link, explicit,
+           last episode number, media redirect url, feed items, owner, apple category, language]
+  operations: [listPrograms, listStatsPrograms]
+- name: Hosted
+  schema: Hosted
+  description: The listing projection of a Program returned by listPrograms.
+  fields: [program_title, program_keyword, program_id, podcast_id, stats_program_id, feed_url]
+- name: Owner
+  schema: Owner
+  description: Show owner contact, embedded in Program.
+  fields: [email, name]
+- name: AppleCategory
+  schema: AppleCategory
+  description: Apple Podcasts category triple, embedded in Program.
+  fields: ['apple category 1', 'apple category 2', 'apple category 3']
+- name: Subscribe
+  schema: Subscribe
+  description: Per-directory subscribe URLs for a Program.
+  fields: [apple, spotify, google, stitcher, iheart, deezer, pandora, tunenin, blubrry, url]
+- name: Episode
+  schema: [AddEpisode, UpdateEpisode, EpisodeListObject]
+  description: >-
+    A published, scheduled or draft episode of a Program. The write shape is an RSS/iTunes
+    podcast item; the read shape adds Blubrry-side URLs.
+  key: episode_id
+  parent_key: program_keyword
+  fields: [id, title, program_id, program_title, program_keyword, filename, duration,
+           description, summary, post_date, media_url, player_url, listing_url, itunes_title,
+           status, explicit, release_date, episode_type, itunes_season, itunes_order,
+           itunes_episode_number, itunes_image, podcast_link]
+  operations: [getEpisodes, getEpisode, addEpisode, updateEpisode, updateEpisodeImage, deleteEpisodeImage]
+- name: Media
+  schema: [Media, Unpublished, Upload, Publish, Delete]
+  description: >-
+    A media file in a Program's storage. Lives in three states — uploaded/unpublished,
+    published (bound to an episode), deleted.
+  key: 'mediafile.ext (the filename)'
+  parent_key: keyword
+  fields: [id, status, name, length, created, last_modified, media_url, text]
+  operations: [listUnpublishedMedia, uploadMedia, publishMedia, deleteMedia]
+- name: MigrateMedia
+  schema: [AddMigrateMedia, RemoveMigrateMedia]
+  description: A queue of external media URLs being migrated into a Program's Blubrry storage.
+  parent_key: keyword
+  fields: [url, urls, ids]
+  operations: [post_addMigrateMedia, post_removeMigrateMedia, migrateMediaStatus]
+- name: EpisodeStats
+  schema: EpisodeObject
+  description: >-
+    Per-episode download and play measurement, including the partial-play buckets that carry
+    Blubrry's IAB-certified retention data.
+  parent_key: [keyword, episode_id]
+  fields: [episode_id, episode_label, episode_filename, episode_date, duration_in_seconds,
+           total, full_downloads, partial_25, partial_50, partial_75, partial_99]
+  operations: [episodes, show-episodes]
+- name: ShowStatsSummary
+  schema: [Summary, Total, KeywordResult]
+  description: Show-level download totals — overall, current month, last month, and per-media.
+  parent_key: keyword
+  fields: [stats_url, program_id, overall, current_month, last_month, media, recordCount, results]
+  operations: [keyword, Summary, Totals]
+- name: AudienceDimension
+  schema: [Countries, Apps, AppTypes]
+  description: >-
+    Download counts sliced by listener country, listening app, and app/client type — at show
+    level and at episode level. Records are returned as a record_count plus dimension-keyed
+    counts rather than as a typed array.
+  parent_key: [keyword, episode_id]
+  operations: ['Show Countries', 'Apps', 'App Types', 'Episode Countries', 'Episode Apps', 'Episode App Types']
+- name: StatsWidget
+  schema: StatsWidget
+  description: A renderable statistics widget preview for a Program.
+  parent_key: keyword
+  fields: [program_keyword, widget_title, scale_min, scale_max, scale_step, program_total,
+           month_average, day_total_data]
+  operations: [Widget]
+relationships:
+- from: Program
+  to: Episode
+  type: has_many
+  via: program_keyword
+- from: Program
+  to: Media
+  type: has_many
+  via: keyword
+- from: Program
+  to: Owner
+  type: has_one
+  via: '$ref components.schemas.Owner'
+- from: Program
+  to: AppleCategory
+  type: has_one
+  via: '$ref components.schemas.AppleCategory'
+- from: Program
+  to: Subscribe
+  type: has_one
+  via: '$ref components.schemas.Subscribe'
+- from: Program
+  to: MigrateMedia
+  type: has_many
+  via: keyword
+- from: Program
+  to: ShowStatsSummary
+  type: has_one
+  via: keyword
+- from: Program
+  to: StatsWidget
+  type: has_one
+  via: program_keyword
+- from: Episode
+  to: Media
+  type: has_one
+  via: filename
+  note: >-
+    An episode is bound to a media file by filename, not by a media id. publishMedia is what
+    promotes an uploaded file into an episode's media_url.
+- from: Episode
+  to: EpisodeStats
+  type: has_one
+  via: episode_id
+- from: EpisodeStats
+  to: AudienceDimension
+  type: has_many
+  via: episode_id
+- from: ShowStatsSummary
+  to: AudienceDimension
+  type: has_many
+  via: keyword
+- from: ShowEpisodesResult
+  to: EpisodeObject
+  type: has_many
+  via: '$ref components.schemas.EpisodeObject'
+- from: EpisodesResult
+  to: EpisodeObject
+  type: has_many
+  via: '$ref components.schemas.EpisodeObject'
+- from: AllHosted
+  to: Hosted
+  type: has_many
+  via: '$ref components.schemas.Hosted'
+- from: AllUnpublished
+  to: Unpublished
+  type: has_many
+  via: '$ref components.schemas.Unpublished'
+- from: AllMedia
+  to: Media
+  type: has_many
+  via: '$ref components.schemas.Media'
+- from: EpisodeListObjectArray
+  to: EpisodeListObject
+  type: has_many
+  via: '$ref components.schemas.EpisodeListObject'
+summary:
+  entities: 12
+  schemas_in_contract: 35
+  relationships: 18
+  root_entity: Program
+  root_key: keyword

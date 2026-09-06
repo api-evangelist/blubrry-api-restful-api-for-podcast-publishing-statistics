@@ -1,0 +1,171 @@
+generated: '2026-09-06'
+method: derived
+source: >-
+  openapi/blubrry-api-restful-api-for-podcast-publishing-statistics-podcaster-openapi.yaml ,
+  https://blubrry.com/developer/api/oauth-2/ , https://blubrry.com/developer/api/ ,
+  live probe of https://api.blubrry.com/2/media/index.json
+note: >-
+  Cross-cutting runtime semantics for the Blubrry API v2, derived from Blubrry's own published
+  contract and OAuth documentation. Where a mechanism does not exist, this file says so rather
+  than describing a default.
+base_url: https://api.blubrry.com/2
+media_types:
+  responses: application/json
+  request_bodies:
+  - application/x-www-form-urlencoded
+  - multipart/form-data
+  note: >-
+    Blubrry accepts no JSON request bodies. Every write operation is form-encoded, and media
+    upload is a raw PUT / multipart. Several read paths carry a {format} path segment
+    (index.{format}, summary.{format}) where the extension selects the representation.
+authentication:
+  style: oauth2-bearer
+  header: 'Authorization: Bearer <access_token>'
+  flow: authorization_code
+  authorize_url: https://api.blubrry.com/oauth2/authorize
+  token_url: https://api.blubrry.com/oauth2/token
+  access_token_ttl_seconds: 3600
+  refresh_token_expires: false
+  scopes: none
+  see: authentication/blubrry-api-restful-api-for-podcast-publishing-statistics-authentication.yml
+idempotency:
+  supported: false
+  coverage: none
+  mechanism: null
+  header: null
+  retention: null
+  note: >-
+    No Idempotency-Key header, no client-supplied request id, and no replay-safe token appears
+    anywhere in the contract or the developer documentation. The mutating surface is 8
+    operations (addEpisode, updateEpisode, updateEpisodeImage, deleteEpisodeImage, uploadMedia,
+    deleteMedia, post_addMigrateMedia, post_removeMigrateMedia) and none of them is replay
+    protected. A retried addEpisode after a timeout will create a second episode.
+  mutating_operations: 8
+  protected_operations: 0
+  see: https://blubrry.com/developer/api/
+reversibility:
+  grade: documented
+  coverage: partial
+  note: >-
+    Blubrry ships genuine reversal operations for the two image/media write paths, and they
+    are named in the contract. No time window is stated anywhere in the contract or the docs
+    for any of them, so this grades `documented`, not `verified`. NEVER assume a window here.
+  surfaces:
+  - write_operation: updateEpisodeImage
+    method: PUT
+    path: /episode/{keyword}/update-image/{episode_id}/
+    reversal_operation: deleteEpisodeImage
+    reversal_method: DELETE
+    reversal_path: /episode/{keyword}/delete-image/{episode_id}/
+    window: not stated
+    docs: https://blubrry.com/developer/api/podcaster.html#tag/Episode
+  - write_operation: post_addMigrateMedia
+    method: POST
+    path: /media/{keyword}/migrate_add.json
+    reversal_operation: post_removeMigrateMedia
+    reversal_method: POST
+    reversal_path: /media/{keyword}/migrate_remove.json
+    window: not stated
+    docs: https://blubrry.com/developer/api/podcaster.html#tag/Media
+  - write_operation: uploadMedia
+    method: PUT
+    path: /media/{keyword}/{mediafile.ext}
+    reversal_operation: deleteMedia
+    reversal_method: DELETE
+    reversal_path: /media/{keyword}/{mediafile.ext}
+    window: not stated
+    note: >-
+      deleteMedia removes an uploaded file. It is a destructive delete, not a restore — there
+      is no undelete, no trash and no restore window documented.
+    docs: https://blubrry.com/developer/api/podcaster.html#tag/Media
+  irreversible:
+  - operation: addEpisode
+    note: >-
+      No cancel, unpublish or delete-episode operation exists in the published contract. An
+      episode created by the API cannot be removed by the API — only its image can. An agent
+      that publishes an episode in error must fall back to the web dashboard.
+  - operation: deleteMedia
+    note: Destructive, no documented restore path or retention window.
+pagination:
+  style: limit-offset
+  parameters:
+  - name: limit
+    in: query
+    default: 10
+    minimum: 1
+    maximum: 50
+  - name: offset
+    in: query
+    default: 0
+    minimum: 0
+  applies_to: [getEpisodes]
+  response_fields: none
+  total_count_headers:
+  - name: xTotalHosted
+    description: Number of programs available to query
+    used_by: listPrograms
+  - name: xTotalUnpublished
+    description: Number of unpublished media files available to query
+    used_by: listUnpublishedMedia
+  note: >-
+    Only the episode list is paginated, and the page ceiling is 50. Media and statistics
+    listings are unpaginated; their volume is signalled after the fact by the two x-total
+    headers rather than by a cursor.
+filtering:
+  date_range:
+  - name: startDate
+    example: '2023-12-01'
+  - name: endDate
+    example: '2023-12-31'
+  applies_to: statistics operations
+  format_selector:
+    style: path extension
+    parameter: '{format}'
+    example: /media/index.json
+field_expansion:
+  supported: false
+metadata:
+  supported: false
+request_id_tracing:
+  supported: false
+  note: >-
+    No request-id header is returned by the origin. The only correlatable value on a live
+    response is CloudFront's x-amz-cf-id, which is edge infrastructure, not a Blubrry support
+    handle.
+versioning:
+  style: uri-path
+  current: '2'
+  pattern: https://api.blubrry.com/{version}/
+  contract_version: v2
+  note: >-
+    The major version is a path segment. No Accept-header versioning, no version request
+    header, and no published policy on how long a version is supported.
+  see: lifecycle/blubrry-api-restful-api-for-podcast-publishing-statistics-lifecycle.yml
+errors:
+  envelope_contract:
+    error: string
+    code: string
+  envelope_observed:
+    error: integer
+    error_description: string
+  rfc9457: false
+  status_codes: ['400', '401', '403', '404']
+  see: errors/blubrry-api-restful-api-for-podcast-publishing-statistics-problem-types.yml
+rate_limit_signaling:
+  headers: none
+  status_on_exhaustion: not documented
+  see: rate-limits/blubrry-api-restful-api-for-podcast-publishing-statistics-rate-limits.yml
+upload_semantics:
+  chunked_upload: true
+  headers:
+  - name: X-RawVoice-Range
+    description: Range of start and end bytes, supports multi-PUT chunked uploads
+  - name: X-RawVoice-MD5-Checksum
+    description: MD5 checksum of the uploaded file
+  note: >-
+    Blubrry's chunked upload contract predates the Blubrry brand — the headers still carry the
+    RawVoice name of the parent company. An integrity checksum on upload is a real strength
+    here and is worth calling out; few hosting APIs of this size return one.
+dry_run_mode:
+  supported: false
+  note: No test mode, preview flag or validate-only parameter exists in the contract.

@@ -1,0 +1,42 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements — Blubrry Podcast Hosting & Statistics Media API
+  version: 1.0.0
+extends: openapi/blubrry-api-restful-api-for-podcast-publishing-statistics-media-api-openapi.yml
+x-generated: '2026-09-06'
+x-method: generated
+x-source: https://blubrry.com/developer/api/podcaster.yaml + https://blubrry.com/developer/api/oauth-2/
+x-note: Non-destructive Overlay 1.0.0 capturing the API Evangelist enrichment of Blubrry's own contract.
+  Every value here is traceable to Blubrry's published documentation or to a live probe recorded in this
+  repository; nothing is invented, and the original spec is not mutated.
+actions:
+- target: $.info
+  description: Record the provenance, the authoritative source of this contract, and the enrichment artifacts
+    derived from it.
+  update:
+    x-apis-io-source: https://blubrry.com/developer/api/podcaster.yaml
+    x-apis-io-provider: blubrry-api-restful-api-for-podcast-publishing-statistics
+    x-apis-io-artifacts:
+    - conventions/blubrry-api-restful-api-for-podcast-publishing-statistics-conventions.yml
+    - errors/blubrry-api-restful-api-for-podcast-publishing-statistics-problem-types.yml
+    - data-model/blubrry-api-restful-api-for-podcast-publishing-statistics-data-model.yml
+    - lifecycle/blubrry-api-restful-api-for-podcast-publishing-statistics-lifecycle.yml
+    - conformance/blubrry-api-restful-api-for-podcast-publishing-statistics-conformance.yml
+- target: $.info
+  description: 'State the runtime facts the contract omits: no published rate limits, no rate-limit response
+    headers, no idempotency mechanism on the 8 mutating operations, and no delete-episode operation (addEpisode
+    is irreversible through the API).'
+  update:
+    x-rate-limits:
+      documented: false
+      headers: []
+      status_on_exhaustion: null
+      source: rate-limits/blubrry-api-restful-api-for-podcast-publishing-statistics-rate-limits.yml
+    x-idempotency:
+      supported: false
+      coverage: none
+      source: conventions/blubrry-api-restful-api-for-podcast-publishing-statistics-conventions.yml
+    x-reversibility:
+      grade: documented
+      coverage: partial
+      source: conventions/blubrry-api-restful-api-for-podcast-publishing-statistics-conventions.yml

@@ -1,0 +1,42 @@
+generated: '2026-09-06'
+method: generated
+source: openapi/blubrry-api-restful-api-for-podcast-publishing-statistics-podcaster-openapi.yaml
+provider: Blubrry API
+providerId: blubrry-api-restful-api-for-podcast-publishing-statistics
+note: >-
+  Packaged Agent Skills for the Blubrry v2 API, generated from Blubrry's own published OpenAPI
+  contract. Every operationId referenced was grepped out of that contract; none is invented.
+  Blubrry publishes no skills or AGENTS.md of its own (searched 2026-09-06), so these are ours.
+  Each skill carries the runtime rules an agent needs and that the contract does not state:
+  no idempotency, no rate-limit signal, and no way to delete an episode once created.
+skills:
+- name: blubrry-publish-episode
+  file: blubrry-api-restful-api-for-podcast-publishing-statistics-publish-episode.md
+  description: >-
+    Upload a media file to a show, publish it, and create the episode that carries it, with the
+    irreversibility warnings that path requires.
+  operations: [listPrograms, uploadMedia, listUnpublishedMedia, publishMedia, addEpisode,
+               updateEpisodeImage, deleteEpisodeImage, deleteMedia]
+  consequence: write
+  irreversible_step: addEpisode
+- name: blubrry-audience-report
+  file: blubrry-api-restful-api-for-podcast-publishing-statistics-audience-report.md
+  description: >-
+    Pull show totals, per-episode retention (the partial-play buckets) and the country/app/device
+    breakdowns, and report honestly on what IAB certification covers.
+  operations: [listStatsPrograms, Summary, keyword, episodes, show-episodes, 'Show Countries',
+               Apps, 'App Types', 'Episode Countries', 'Episode Apps', 'Episode App Types', Widget]
+  consequence: read
+- name: blubrry-migrate-media
+  file: blubrry-api-restful-api-for-podcast-publishing-statistics-migrate-media.md
+  description: >-
+    Move an existing show's media into Blubrry from external URLs and monitor the migration —
+    the one Blubrry write flow with a real reversal operation.
+  operations: [listPrograms, post_addMigrateMedia, migrateMediaStatus, post_removeMigrateMedia,
+               listUnpublishedMedia]
+  consequence: write
+  reversal: post_removeMigrateMedia
+summary:
+  skills: 3
+  operations_covered: 22
+  operations_total: 27

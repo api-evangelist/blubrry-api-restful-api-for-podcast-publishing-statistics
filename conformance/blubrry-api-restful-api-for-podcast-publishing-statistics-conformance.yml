@@ -1,0 +1,147 @@
+generated: '2026-09-06'
+method: searched
+source: >-
+  https://blubrry.com/developer/api/oauth-2/ ,
+  https://blubrry.com/support/statistics-documentation/blubrry-iab-podcast-measurement-certification/ ,
+  https://blubrry.com/support/statistics-documentation/blubrry-certified/ ,
+  https://blubrry.com/services/plans-pricing/ ,
+  openapi/blubrry-api-restful-api-for-podcast-publishing-statistics-podcaster-openapi.yaml
+note: >-
+  Cross-cutting and domain standards asserted by the Blubrry API, each with the evidence that
+  supports it. Where a standard does not apply or is not met, conforms is false and the entry
+  says why — an honest negative is data. Blubrry's sector (podcast hosting and audience
+  measurement) has no regulatory regime in the API Evangelist scoring model, so nothing here is
+  a compliance obligation; the IAB entry is a market standard, and it is the load-bearing one.
+conformance:
+- id: oauth2
+  name: OAuth 2.0 (RFC 6749)
+  conforms: true
+  evidence: https://blubrry.com/developer/api/oauth-2/
+  detail: >-
+    Authorization-code grant with client_secret_basic token-endpoint auth, a 5-minute
+    single-use authorization code, 1-hour bearer access tokens and non-expiring refresh
+    tokens, all documented with working curl examples on Blubrry's own OAuth 2 page.
+- id: oauth2-bearer
+  name: OAuth 2.0 Bearer Token Usage (RFC 6750)
+  conforms: true
+  evidence: https://blubrry.com/developer/api/oauth-2/
+  detail: 'Tokens are presented as Authorization: Bearer <token>, per the documented example.'
+- id: oauth2-scopes
+  name: OAuth 2.0 scopes
+  conforms: false
+  evidence: https://blubrry.com/developer/api/oauth-2/
+  detail: >-
+    The documented token response returns "scope": null. Authorization is account-wide with a
+    per-show 403 as the only boundary. No least-privilege token is obtainable.
+- id: oidc
+  name: OpenID Connect Discovery
+  conforms: false
+  evidence: https://api.blubrry.com/.well-known/openid-configuration
+  detail: 404 on every host probed; no discovery document is served.
+- id: oauth2-server-metadata
+  name: OAuth 2.0 Authorization Server Metadata (RFC 8414)
+  conforms: false
+  evidence: https://api.blubrry.com/.well-known/oauth-authorization-server
+  detail: 404. Endpoints are documented in prose only, not machine-discoverable.
+- id: rfc9457
+  name: Problem Details for HTTP APIs (RFC 9457)
+  conforms: false
+  evidence: openapi/blubrry-api-restful-api-for-podcast-publishing-statistics-podcaster-openapi.yaml
+  detail: >-
+    Errors use two vendor envelopes ({error, code} in the contract, {error, error_description}
+    live) and never application/problem+json.
+- id: pagination
+  name: Limit/offset pagination
+  conforms: true
+  evidence: openapi/blubrry-api-restful-api-for-podcast-publishing-statistics-podcaster-openapi.yaml
+  detail: >-
+    limit (1-50, default 10) and offset (min 0, default 0) query parameters, declared as
+    reusable components.parameters. Applied only to the episode list; media and statistics
+    listings are unpaginated.
+- id: idempotency
+  name: Idempotent request replay (Idempotency-Key)
+  conforms: false
+  evidence: conventions/blubrry-api-restful-api-for-podcast-publishing-statistics-conventions.yml
+  detail: No idempotency key or replay protection on any of the 8 mutating operations.
+- id: rfc8594
+  name: Sunset HTTP Header (RFC 8594)
+  conforms: false
+  evidence: lifecycle/blubrry-api-restful-api-for-podcast-publishing-statistics-lifecycle.yml
+  detail: No Sunset or Deprecation header; the one deprecated operation is flagged in prose only.
+- id: rfc9116
+  name: security.txt (RFC 9116)
+  conforms: false
+  evidence: well-known/blubrry-api-restful-api-for-podcast-publishing-statistics-well-known.yml
+  detail: Probed on four hosts; not served.
+- id: openapi
+  name: OpenAPI Specification
+  conforms: true
+  version: 3.0.0
+  evidence: https://blubrry.com/developer/api/podcaster.yaml
+  detail: >-
+    Blubrry publishes a first-party OpenAPI 3.0.0 document at a stable URL on its own docs host,
+    rendered through ReDoc at /developer/api/podcaster.html. 25 paths, 27 operations, 35
+    component schemas, reusable parameters, headers and request bodies, with examples on
+    schema properties.
+  gaps:
+  - components.securitySchemes is empty and no operation carries a security requirement, so the
+    OAuth 2 model documented in prose is absent from the machine-readable contract.
+  - Several operationIds contain spaces or duplicate the summary ("App Types", "Show Countries",
+    "show-episodes"), which breaks code generation.
+  - No 5xx responses and no 429 declared on any operation.
+domain_standards:
+- id: iab-podcast-measurement
+  name: IAB Tech Lab Podcast Measurement Technical Guidelines
+  body: IAB Tech Lab
+  conforms: true
+  status: certified
+  evidence: https://blubrry.com/support/statistics-documentation/blubrry-iab-podcast-measurement-certification/
+  evidence_type: docs-claim
+  detail: >-
+    Blubrry states it was the first podcast host to achieve IAB Certified Compliance in podcast
+    measurement, is a signatory to the IAB podcast measurement guidelines, and passes the
+    independent audit IAB Tech Lab requires. The plans page reinforces it as a paid feature:
+    "IAB-Certified Statistics" is included with Advanced Statistics and excluded from the Free
+    and Standard tiers. This is the domain standard for the podcast measurement market — a
+    buyer who already speaks IAB podcast measurement can trust the download and play counts
+    coming out of the Statistics API without a bilateral reconciliation.
+  reads_on: the Statistics API surface (/stats/*)
+  caveat: >-
+    The claim is made in prose on Blubrry's support pages and on the pricing page, NOT declared
+    inside the OpenAPI contract. No certification identifier, audit date or version of the IAB
+    guidelines is published, and the statistics responses carry no marker distinguishing
+    IAB-certified figures from uncertified ones. Recorded as a documentation claim, which is
+    what it is.
+- id: nielsen-market-data
+  name: Nielsen market data
+  body: Nielsen
+  conforms: partial
+  evidence: https://blubrry.com/services/plans-pricing/
+  evidence_type: docs-claim
+  detail: >-
+    Nielsen market data is listed as an included feature of the Standard and Advanced
+    Statistics tiers. It is a third-party data integration, not a conformance profile, and it
+    is not exposed as a named field in the published contract.
+- id: rss-podcast-feeds
+  name: RSS 2.0 with the Apple Podcasts (iTunes) namespace
+  conforms: true
+  evidence: openapi/blubrry-api-restful-api-for-podcast-publishing-statistics-podcaster-openapi.yaml
+  evidence_type: contract
+  detail: >-
+    The AddEpisode and UpdateEpisode request schemas are field-for-field an RSS/iTunes podcast
+    item: itunes_title, itunes_season, itunes_episode_number, itunes_order, itunes_image,
+    explicit, plus the Apple category taxonomy in the AppleCategory schema. Blubrry's write
+    surface is a typed projection of the podcast feed standard, which is what makes it
+    substitutable with any other podcast host's publishing API.
+summary:
+  asserted: 4
+  refused: 7
+  domain_standard_present: true
+  domain_standard: iab-podcast-measurement
+  certifications_published:
+  - IAB Tech Lab Podcast Measurement Certification (Certified Compliant)
+  security_certifications_published: []
+  note: >-
+    No SOC 2, ISO 27001, PCI DSS, HIPAA or FedRAMP attestation is published anywhere on
+    blubrry.com, and there is no trust center. The only certification Blubrry advertises is the
+    IAB measurement one.

@@ -33,7 +33,7 @@ accessModel:
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/blubrry-api-restful-api-for-podcast-publishing-statistics.png
 url: https://raw.githubusercontent.com/api-evangelist/blubrry-api-restful-api-for-podcast-publishing-statistics/refs/heads/main/apis.yml
 created: '2025-05-02'
-modified: '2026-04-21'
+modified: '2026-09-06'
 specificationVersion: '0.23'
 tags:
   - Podcasting
@@ -50,6 +50,7 @@ apis:
     applications. Supports listing shows, retrieving unpublished media files, deleting media, and publishing
     podcast media for shows hosted on Blubrry.
   humanURL: https://blubrry.com/developer/api/
+  baseURL: https://api.blubrry.com/2
   tags:
   - Podcasting
   - Media
@@ -67,6 +68,7 @@ apis:
     as draft) and updating existing episode fields. Enables CMS and podcast production tools to manage
     episode metadata programmatically.
   humanURL: https://blubrry.com/developer/api/
+  baseURL: https://api.blubrry.com/2
   tags:
   - Podcasting
   - Episodes
@@ -82,6 +84,7 @@ apis:
     play counts, overall show download summaries, monthly download breakdowns, and episode-level statistics
     for measuring podcast audience reach and growth.
   humanURL: https://blubrry.com/developer/api/
+  baseURL: https://api.blubrry.com/2
   tags:
   - Podcasting
   - Statistics
@@ -98,6 +101,7 @@ apis:
     metadata storage including playback status and position, show navigation by category and search, and
     access to Blubrry's podcast directory.
   humanURL: https://blubrry.com/developer/api/
+  baseURL: https://api.blubrry.com/2
   tags:
   - Podcasting
   - Network
@@ -116,33 +120,72 @@ apis:
   name: Blubrry API Episode API
   description: Read, create, and update episodes for shows hosted on Blubrry.
   humanURL: https://blubrry.com/developer/api/
+  baseURL: https://api.blubrry.com/2
   tags:
   - Episode
   properties:
   - type: OpenAPI
     url: >-
       openapi/blubrry-api-restful-api-for-podcast-publishing-statistics-episode-api-openapi.yml
+  - type: Overlay
+    url: overlays/blubrry-api-restful-api-for-podcast-publishing-statistics-episode-api-overlay.yaml
 - aid: >-
     blubrry-api-restful-api-for-podcast-publishing-statistics:blubrry-api-restful-api-for-podcast-publishing-statistics-media-api
   name: Blubrry API Media API
   description: Upload and manage media files hosted on Blubrry.
   humanURL: https://blubrry.com/developer/api/
+  baseURL: https://api.blubrry.com/2
   tags:
   - Media
   properties:
   - type: OpenAPI
     url: openapi/blubrry-api-restful-api-for-podcast-publishing-statistics-media-api-openapi.yml
+  - type: Overlay
+    url: overlays/blubrry-api-restful-api-for-podcast-publishing-statistics-media-api-overlay.yaml
 - aid: >-
     blubrry-api-restful-api-for-podcast-publishing-statistics:blubrry-api-restful-api-for-podcast-publishing-statistics-statistics-api
   name: Blubrry API Statistics API
   description: Podcast download statistics.
   humanURL: https://blubrry.com/developer/api/
+  baseURL: https://api.blubrry.com/2
   tags:
   - Statistics
   properties:
   - type: OpenAPI
     url: >-
       openapi/blubrry-api-restful-api-for-podcast-publishing-statistics-statistics-api-openapi.yml
+  - type: Overlay
+    url: overlays/blubrry-api-restful-api-for-podcast-publishing-statistics-statistics-api-overlay.yaml
+- aid: >-
+    blubrry-api-restful-api-for-podcast-publishing-statistics:blubrry-podcast-hosting-statistics-api-v2
+  name: Blubrry Podcast Hosting & Statistics API (v2)
+  description: >-
+    Blubrry's own published OpenAPI 3.0.0 contract for the v2 API, harvested verbatim from
+    https://blubrry.com/developer/api/podcaster.yaml on 2026-09-06 and rendered by Blubrry through ReDoc at
+    /developer/api/podcaster.html. 25 paths, 27 operations and 35 component schemas covering the Episode,
+    Media and Statistics surfaces in one document — the authoritative source the per-tag definitions in this
+    repository were split from.
+  humanURL: https://blubrry.com/developer/api/podcaster.html
+  baseURL: https://api.blubrry.com/2
+  tags:
+  - Podcasting
+  - Media
+  - Episodes
+  - Statistics
+  - Publishing
+  properties:
+  - type: OpenAPI
+    url: >-
+      openapi/blubrry-api-restful-api-for-podcast-publishing-statistics-podcaster-openapi.yaml
+  - type: APIReference
+    url: https://blubrry.com/developer/api/podcaster.html
+  - type: Documentation
+    url: https://blubrry.com/developer/api/
+  - type: Authentication
+    url: https://blubrry.com/developer/api/oauth-2/
+  - type: Overlay
+    url: >-
+      overlays/blubrry-api-restful-api-for-podcast-publishing-statistics-podcaster-overlay.yaml
 common:
   - type: CapabilityMap
     url: capabilities/blubrry-api-restful-api-for-podcast-publishing-statistics-capability-edges.yml
@@ -171,6 +214,60 @@ common:
     url: https://blubrry.com/services/partners/
   - url: https://blubrry.com/podcast-insider/feed/
     type: Blog
+  - type: APIReference
+    url: https://blubrry.com/developer/api/podcaster.html
+  - type: GettingStarted
+    url: https://blubrry.com/support/getting-started/
+  - type: Support
+    url: https://blubrry.com/support/
+  - type: Pricing
+    url: https://blubrry.com/services/plans-pricing/
+  - type: SignUp
+    url: https://blubrry.com/createaccount.php
+  - type: Login
+    url: https://blubrry.com/signin.php
+  - type: TermsOfService
+    url: https://blubrry.com/about/terms-of-service/
+  - type: PrivacyPolicy
+    url: https://blubrry.com/about/privacy-policy/
+  - type: OpenAPI
+    url: openapi/blubrry-api-restful-api-for-podcast-publishing-statistics-podcaster-openapi.yaml
+  - type: LLMsTxt
+    url: llms/blubrry-api-restful-api-for-podcast-publishing-statistics-llms.txt
+  - type: Packages
+    url: packages/blubrry-api-restful-api-for-podcast-publishing-statistics-packages.yml
+  - type: SDKs
+    url: packages/blubrry-api-restful-api-for-podcast-publishing-statistics-packages.yml
+  - type: Conventions
+    url: conventions/blubrry-api-restful-api-for-podcast-publishing-statistics-conventions.yml
+  - type: ErrorCatalog
+    url: errors/blubrry-api-restful-api-for-podcast-publishing-statistics-problem-types.yml
+  - type: Lifecycle
+    url: lifecycle/blubrry-api-restful-api-for-podcast-publishing-statistics-lifecycle.yml
+  - type: Conformance
+    url: conformance/blubrry-api-restful-api-for-podcast-publishing-statistics-conformance.yml
+  - type: Compliance
+    url: conformance/blubrry-api-restful-api-for-podcast-publishing-statistics-conformance.yml
+    note: >-
+      IAB Tech Lab Podcast Measurement Certification — Blubrry states it was the first podcast host to
+      achieve IAB Certified Compliance, and IAB-certified statistics are a named feature of the Advanced
+      Statistics tier. It is the only certification Blubrry publishes; there is no SOC 2, ISO 27001 or
+      trust center.
+  - type: DataModel
+    url: data-model/blubrry-api-restful-api-for-podcast-publishing-statistics-data-model.yml
+  - type: RateLimits
+    url: rate-limits/blubrry-api-restful-api-for-podcast-publishing-statistics-rate-limits.yml
+  - type: AgentSkill
+    url: skills/_index.yml
+  - type: X-MCPServerCandidate
+    url: mcp/blubrry-api-restful-api-for-podcast-publishing-statistics-mcp.yml
+    note: >-
+      Candidate only. Blubrry ships no MCP server — searched the developer portal, the GitHub org, npm and
+      PyPI on 2026-09-06 and found none. The manifest is a tool list derived from Blubrry's own 27
+      operations (deployment.mode: none) and must not be typed MCPServer, which would credit a server that
+      does not exist.
+  - type: Overlay
+    url: overlays/blubrry-api-restful-api-for-podcast-publishing-statistics-podcaster-overlay.yaml
 integrations:
   - name: fbpx
   - name: Blubrry Podcasting
@@ -182,3 +279,8 @@ integrations:
 maintainers:
   - FN: Kin Lane
     email: kinlane@gmail.com
+x-enrichment:
+  date: '2026-09-06'
+  status: enriched
+  artifacts_added: 18
+  pass: local-v3

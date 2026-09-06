@@ -1,0 +1,75 @@
+generated: '2026-09-06'
+method: searched
+source: >-
+  https://github.com/blubrry (org listing via api.github.com), api.wordpress.org plugin API,
+  registry.npmjs.org, pypi.org, repo.packagist.org, rubygems.org, crates.io
+note: >-
+  Blubrry publishes exactly one first-party API client library — a PHP client in its own
+  GitHub org — and it is NOT distributed through any package registry: no composer.json, no
+  tags, no releases, and it is absent from Packagist. Its last commit is 2019-09-18, seven
+  years before this pass, which is the clearest decay signal available here. The one actively
+  maintained first-party distribution is the PowerPress WordPress plugin (wordpress.org,
+  11.17.9 / 2026-08-28), which is a publishing plugin that consumes the Blubrry platform
+  rather than an API client SDK — recorded as such. Nothing first-party exists on npm, PyPI,
+  Maven Central, NuGet, pkg.go.dev, RubyGems or crates.io.
+summary:
+  total: 3
+  official: 2
+  official_api_clients: 1
+  languages:
+  - PHP
+  registries_searched:
+  - npm
+  - PyPI
+  - Packagist
+  - RubyGems
+  - crates.io
+  - NuGet
+  - Maven Central
+  - pkg.go.dev
+  - wordpress.org
+packages:
+- name: blubrry/blubrry-api
+  official: true
+  kind: api-client
+  language: PHP
+  registry: github
+  repository: https://github.com/blubrry/blubrry-api
+  url: https://github.com/blubrry/blubrry-api
+  license: Apache-2.0
+  version: null
+  published: null
+  last_commit: '2019-09-18'
+  note: >-
+    "PHP Blubrry API Client", the only repository in the blubrry GitHub org. Not published to
+    Packagist (repo.packagist.org returns 404 for blubrry/blubrry-api) and the repo carries no
+    composer.json, no tags and no releases, so there is no registry version to read — version
+    and published are honestly null. Last pushed 2019-09-18.
+- name: powerpress
+  official: true
+  kind: wordpress-plugin
+  language: PHP
+  registry: wordpress.org
+  url: https://wordpress.org/plugins/powerpress/
+  homepage: https://blubrry.com/services/powerpress-plugin/
+  developer_docs: https://blubrry.com/developer/powerpress-for-developers/
+  version: 11.17.9
+  published: '2026-08-28'
+  downloads: 6438259
+  note: >-
+    "PowerPress Podcasting plugin by Blubrry" — first-party, actively maintained, and the
+    surface most Blubrry integrators actually install. It is a WordPress publishing plugin,
+    not a client library for the REST API, so it does not make the API easier to call from
+    another language. Version and date read from api.wordpress.org/plugins/info/1.0/powerpress.json.
+- name: day4/blubrry-sdk
+  official: false
+  kind: api-client
+  language: PHP
+  registry: packagist
+  url: https://packagist.org/packages/day4/blubrry-sdk
+  repository: https://github.com/u12206050/blubrry-php-sdk
+  version: 2.0.0
+  published: '2020-10-12'
+  note: >-
+    Third-party PHP SDK, the only Blubrry API client on any package registry. Not published or
+    endorsed by Blubrry; last release 2020-10-12. Recorded for completeness, official:false.

@@ -1,0 +1,95 @@
+generated: '2026-09-06'
+method: searched
+source: >-
+  https://blubrry.com/developer/api/ , https://blubrry.com/developer/api/podcaster.yaml ,
+  https://blubrry.com/developer/api/api-licensing-agreement/ , probes of status.blubrry.com,
+  blubrry.statuspage.io and blubrry.instatus.com
+note: >-
+  Searched Blubrry's developer portal, published contract and support documentation index for a
+  versioning policy, a deprecation policy, an SLA, a changelog and a status page. Only the
+  versioning scheme is discoverable; the rest are genuinely absent. Recorded as absences, not
+  omitted.
+versioning:
+  scheme: uri-path
+  current_version: '2'
+  base_url: https://api.blubrry.com/2
+  contract_version: v2
+  policy_published: false
+  supported_versions_documented: false
+  note: >-
+    The major version is a path segment (/2/). Blubrry publishes no statement about how long a
+    version is supported, what constitutes a breaking change, or how a v3 would be announced.
+deprecation:
+  policy_published: false
+  sunset_header: false
+  deprecation_header: false
+  rfc8594: false
+  note: >-
+    No deprecation policy page, and no Sunset or Deprecation response header is declared in the
+    contract or observed on a live response. Deprecation is signalled only in prose inside an
+    operation summary, with no date and no replacement named.
+  deprecated_operations:
+  - operationId: Totals
+    method: get
+    path: /stats/{keyword}/totals.json
+    signal: 'operation summary reads "Totals (Deprecated)"'
+    sunset_date: not stated
+    replacement: not stated
+    note: >-
+      Marked deprecated in the summary text only — the OpenAPI `deprecated: true` flag is NOT
+      set, so tooling that reads the flag will not see it. Likely superseded by
+      /stats/{keyword}/summary.{format}, but Blubrry does not say so.
+  deprecated_fields:
+  - schema: AddEpisode / UpdateEpisode
+    field: itunes_episode
+    signal: 'description reads "(Deprecated) Episode title for iTunes"'
+    replacement: itunes_title
+    note: Inferred replacement from the adjacent field; Blubrry does not name one explicitly.
+status_page:
+  published: false
+  evidence:
+  - url: https://status.blubrry.com/
+    status: 0
+    finding: Host does not resolve (NXDOMAIN).
+  - url: https://blubrry.statuspage.io/
+    status: 200
+    finding: Atlassian Statuspage marketing page, not a Blubrry status page (catch-all).
+  - url: https://blubrry.instatus.com/
+    status: 200
+    finding: Instatus marketing page, not a Blubrry status page (catch-all).
+  note: >-
+    No status page or uptime history exists for the Blubrry API. NO StatusPage pointer is
+    emitted, because there is nothing to point at.
+changelog:
+  published: false
+  note: >-
+    No dated API changelog or release-notes page. Blubrry announces platform changes on the
+    Podcast Insider blog (https://blubrry.com/podcast-insider/), which is a marketing blog, not
+    a versioned change record — a consumer cannot diff releases from it. NO ChangeLog pointer
+    is emitted.
+sla:
+  published: false
+  uptime_commitment: null
+  support_response_commitment: null
+  note: >-
+    The API Licensing Agreement (https://blubrry.com/developer/api/api-licensing-agreement/)
+    governs API use but states no uptime or availability commitment.
+terms:
+  api_licensing_agreement: https://blubrry.com/developer/api/api-licensing-agreement/
+  terms_of_service: https://blubrry.com/about/terms-of-service/
+  privacy_policy: https://blubrry.com/about/privacy-policy/
+dead_links:
+- url: https://blubrry.com/developer/api/network.html
+  status: 403
+  finding: >-
+    The Podcast Network API documentation is linked from the developer index and from the
+    OAuth 2 page but no longer resolves — the origin returns an S3 AccessDenied. The Network
+    API is described in prose on two live pages while its reference is gone, which is why this
+    record carries a Network API entry with no contract.
+summary:
+  versioning_policy: false
+  deprecation_policy: false
+  status_page: false
+  changelog: false
+  sla: false
+  deprecated_operations: 1

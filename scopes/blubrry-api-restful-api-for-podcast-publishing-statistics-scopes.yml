@@ -1,18 +1,23 @@
-generated: '2026-07-11'
-method: derived
-source: openapi/blubrry-api-restful-api-for-podcast-publishing-statistics-openapi.yml
+generated: '2026-09-06'
+method: searched
+source: https://blubrry.com/developer/api/oauth-2/
 docs: https://blubrry.com/developer/api/oauth-2/
-note: Blubrry's OAuth 2.0 implementation does not use or document scopes — the token
-  response returns "scope":null and access is granted at the level of the account
-  authorized during the authorization code flow (https://blubrry.com/developer/api/oauth-2/).
+note: >-
+  Blubrry's OAuth 2.0 implementation does not use or document scopes. The published token
+  response on https://blubrry.com/developer/api/oauth-2/ returns "scope": null, and access is
+  granted at the level of the whole Blubrry account authorized during the authorization-code
+  flow. There is no scope reference page and the OpenAPI declares no oauth2 scopes. An honest
+  zero, not a gap in our search.
+scope_count: 0
+scopes_supported: false
 schemes:
 - name: OAuth2
-  source: openapi/blubrry-api-restful-api-for-podcast-publishing-statistics-openapi.yml
+  source: https://blubrry.com/developer/api/oauth-2/
   flows:
   - flow: authorizationCode
     authorizationUrl: https://api.blubrry.com/oauth2/authorize
     tokenUrl: https://api.blubrry.com/oauth2/token
   description: |-
-    OAuth 2.0 Bearer token. Contact Blubrry to receive a client_id and
-    secret. Tokens expire after one hour; refresh tokens do not expire.
+    OAuth 2.0 Bearer token, account-wide. Tokens expire after one hour; refresh tokens do
+    not expire. No scope parameter is accepted or returned.
 scopes: []

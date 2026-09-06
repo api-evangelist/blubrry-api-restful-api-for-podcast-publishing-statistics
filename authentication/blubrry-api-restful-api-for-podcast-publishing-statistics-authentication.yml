@@ -1,21 +1,51 @@
-generated: '2026-07-11'
-method: derived
-source: openapi/blubrry-api-restful-api-for-podcast-publishing-statistics-openapi.yml
+generated: '2026-09-06'
+method: searched
+source: https://blubrry.com/developer/api/oauth-2/
+docs: https://blubrry.com/developer/api/oauth-2/
+note: >-
+  Derived from the OpenAPI security block, then upgraded against Blubrry's own OAuth 2
+  documentation page, which states the authorize/token endpoints, the 1-hour access-token
+  lifetime, the non-expiring refresh token, and the 5-minute single-use authorization code.
+  Blubrry's published podcaster.yaml declares no components.securitySchemes, so the auth
+  model here comes from the docs, not from the contract.
 summary:
   types:
   - oauth2
   oauth2_flows:
   - authorizationCode
+  scopes_supported: false
+  credential_issuance: self-serve
 schemes:
 - name: OAuth2
   type: oauth2
+  in: header
+  header: Authorization
+  scheme: Bearer
   flows:
   - flow: authorizationCode
     authorizationUrl: https://api.blubrry.com/oauth2/authorize
     tokenUrl: https://api.blubrry.com/oauth2/token
+    refreshUrl: https://api.blubrry.com/oauth2/token
     scopes: 0
   description: |-
-    OAuth 2.0 Bearer token. Contact Blubrry to receive a client_id and
-    secret. Tokens expire after one hour; refresh tokens do not expire.
+    OAuth 2.0 Bearer token. Client ID + secret are created by the account holder from
+    Manage Account -> Developers -> Create API Key in the Blubrry dashboard. Access tokens
+    expire after 1 hour; refresh tokens do not expire but can be revoked by the account
+    holder or by Blubrry, after which the authorization-code flow must be repeated.
+  token_endpoint_auth_method: client_secret_basic
+  token_lifetime_seconds: 3600
+  authorization_code_lifetime_seconds: 300
+  authorization_code_single_use: true
+  refresh_token_expires: false
   sources:
-  - openapi/blubrry-api-restful-api-for-podcast-publishing-statistics-openapi.yml
+  - https://blubrry.com/developer/api/oauth-2/
+  - openapi/blubrry-api-restful-api-for-podcast-publishing-statistics-episode-api-openapi.yml
+  - openapi/blubrry-api-restful-api-for-podcast-publishing-statistics-media-api-openapi.yml
+  - openapi/blubrry-api-restful-api-for-podcast-publishing-statistics-statistics-api-openapi.yml
+credential_provisioning:
+  method: self-serve dashboard
+  steps:
+  - Sign in to the Blubrry account.
+  - Choose "Manage Account" from the account menu.
+  - Under the "Developers" section select "Create API Key".
+  source: https://blubrry.com/developer/api/oauth-2/

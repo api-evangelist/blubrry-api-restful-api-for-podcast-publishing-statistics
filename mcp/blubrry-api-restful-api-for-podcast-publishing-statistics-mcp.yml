@@ -1,0 +1,207 @@
+generated: '2026-09-06'
+method: derived
+source: openapi/blubrry-api-restful-api-for-podcast-publishing-statistics-podcaster-openapi.yaml
+status: candidate
+note: >-
+  Blubrry ships no MCP server. Searched the developer portal, the GitHub org (one repository,
+  a 2019 PHP client), npm, PyPI and the web; nothing hosted, nothing installable, no
+  /mcp or /sse endpoint advertised anywhere. No endpoint URL was guessed or probed blind. The
+  tool list below is a CANDIDATE derived one-to-one from the 27 operations in Blubrry's own
+  published OpenAPI, offered as a starting point — it is not something Blubrry runs.
+deployment:
+  mode: none
+  endpoint: null
+  install: null
+  package: null
+  auth: oauth
+  verified: derived
+  note: >-
+    auth is recorded as oauth because that is what the API itself requires (authorization-code
+    flow, account-wide, no scopes) — any server built from this contract would have to carry a
+    Blubrry access token. It does not imply an MCP OAuth surface exists.
+searched:
+- surface: https://blubrry.com/developer/api/
+  finding: No MCP, agent or AI-integration section.
+- surface: https://github.com/blubrry
+  finding: One public repository (blubrry-api, PHP, last pushed 2019-09-18). No MCP server.
+- surface: npm / PyPI
+  finding: No first-party Blubrry package of any kind.
+server:
+  name: blubrry
+  title: Blubrry Podcast Hosting & Statistics
+  transport: not implemented
+  base_url: https://api.blubrry.com/2
+tools:
+- name: list_programs
+  rest: listPrograms
+  method: GET
+  path: /media/index.{format}
+  description: List the podcast shows the authorized account can address, with keyword, ids and feed URL.
+  consequence: read
+- name: list_unpublished_media
+  rest: listUnpublishedMedia
+  method: GET
+  path: /media/{keyword}/index.{format}
+  description: List media files uploaded to a show but not yet published.
+  consequence: read
+- name: upload_media
+  rest: uploadMedia
+  method: PUT
+  path: /media/{keyword}/{mediafile.ext}
+  description: Upload a media file to a show, chunked via X-RawVoice-Range with an MD5 checksum.
+  consequence: write
+- name: publish_media
+  rest: publishMedia
+  method: GET
+  path: /media/{keyword}/{mediafile.ext}
+  description: Publish an uploaded media file for a show and return its media URL.
+  consequence: write
+- name: delete_media
+  rest: deleteMedia
+  method: DELETE
+  path: /media/{keyword}/{mediafile.ext}
+  description: Permanently delete a media file from a show. No documented restore path.
+  consequence: destructive
+- name: add_migrate_media
+  rest: post_addMigrateMedia
+  method: POST
+  path: /media/{keyword}/migrate_add.json
+  description: Queue one or more external media URLs for migration into Blubrry storage.
+  consequence: write
+- name: remove_migrate_media
+  rest: post_removeMigrateMedia
+  method: POST
+  path: /media/{keyword}/migrate_remove.json
+  description: Remove URLs from the migration queue. Reverses add_migrate_media.
+  consequence: write
+- name: migrate_media_status
+  rest: migrateMediaStatus
+  method: GET
+  path: /media/{keyword}/migrate_status.json
+  description: Check the status of a media migration.
+  consequence: read
+- name: list_episodes
+  rest: getEpisodes
+  method: GET
+  path: /episode/{keyword}/
+  description: List a show's most recent episodes. limit 1-50 (default 10), offset.
+  consequence: read
+- name: get_episode
+  rest: getEpisode
+  method: GET
+  path: /episode/{keyword}/{episode_id}/
+  description: Get one episode by id.
+  consequence: read
+- name: add_episode
+  rest: addEpisode
+  method: POST
+  path: /episode/{keyword}/add
+  description: Create an episode and publish, schedule or save it as draft.
+  consequence: write
+  irreversible: true
+  note: There is no delete-episode operation in the published contract. This cannot be undone through the API.
+- name: update_episode
+  rest: updateEpisode
+  method: POST
+  path: /episode/{keyword}/update/{episode_id}/
+  description: Update fields on an existing episode.
+  consequence: write
+- name: update_episode_image
+  rest: updateEpisodeImage
+  method: PUT
+  path: /episode/{keyword}/update-image/{episode_id}/
+  description: Upload or replace an episode's artwork.
+  consequence: write
+- name: delete_episode_image
+  rest: deleteEpisodeImage
+  method: DELETE
+  path: /episode/{keyword}/delete-image/{episode_id}/
+  description: Remove an episode's artwork. Reverses update_episode_image.
+  consequence: write
+- name: list_stats_programs
+  rest: listStatsPrograms
+  method: GET
+  path: /stats/index.{format}
+  description: List the shows with statistics available to the account.
+  consequence: read
+- name: get_show_totals
+  rest: keyword
+  method: GET
+  path: /stats/{keyword}/
+  description: Show-level download totals.
+  consequence: read
+- name: get_show_summary
+  rest: Summary
+  method: GET
+  path: /stats/{keyword}/summary.{format}
+  description: Overall, current-month, last-month and per-media download summary for a show.
+  consequence: read
+- name: get_show_totals_legacy
+  rest: Totals
+  method: GET
+  path: /stats/{keyword}/totals.json
+  description: Legacy totals endpoint.
+  consequence: read
+  deprecated: true
+  note: Marked "(Deprecated)" in the contract summary with no sunset date and no named replacement.
+- name: get_episode_totals
+  rest: episodes
+  method: GET
+  path: /stats/{keyword}/episodes/
+  description: Per-episode download totals including partial-play buckets (25/50/75/99%).
+  consequence: read
+- name: get_show_and_episodes
+  rest: show-episodes
+  method: GET
+  path: /stats/{keyword}/show-episodes/
+  description: Show metadata together with its episode-level statistics.
+  consequence: read
+- name: get_show_countries
+  rest: Show Countries
+  method: GET
+  path: /stats/{keyword}/countries/
+  description: Show downloads by listener country.
+  consequence: read
+- name: get_show_apps
+  rest: Apps
+  method: GET
+  path: /stats/{keyword}/apps/
+  description: Show downloads by listening app.
+  consequence: read
+- name: get_show_app_types
+  rest: App Types
+  method: GET
+  path: /stats/{keyword}/app-types/
+  description: Show downloads by client/app type.
+  consequence: read
+- name: get_episode_countries
+  rest: Episode Countries
+  method: GET
+  path: /stats/{keyword}/{episode_id}/countries/
+  description: Episode downloads by listener country.
+  consequence: read
+- name: get_episode_apps
+  rest: Episode Apps
+  method: GET
+  path: /stats/{keyword}/{episode_id}/apps/
+  description: Episode downloads by listening app.
+  consequence: read
+- name: get_episode_app_types
+  rest: Episode App Types
+  method: GET
+  path: /stats/{keyword}/{episode_id}/app-types/
+  description: Episode downloads by client/app type.
+  consequence: read
+- name: preview_stats_widget
+  rest: Widget
+  method: GET
+  path: /stats/{keyword}/widget/preview.json
+  description: Preview a renderable statistics widget for a show.
+  consequence: read
+summary:
+  tools: 27
+  read: 19
+  write: 7
+  destructive: 1
+  derived_from_operations: 27
+  hosted_server_found: false

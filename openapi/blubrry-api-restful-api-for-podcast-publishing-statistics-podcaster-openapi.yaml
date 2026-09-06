@@ -1,0 +1,2707 @@
+openapi: "3.0.0"
+info:
+  title: "Blubrry Podcast Hosting & Statistics API"
+  version: "v2"
+  description: >
+    ## Using the Blubrry API
+
+    1. If you don't already have API credentials, contact Blubrry to request a client ID and secret.
+
+    2. Generate an access token as explained here: [OAuth 2 Documentation](https://blubrry.com/developer/api/oauth-2/)
+
+    3. Use the access token to make requests to the Blubrry API. For example:
+    <br>
+    curl -H "Authorization: Bearer 3b636a92ee50a8f17543f6a531b27e55d525bcd1" https://api.blubrry.com/2/media/index.json
+tags:
+  - name: "Episode"
+    description: "API for reading, creating and updating episodes for shows hosted on Blubrry.com"
+  - name: "Media"
+    description: "API for uploading and managing media files hosted on Blubrry.com"
+  - name: "Statistics"
+    description: "API for getting podcast download statistics"
+servers:
+  - url: "https://api.blubrry.com/2"
+
+paths:
+  /episode/{keyword}/?limit={limit}&offset={offset}:
+    get:
+      tags:
+        - "Episode"
+      summary: "Get episode list"
+      description: |
+        Returns a list of most recent episodes
+        
+        >URL: [https://api.blubrry.com/2/episode/keyword/](https://api.blubrry.com/2/episode/keyword/)
+        
+        >Format: __JSON__
+        
+        >Method: __GET__
+      operationId: "getEpisodes"
+      parameters:
+        - $ref: "#/components/parameters/ProgramKeyword"
+        - $ref: "#/components/parameters/Limit"
+        - $ref: "#/components/parameters/Offset"
+      x-code-samples:
+        - lang: 'PHP'
+          label: 'PHP'
+          source:
+            $ref: ../examples/php/episode/list
+      responses:
+        '200':
+          description: "Success"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  data:
+                    $ref: "#/components/schemas/EpisodeListObjectArray"
+                  record_count:
+                    type: "integer"
+                    example: 100
+                    description: "The number of episodes returned in the query"
+                  limit:
+                    type: "integer"
+                    example: 10
+                    description: "The number of results that are limited to"
+                  offset:
+                    type: "integer"
+                    example: 0
+                    description: "The number of episodes to skip within a list of episodes"
+        '400':
+          description: "Error: episode_show_invalid"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EpisodeKeywordError"
+  /episode/{keyword}/{episode_id}/:
+    get:
+      tags:
+        - "Episode"
+      summary: "Get episode info"
+      description: |
+        Returns the information for an episode
+        
+        >URL: [https://api.blubrry.com/2/episode/keyword/episode_id](https://api.blubrry.com/2/episode/keyword/episode_id)
+        
+        >Format: __JSON__
+        
+        >Method: __GET__
+      operationId: "getEpisode"
+      parameters:
+        - $ref: "#/components/parameters/ProgramKeyword"
+        - $ref: "#/components/parameters/EpisodeId"
+      responses:
+        '200':
+          description: "Success"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EpisodeListObject"
+        '400':
+          description: "Error: episode_show_invalid"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EpisodeKeywordError"
+        '401':
+          description: "Error: episode_not_found"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EpisodeKeywordError"
+  /episode/{keyword}/add:
+    post:
+      tags:
+        - "Episode"
+      summary: "Add episode"
+      description: |
+        Adds an episode to a program
+
+        >URL: [https://api.blubrry.com/2/episode/keyword/add](https://api.blubrry.com/2/episode/keyword/add)
+
+        >Format: __JSON__
+
+        >Method: __POST__
+
+      operationId: "addEpisode"
+      x-code-samples:
+        - lang: 'PHP'
+          label: 'PHP'
+          source:
+            $ref: ../examples/php/episode/add
+        - lang: 'JavaScript'
+          label: 'NodeJS'
+          source:
+            $ref: ../examples/node/episode/add
+        - lang: 'C#'
+          label: 'C#'
+          source:
+            $ref: ../examples/c-sharp/episode/add
+        - lang: 'Python'
+          label: 'Python'
+          source:
+            $ref: ../examples/python/episode/add
+        - lang: 'Ruby'
+          label: 'Ruby'
+          source:
+            $ref: ../examples/ruby/episode/add
+      parameters:
+        - name: "keyword"
+          in: "path"
+          description: "Required - Program keyword"
+          required: true
+          schema:
+            type: "string"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddEpisode'
+      responses:
+        '200':
+          description: "Success"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AddEpisodeSuccess"
+        '400':
+          description: "Error: episode_show_invalid"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EpisodeKeywordError"
+  /episode/{keyword}/update/{episode_id}/:
+    post:
+      tags:
+        - "Episode"
+      summary: "Update episode"
+      description: |
+        Updates specified fields in existing episode
+
+        >URL: [https://api.blubrry.com/2/episode/keyword/update/episode_id/](https://api.blubrry.com/2/episode/keyword/update/episode_id/)
+
+        >Format: __JSON__
+
+        >Method: __POST__
+      operationId: "updateEpisode"
+      x-code-samples:
+        - lang: 'PHP'
+          label: 'PHP'
+          source:
+            $ref: ../examples/php/episode/update
+        - lang: 'JavaScript'
+          label: 'NodeJS'
+          source:
+            $ref: ../examples/node/episode/update
+        - lang: 'C#'
+          label: 'C#'
+          source:
+            $ref: ../examples/c-sharp/episode/update
+        - lang: 'Python'
+          label: 'Python'
+          source:
+            $ref: ../examples/python/episode/update
+        - lang: 'Ruby'
+          label: 'Ruby'
+          source:
+            $ref: ../examples/ruby/episode/update
+      parameters:
+        - name: "keyword"
+          in: "path"
+          description: "Required - Program keyword"
+          required: true
+          schema:
+            type: "string"
+        - name: "episode_id"
+          in: "path"
+          description: "Required - The ID of the episode to be updated"
+          required: true
+          schema:
+            type: "string"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: "object"
+              allOf:
+                - $ref: "#/components/schemas/UpdateEpisode"
+
+      responses:
+        '200':
+          description: "Success"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UpdateEpisodeSuccess"
+        '400':
+          description: "Error: episode_show_invalid"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EpisodeKeywordError"
+  /episode/{keyword}/update-image/{episode_id}/:
+    put:
+      tags:
+        - "Episode"
+      summary: "Upload episode image"
+      description: |
+        Upload an episode specific image
+
+        >URL: [https://api.blubrry.com/2/episode/keyword/update-image/episode_id/](https://api.blubrry.com/2/episode/keyword/update-image/episode_id/)
+
+        >Format: __JSON__
+
+        >Method: __PUT__
+      operationId: "updateEpisodeImage"
+      x-code-samples:
+        - lang: 'PHP'
+          label: 'PHP'
+          source:
+            $ref: ../examples/php/episode/update-image
+      parameters:
+        - $ref: "#/components/parameters/ProgramKeyword"
+        - $ref: "#/components/parameters/EpisodeId"
+        - name: "Content-Type"
+          in: "header"
+          description: "File type of media being uploaded"
+          required: true
+          schema:
+            type: "string"
+
+      responses:
+        '200':
+          description: "Success"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UpdateEpisodeImageSuccess"
+        '400':
+          description: "Error: episode_show_invalid"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EpisodeKeywordError"
+  /episode/{keyword}/delete-image/{episode_id}/:
+    delete:
+      tags:
+        - "Episode"
+      summary: "Delete episode image"
+      description: |
+        Delete an episode specific image
+
+        >URL: [https://api.blubrry.com/2/episode/keyword/delete-image/episode_id/](https://api.blubrry.com/2/episode/keyword/delete-image/episode_id/)
+
+        >Format: __JSON__
+
+        >Method: __DELETE__
+      operationId: "deleteEpisodeImage"
+      x-code-samples:
+        - lang: 'PHP'
+          label: 'PHP'
+          source:
+            $ref: ../examples/php/episode/delete-image
+      parameters:
+        - $ref: "#/components/parameters/ProgramKeyword"
+        - $ref: "#/components/parameters/EpisodeId"
+
+      responses:
+        '200':
+          description: "Success"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DeleteEpisodeImageSuccess"
+        '400':
+          description: "Error: episode_show_invalid"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EpisodeKeywordError"
+  /media/index.{format}:
+    get:
+      tags:
+        - "Media"
+      summary: "List Programs"
+      description: |
+        List all programs/shows under the account
+        >URL: [https://api.blubrry.com/2/media/index.json](https://api.blubrry.com/2/media/index.json)
+
+        >Formats: __XML__, __JSON__
+
+        >Method: __GET__
+      operationId: "listPrograms"
+      x-code-samples:
+        - lang: 'PHP'
+          label: 'PHP'
+          source:
+            $ref: ../examples/php/media/list_programs
+        - lang: 'JavaScript'
+          label: 'NodeJS'
+          source:
+            $ref: ../examples/node/media/list_programs
+        - lang: 'C#'
+          label: 'C#'
+          source:
+            $ref: ../examples/c-sharp/media/list_program
+        - lang: 'Python'
+          label: 'Python'
+          source:
+            $ref: ../examples/python/media/list_programs
+        - lang: 'Ruby'
+          label: 'Ruby'
+          source:
+            $ref: ../examples/ruby/media/list_programs
+      parameters:
+        - name: "format"
+          in: "path"
+          description: "Format: JSON or xml"
+          required: true
+          schema:
+            type: "string"
+            enum:
+              - "json"
+              - "xml"
+        - name: "limit"
+          in: "query"
+          description: |
+            Optional - Specifies the number of results to return
+
+            Default: 20
+
+            Maximum: 100
+          required: false
+          schema:
+            type: "integer"
+            format: "int64"
+            default: 20
+            maximum: 100
+        - name: "start"
+          in: "query"
+          description: |
+            Optional - Specifies the start position of returned results
+          required: false
+          schema:
+            type: "integer"
+            format: "int64"
+            default: 0
+            maximum: 100
+      responses:
+        '200':
+          description: "Success"
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: "#/components/schemas/AllHosted"
+            application/xml:
+              schema:
+                items:
+                  $ref: "#/components/schemas/AllHosted"
+                xml:
+                  name: "programs"
+                  wrapped: true
+          headers:
+            "X-RawVoice-Total-Results":
+              schema:
+                $ref: "#/components/headers/xTotalHosted"
+              description: |
+                Indicates how many programs total are available to query. Header value can be used to determine if additional calls to List Programs is necessary
+
+
+
+  /media/{keyword}/index.{format}:
+    get:
+      tags:
+        - "Media"
+      description: |
+        Returns a list of unpublished media files for the specified user program
+        >URL: [https://api.blubrry.com/2/media/keyword/index.json](https://api.blubrry.com/2/media/keyword/index.json)
+
+        >Formats: __XML__, __JSON__
+
+        >Method: __GET__
+
+      summary: "List Unpublished Media"
+      operationId: "listUnpublishedMedia"
+      x-code-samples:
+        - lang: 'PHP'
+          label: 'PHP'
+          source:
+            $ref: ../examples/php/media/list_unpublished_media
+        - lang: 'JavaScript'
+          label: 'NodeJS'
+          source:
+            $ref: ../examples/node/media/list_unpublished_media
+        - lang: 'C#'
+          label: 'C#'
+          source:
+            $ref: ../examples/c-sharp/media/list_unpublished_media
+        - lang: 'Python'
+          label: 'Python'
+          source:
+            $ref: ../examples/python/media/list_unpublished_media
+        - lang: 'Ruby'
+          label: 'Ruby'
+          source:
+            $ref: ../examples/ruby/media/list_unpublished_media
+      parameters:
+        - name: "format"
+          in: "path"
+          description: "Format: JSON or xml"
+          required: true
+          schema:
+            type: "string"
+            enum:
+              - "json"
+              - "xml"
+        - name: "keyword"
+          in: "path"
+          description: "Required - Specifies the program"
+          required: true
+          schema:
+            type: "string"
+        - name: "limit"
+          in: "query"
+          description: |
+            Optional - Specifies the number of results to return
+
+            Default: 20
+
+            Maximum: 100
+          required: false
+          schema:
+            type: "integer"
+            format: "int64"
+            default: 20
+            maximum: 100
+        - name: "start"
+          in: "query"
+          description: |
+            Optional - Specifies the start position of returned results
+          required: false
+          schema:
+            type: "integer"
+            format: "int64"
+            default: 0
+            maximum: 100
+        - name: "quota"
+          in: "query"
+          description: |
+            Optional - Get data on podcast storage usage
+          required: false
+          schema:
+            type: "string"
+        - name: "published"
+          in: "query"
+          description: |
+            Optional - Get data on published media files
+          required: false
+          schema:
+            type: "string"
+      responses:
+        '200':
+          description: "Success"
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: "#/components/schemas/AllUnpublished"
+            application/xml:
+              schema:
+                items:
+                  $ref: "#/components/schemas/AllUnpublished"
+                xml:
+                  name: "files"
+                  wrapped: true
+          headers:
+            "X-RawVoice-Total-Results":
+              schema:
+                $ref: "#/components/headers/xTotalHosted"
+              description: |
+                Indicates how many programs total are available to query. Header value can be used to determine if additional calls to List Programs is necessary
+
+
+
+  /media/{keyword}/{mediafile.ext}:
+    delete:
+      tags:
+        - "Media"
+      summary: "Delete Media"
+      description: |
+        Deletes a specified media file
+
+        >URL: [https://api.blubrry.com/2/media/keyword/mediafile.ext](https://api.blubrry.com/2/media/keyword/mediafile.ext)
+
+        >Formats: __JSON__, __XML__
+
+        >Method: __DELETE__
+      operationId: "deleteMedia"
+      x-code-samples:
+        - lang: 'PHP'
+          label: 'PHP'
+          source:
+            $ref: ../examples/php/media/delete_media
+        - lang: 'JavaScript'
+          label: 'NodeJS'
+          source:
+            $ref: ../examples/node/media/delete_media
+        - lang: 'C#'
+          label: 'C#'
+          source:
+            $ref: ../examples/c-sharp/media/delete_media
+        - lang: 'Python'
+          label: 'Python'
+          source:
+            $ref: ../examples/python/media/delete_media
+        - lang: 'Ruby'
+          label: 'Ruby'
+          source:
+            $ref: ../examples/ruby/media/delete_media
+      parameters:
+        - name: "keyword"
+          in: "path"
+          description: "Required - Specifies the program"
+          required: true
+          schema:
+            type: "string"
+        - name: "mediafile.ext"
+          in: "path"
+          description: "Required - Specifies the media file to delete (ext is the file type)"
+          required: true
+          schema:
+            type: "string"
+        - name: "format"
+          in: "query"
+          description: "Specifies the format of the response returned. (json or xml)"
+          schema:
+            type: "string"
+            enum:
+              - "json"
+              - "xml"
+      responses:
+        '200':
+          description: "Success"
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: "#/components/schemas/Delete"
+            application/xml:
+              schema:
+                items:
+                  $ref: "#/components/schemas/Delete"
+                xml:
+                  name: "status"
+
+    get:
+      tags:
+        - "Media"
+      summary: "Publish Media File"
+      description: |
+        Makes the uploaded media file publicly available
+
+        >URL: [https://api.blubrry.com/2/media/keyword/mediafile.ext](https://api.blubrry.com/2/media/keyword/mediafile.ext)
+
+        >Formats: __JSON__, __XML__
+
+        >Method: __GET__
+      operationId: "publishMedia"
+      x-code-samples:
+        - lang: 'PHP'
+          label: 'PHP'
+          source:
+            $ref: ../examples/php/media/publish_media_file
+        - lang: 'JavaScript'
+          label: 'NodeJS'
+          source:
+            $ref: ../examples/node/media/publish_media
+        - lang: 'C#'
+          label: 'C#'
+          source:
+            $ref: ../examples/c-sharp/media/publish_media
+        - lang: 'Python'
+          label: 'Python'
+          source:
+            $ref: ../examples/python/media/publish_media_file
+        - lang: 'Ruby'
+          label: 'Ruby'
+          source:
+            $ref: ../examples/ruby/media/publish_media_file
+      parameters:
+        - name: "keyword"
+          in: "path"
+          description: "Specifies the program/show keyword"
+          required: true
+          schema:
+            type: "string"
+        - name: "mediafile.ext"
+          in: "path"
+          description: "Specifies the media file to publish (ext is the file type)"
+          required: true
+          schema:
+            type: "string"
+        - name: "format"
+          in: "query"
+          description: "Specifies the format of the response returned."
+          required: true
+          schema:
+            type: "string"
+            enum:
+              - "json"
+              - "xml"
+        - name: "publish"
+          in: "query"
+          description: "Specifies whether the media file will be made publicly available."
+          required: true
+          schema:
+            type: "string"
+            enum:
+              - "true"
+              - "false"
+            default: "true"
+      responses:
+        '200':
+          description: "Success"
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: "#/components/schemas/Publish"
+            application/xml:
+              schema:
+                items:
+                  $ref: "#/components/schemas/Publish"
+                xml:
+                  name: "status"
+        '400':
+          description: "Missing keyword"
+
+    put:
+      tags:
+        - "Media"
+      summary: "Upload Media"
+      description: |
+        Uploads a media file to the server
+
+        For instructions on uploading via WebDAV, [visit our support documentation.](https://blubrry.com/developer/webdav/)
+
+        >URL: [https://api.blubrry.com/2/media/keyword/mediafile.ext](https://api.blubrry.com/2/media/keyword/mediafile.ext)
+
+        >Formats: __XML__, __JSON__
+
+        >Method: __PUT__
+      operationId: "uploadMedia"
+      x-code-samples:
+        - lang: 'PHP'
+          label: 'PHP'
+          source:
+            $ref: ../examples/php/media/upload_media
+        - lang: 'JavaScript'
+          label: 'NodeJS'
+          source:
+            $ref: ../examples/node/media/upload_media
+        - lang: 'C#'
+          label: 'C#'
+          source:
+            $ref: ../examples/c-sharp/media/upload_media
+        - lang: 'Python'
+          label: 'Python'
+          source:
+            $ref: ../examples/python/media/upload_media
+        - lang: 'Ruby'
+          label: 'Ruby'
+          source:
+            $ref: ../examples/ruby/media/upload_media
+      parameters:
+        - name: "X-RawVoice-MD5-Checksum"
+          description: "Optional - MD5 checksum of the file being uploaded. When specified, the server will return the final uploaded MD5 checksum"
+          in: "header"
+          schema:
+            type: "string"
+        - name: "X-RawVoice-Range"
+          in: "header"
+          description: "Optional - Range of start and end bytes"
+          schema:
+            type: "string"
+        - name: "Content-Type"
+          in: "header"
+          description: "File type of media being uploaded"
+          required: true
+          schema:
+            type: "string"
+        - name: "Content-Length"
+          in: "header"
+          description: "Length in bytes of the media file"
+          required: true
+          schema:
+            type: "string"
+        - name: "keyword"
+          in: "path"
+          description: "Specifies the program"
+          required: true
+          schema:
+            type: "string"
+        - name: "mediafile.ext"
+          in: "path"
+          description: "Specifies the media file to upload (ext is the file type)"
+          required: true
+          schema:
+            type: "string"
+        - name: "format"
+          in: "query"
+          description: "Specifies the format of the response returned."
+          schema:
+            type: "string"
+            enum:
+              - "json"
+              - "xml"
+      content:
+      responses:
+        '200':
+          description: "Success"
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: "#/components/schemas/Upload"
+            application/xml:
+              schema:
+                items:
+                  $ref: "#/components/schemas/Upload"
+                xml:
+                  name: "status"
+          headers:
+            "X-RawVoice-MD5-Checksum":
+              description: "When specified, the server will return the final uploaded MD5 checksum"
+              schema:
+                $ref: "#/components/headers/X-RawVoice-MD5-Checksum"
+            "X-RawVoice-Range":
+              description: "Range of start and end bytes which supports multi-PUT requests to upload content in chunks"
+              schema:
+                $ref: "#/components/headers/X-RawVoice-Range"
+        '400':
+          description: "Missing keyword"
+  /media/{keyword}/migrate_add.json:
+    post:
+      tags:
+        - "Media"
+      summary: "Add Migrate Media URL(s)"
+      description: |
+        Adds media URLs to the migration queue
+
+        >URL: [https://api.blubrry.com/2/media/keyword/migrate_add.json](https://api.blubrry.com/2/media/keyword/migrate_add.json)
+
+        >Format: __JSON__
+
+        >Methods: __POST__
+      operationId: "post_addMigrateMedia"
+      x-code-samples:
+        - lang: 'PHP'
+          label: 'PHP'
+          source:
+            $ref: ../examples/php/media/post_add_migrate_media_urls
+        - lang: 'JavaScript'
+          label: 'NodeJS'
+          source:
+            $ref: ../examples/node/media/post_add_migrate_media_urls
+        - lang: 'C#'
+          label: 'C#'
+          source:
+            $ref: ../examples/c-sharp/media/post_add_migrate_media_urls
+        - lang: 'Python'
+          label: 'Python'
+          source:
+            $ref: ../examples/python/media/post_add_migrate_media_urls
+        - lang: 'Ruby'
+          label: 'Ruby'
+          source:
+            $ref: ../examples/ruby/media/post_add_migrate_media_urls
+      parameters:
+        - name: "keyword"
+          in: "path"
+          description: "Specifies the show/program"
+          required: true
+          schema:
+            type: "string"
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/AddMigrateMedia'
+      responses:
+        '200':
+          description: "Success"
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: "#/components/schemas/ApiResponse"
+        '400':
+          description: "Missing keyword"
+  /media/{keyword}/migrate_remove.json:
+    post:
+      tags:
+        - "Media"
+      summary: "Remove Migrate Media URL(s)"
+      description: |
+        Removes media URLs from the migration queue
+
+        >URL: [https://api.blubrry.com/2/media/keyword/migrate_remove.json](https://api.blubrry.com/2/media/keyword/migrate_remove.json)
+
+        >Format: __JSON__
+
+        >Method: __POST__
+      operationId: "post_removeMigrateMedia"
+      x-code-samples:
+        - lang: 'PHP'
+          label: 'PHP'
+          source:
+            $ref: ../examples/php/media/post_remove_migrate_media_urls
+        - lang: 'JavaScript'
+          label: 'NodeJS'
+          source:
+            $ref: ../examples/node/media/post_remove_migrate_media_urls
+        - lang: 'C#'
+          label: 'C#'
+          source:
+            $ref: ../examples/c-sharp/media/post_remove_migrate_media_urls
+        - lang: 'Python'
+          label: 'Python'
+          source:
+            $ref: ../examples/python/media/post_remove_migrate_media_urls
+        - lang: 'Ruby'
+          label: 'Ruby'
+          source:
+            $ref: ../examples/ruby/media/post_remove_migrate_media_urls
+      parameters:
+        - name: "keyword"
+          in: "path"
+          description: "Required - Specifies the program"
+          required: true
+          schema:
+            type: "string"
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/RemoveMigrateMedia'
+      responses:
+        '200':
+          description: "Success"
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: "#/components/schemas/ApiResponse"
+        '400':
+          description: "Missing keyword"
+  /media/{keyword}/migrate_status.json:
+    get:
+      tags:
+        - "Media"
+      summary: "Migrate Media Status"
+      description: |
+        Returns the migration status of urls. The result also includes the total number of records found.
+
+        >URL: [https://api.blubrry.com/2/media/keyword/migrate_status.json](https://api.blubrry.com/2/media/keyword/migrate_status.json)
+
+        >Format: __JSON__
+
+        >Method: __GET__
+      operationId: "migrateMediaStatus"
+      x-code-samples:
+        - lang: 'PHP'
+          label: 'PHP'
+          source:
+            $ref: ../examples/php/media/migrate_media_status
+        - lang: 'JavaScript'
+          label: 'NodeJS'
+          source:
+            $ref: ../examples/node/media/migrate_media_status
+        - lang: 'C#'
+          label: 'C#'
+          source:
+            $ref: ../examples/c-sharp/media/migrate_media_status
+        - lang: 'Python'
+          label: 'Python'
+          source:
+            $ref: ../examples/python/media/migrate_media_status
+        - lang: 'Ruby'
+          label: 'Ruby'
+          source:
+            $ref: ../examples/ruby/media/migrate_media_status
+      parameters:
+        - name: "keyword"
+          in: "path"
+          description: "Required - Specifies the program"
+          required: true
+          schema:
+            type: "string"
+        - name: "limit"
+          in: "query"
+          description: |
+            Optional - Specifies the number of results to return
+
+            Default: 20
+            Maximum: 100
+          required: false
+          schema:
+            type: "integer"
+            format: "int64"
+            default: 20
+            maximum: 100
+        - name: "start"
+          in: "query"
+          description: |
+            Optional - Specifies the start position of returned results
+          required: false
+          schema:
+            type: "integer"
+            format: "int64"
+            default: 0
+            maximum: 100
+        - name: "status"
+          in: "query"
+          description: "Specifies which status to filter on."
+          schema:
+            type: "string"
+            enum:
+              - "all"
+              - "queued"
+              - "downloading"
+              - "completed"
+              - "skipped"
+              - "failed"
+        - name: "ids"
+          in: "query"
+          description: "One or more unique migrate IDs separated by commas"
+          schema:
+            type: "array"
+            items:
+              type: "string"
+      responses:
+        '200':
+          description: "Success"
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: "#/components/schemas/AllMedia"
+        '400':
+          description: "Missing keyword"
+  /stats/index.{format}:
+    get:
+      tags:
+        - "Statistics"
+      summary: "List Stats Programs"
+      description: |
+        List all programs/shows under the account
+        >URL: [https://api.blubrry.com/2/stats/index.json](https://api.blubrry.com/2/media/index.json)
+
+        >Formats: __XML__, __JSON__
+
+        >Method: __GET__
+      operationId: "listStatsPrograms"
+      parameters:
+        - name: "format"
+          in: "path"
+          description: "Format: JSON or xml"
+          required: true
+          schema:
+            type: "string"
+            enum:
+              - "json"
+              - "xml"
+        - name: "limit"
+          in: "query"
+          description: |
+            Optional - Specifies the number of results to return
+
+            Default: 20
+
+            Maximum: 100
+          required: false
+          schema:
+            type: "integer"
+            format: "int64"
+            default: 20
+            maximum: 100
+        - name: "start"
+          in: "query"
+          description: |
+            Optional - Specifies the start position of returned results
+          required: false
+          schema:
+            type: "integer"
+            format: "int64"
+            default: 0
+            maximum: 100
+      responses:
+        '200':
+          description: "Success"
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: "#/components/schemas/AllHosted"
+            application/xml:
+              schema:
+                items:
+                  $ref: "#/components/schemas/AllHosted"
+                xml:
+                  name: "programs"
+                  wrapped: true
+          headers:
+            "X-RawVoice-Total-Results":
+              schema:
+                $ref: "#/components/headers/xTotalHosted"
+              description: |
+                Indicates how many programs total are available to query. Header value can be used to determine if additional calls to List Stats Programs is necessary
+
+
+
+
+
+  /stats/{keyword}/summary.{format}:
+    get:
+      tags:
+        - "Statistics"
+      summary: "Summary"
+      description: |
+        Returns a summary of podcast download statistics for the overall show and its 10 most recent episodes
+
+        >URL: [https://api.blubrry.com/2/stats/keyword/summary.json](https://api.blubrry.com/2/stats/keyword/summary.json)
+
+        >Formats: __XML__, __JSON__
+
+        >Method: __GET__
+      operationId: "Summary"
+      x-code-samples:
+        - lang: 'PHP'
+          label: 'PHP'
+          source:
+            $ref: ../examples/php/statistics/summary
+        - lang: 'JavaScript'
+          label: 'NodeJS'
+          source:
+            $ref: ../examples/node/statistics/summary
+        - lang: 'C#'
+          label: 'C#'
+          source:
+            $ref: ../examples/c-sharp/statistics/summary
+        - lang: 'Python'
+          label: 'Python'
+          source:
+            $ref: ../examples/python/statistics/summary
+        - lang: 'Ruby'
+          label: 'Ruby'
+          source:
+            $ref: ../examples/ruby/statistics/summary
+      parameters:
+        - name: "keyword"
+          in: "path"
+          description: "Specifies the program"
+          required: true
+          schema:
+            type: "string"
+        - name: "format"
+          in: "path"
+          description: "Specifies the format of the response returned"
+          required: true
+          schema:
+            type: "string"
+            enum:
+              - "json"
+              - "xml"
+        - name: "month"
+          in: "query"
+          description: "Specific month to pull summary data from, e.g 2 for February"
+          schema:
+            type: "integer"
+            default: current month
+        - name: "year"
+          in: "query"
+          description: "Specific year to pull summary data from, e.g 2020"
+          schema:
+            type: "integer"
+            default: current year
+      responses:
+        '200':
+          description: "Success"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Summary'
+        '400':
+          description: "Missing required field"
+        '403':
+          description: "User does not have access to this show"
+        '404':
+          description: "Show or episode does not exist"
+  /stats/{keyword}/show-episodes/:
+    get:
+      tags:
+        - "Statistics"
+      summary: "Show and Episodes"
+      description: |
+        Returns statistics information about a show and its episodes. This endpoint is only available to shows using Blubrry Hosting or shows with a Standard Statistics plan.
+
+        >URL: [https://api.blubrry.com/2/stats/keyword/show-episodes/](https://api.blubrry.com/2/stats/keyword/show-episodes/)
+        >Formats: __JSON__
+
+        >Method: __GET__
+      operationId: "show-episodes"
+      parameters:
+        - name: "keyword"
+          in: "path"
+          description: "Specifies the program"
+          required: true
+          schema:
+            type: "string"
+        - name: "start"
+          in: "query"
+          description: |
+            Optional - Specifies the start position of returned results
+          required: false
+          schema:
+            type: "integer"
+            format: "int64"
+            default: 0
+        - name: "limit"
+          in: "query"
+          description: |
+            Optional - Specifies the number of results to return
+
+            Maximum: 1000
+
+            Minimum: 1
+          required: false
+          schema:
+            type: "integer"
+            format: "int64"
+            default: 10
+
+      responses:
+        '200':
+          description: "Success"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ShowEpisodesResult'
+        '400':
+          description: "Missing required field"
+        '403':
+          description: "User does not have access to this show"
+        '404':
+          description: "Show or episode does not exist"
+  /stats/{keyword}/:
+    get:
+      tags:
+        - "Statistics"
+      summary: "Show Totals"
+      description: |
+        Returns a show's overall statistics. This endpoint is only available to shows using Blubrry Hosting or shows with a Standard Statistics plan.
+
+        >URL: [https://api.blubrry.com/2/stats/keyword/](https://api.blubrry.com/2/stats/keyword/)
+        >Formats: __JSON__
+
+        >Method: __GET__
+      operationId: "keyword"
+      parameters:
+        - name: "keyword"
+          in: "path"
+          description: "Specifies the program"
+          required: true
+          schema:
+            type: "string"
+
+      responses:
+        '200':
+          description: "Success"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/KeywordResult'
+        '400':
+          description: "Missing required field"
+        '403':
+          description: "User does not have access to this show"
+        '404':
+          description: "Show or episode does not exist"
+  /stats/{keyword}/countries/:
+    get:
+      tags:
+        - "Statistics"
+      summary: "Show Countries"
+      description: |
+        Returns a show's overall Geolocation statistics. This API endpoint requires special access. Please contact support for more information.
+
+        >URL: [https://api.blubrry.com/2/stats/keyword/countries/](https://api.blubrry.com/2/stats/keyword/countries/)
+        >Formats: __JSON__
+
+        >Method: __GET__
+      operationId: "Show Countries"
+      parameters:
+        - $ref: "#/components/parameters/StartDate"
+        - $ref: "#/components/parameters/EndDate"
+
+        - name: "keyword"
+          in: "path"
+          description: "Specifies the program"
+          required: true
+          schema:
+            type: "string"
+
+      responses:
+        '200':
+          description: "Success"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Countries'
+        '400':
+          description: "Missing required field"
+        '403':
+          description: "User does not have access to this show"
+        '404':
+          description: "Show or episode does not exist"
+  /stats/{keyword}/app-types/:
+    get:
+      tags:
+        - "Statistics"
+      summary: "Show App Types (Client Types)"
+      description: |
+        Returns a show's overall Application Type statistics.  This API endpoint requires special access. Please contact support for more information.
+
+        >URL: [https://api.blubrry.com/2/stats/keyword/app-types/](https://api.blubrry.com/2/stats/keyword/app-types/)
+        >Formats: __JSON__
+
+        >Method: __GET__
+      operationId: "App Types"
+      parameters:
+        - $ref: "#/components/parameters/StartDate"
+        - $ref: "#/components/parameters/EndDate"
+
+        - name: "keyword"
+          in: "path"
+          description: "Specifies the program"
+          required: true
+          schema:
+            type: "string"
+
+      responses:
+        '200':
+          description: "Success"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AppTypes'
+        '400':
+          description: "Missing required field"
+        '403':
+          description: "User does not have access to this show"
+        '404':
+          description: "Show or episode does not exist"
+  /stats/{keyword}/apps/:
+    get:
+      tags:
+        - "Statistics"
+      summary: "Show Apps (Clients)"
+      description: |
+        Returns a show's overall Application statistics.  This API endpoint requires special access. Please contact support for more information.
+
+        >URL: [https://api.blubrry.com/2/stats/keyword/apps/](https://api.blubrry.com/2/stats/keyword/apps/)
+        >Formats: __JSON__
+
+        >Method: __GET__
+      operationId: "Apps"
+      parameters:
+        - $ref: "#/components/parameters/StartDate"
+        - $ref: "#/components/parameters/EndDate"
+
+        - name: "keyword"
+          in: "path"
+          description: "Specifies the program"
+          required: true
+          schema:
+            type: "string"
+
+      responses:
+        '200':
+          description: "Success"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Apps'
+        '400':
+          description: "Missing required field"
+        '403':
+          description: "User does not have access to this show"
+        '404':
+          description: "Show or episode does not exist"
+  /stats/{keyword}/episodes/:
+    get:
+      tags:
+        - "Statistics"
+      summary: "Episode Totals"
+      description: |
+        Returns a summary of podcast download statistics for a show's episodes. This endpoint is only available to shows using Blubrry Hosting or shows with a Standard Statistics plan.
+
+        >URL: [https://api.blubrry.com/2/stats/keyword/episodes/](https://api.blubrry.com/2/stats/keyword/episodes/)
+        
+        >Formats: __JSON__
+
+        >Method: __GET__
+      operationId: "episodes"
+      parameters:
+        - name: "keyword"
+          in: "path"
+          description: "Specifies the program"
+          required: true
+          schema:
+            type: "string"
+        - name: "start"
+          in: "query"
+          description: |
+            Optional - Specifies the start position of returned results
+          required: false
+          schema:
+            type: "integer"
+            format: "int64"
+            default: 0
+        - name: "limit"
+          in: "query"
+          description: |
+            Optional - Specifies the number of results to return
+
+            Maximum: 1000
+
+            Minimum: 1
+          required: false
+          schema:
+            type: "integer"
+            format: "int64"
+            default: 100
+        - name: "start-date"
+          in: "query"
+          description: "Start date for fetching Statistics data - formatted as YYYY-MM-DD"
+          schema:
+            type: "string"
+        - name: "end-date"
+          in: "query"
+          description: "End date for fetching Statistics data - formatted as YYYY-MM-DD. Defaults to start date if not specified. Start and end date range cannot exceed 45 days."
+          schema:
+            type: "string"
+
+      responses:
+        '200':
+          description: "Success"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EpisodesResult'
+        '400':
+          description: "Missing required field"
+        '403':
+          description: "User does not have access to this show"
+        '404':
+          description: "Show or episode does not exist"
+  /stats/{keyword}/{episode_id}/countries/:
+    get:
+      tags:
+        - "Statistics"
+      summary: "Episode Countries"
+      description: |
+        Returns an episode's overall Geolocation statistics. This API endpoint requires special access. Please contact support for more information.
+
+        >URL: [https://api.blubrry.com/2/stats/keyword/episode_id/countries/](https://api.blubrry.com/2/stats/keyword/episode_id/countries/)
+        >Formats: __JSON__
+
+        >Method: __GET__
+      operationId: "Episode Countries"
+      parameters:
+        - $ref: "#/components/parameters/StartDate"
+        - $ref: "#/components/parameters/EndDate"
+
+        - name: "keyword"
+          in: "path"
+          description: "Specifies the program"
+          required: true
+          schema:
+            type: "string"
+
+        - name: "episode_id"
+          in: "path"
+          description: "Specifies the episode"
+          required: true
+          schema:
+            type: "integer"
+
+      responses:
+        '200':
+          description: "Success"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Countries'
+        '400':
+          description: "Missing required field"
+        '403':
+          description: "User does not have access to this show"
+        '404':
+          description: "Show or episode does not exist"
+  /stats/{keyword}/{episode_id}/app-types/:
+    get:
+      tags:
+        - "Statistics"
+      summary: "Episode App Types (Client Types)"
+      description: |
+        Returns an episode's overall Application Type statistics. This API endpoint requires special access. Please contact support for more information.
+
+        >URL: [https://api.blubrry.com/2/stats/keyword/episode_id/app-types/](https://api.blubrry.com/2/stats/keyword/episode_id/app-types/)
+        >Formats: __JSON__
+
+        >Method: __GET__
+      operationId: "Episode App Types"
+      parameters:
+        - $ref: "#/components/parameters/StartDate"
+        - $ref: "#/components/parameters/EndDate"
+
+        - name: "keyword"
+          in: "path"
+          description: "Specifies the program"
+          required: true
+          schema:
+            type: "string"
+
+        - name: "episode_id"
+          in: "path"
+          description: "Specifies the episode"
+          required: true
+          schema:
+            type: "integer"
+
+      responses:
+        '200':
+          description: "Success"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AppTypes'
+        '400':
+          description: "Missing required field"
+        '403':
+          description: "User does not have access to this show"
+        '404':
+          description: "Show or episode does not exist"
+  /stats/{keyword}/{episode_id}/apps/:
+    get:
+      tags:
+        - "Statistics"
+      summary: "Episode Apps (Clients)"
+      description: |
+        Returns an episode's overall Application statistics. This API endpoint requires special access. Please contact support for more information.
+
+        >URL: [https://api.blubrry.com/2/stats/keyword/episode_id/apps/](https://api.blubrry.com/2/stats/keyword/episode_id/apps/)
+        >Formats: __JSON__
+
+        >Method: __GET__
+      operationId: "Episode Apps"
+      parameters:
+        - $ref: "#/components/parameters/StartDate"
+        - $ref: "#/components/parameters/EndDate"
+
+        - name: "keyword"
+          in: "path"
+          description: "Specifies the program"
+          required: true
+          schema:
+            type: "string"
+
+        - name: "episode_id"
+          in: "path"
+          description: "Specifies the episode"
+          required: true
+          schema:
+            type: "integer"
+
+      responses:
+        '200':
+          description: "Success"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Apps'
+        '400':
+          description: "Missing required field"
+        '403':
+          description: "User does not have access to this show"
+        '404':
+          description: "Show or episode does not exist"
+  /stats/{keyword}/widget/preview.json:
+    get:
+      tags:
+        - "Statistics"
+      summary: "Preview Widget"
+      description: |
+        Returns the data for drawing a preview of the stats widget. This endpoint is only available for shows with a hosting or standard statistics plan.
+
+        >URL: [https://api.blubrry.com/2/stats/keyword/widget/preview.json](https://api.blubrry.com/2/stats/keyword/widget/preview.json)
+
+        >Format: __JSON__
+
+        >Method: __GET__
+
+        >Note: Advanced parameters available upon request
+      operationId: "Widget"
+      parameters:
+        - name: "keyword"
+          in: "path"
+          description: "Required - Specifies the Program"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        '200':
+          description: "Success"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StatsWidget'
+        '400':
+          description: "Missing required field"
+  /stats/{keyword}/totals.json:
+    get:
+      tags:
+        - "Statistics"
+      summary: "Totals (Deprecated)"
+      description: |
+        Returns stats totals for a specified show/program. This endpoint is only available for shows with a hosting or standard statistics plan.
+
+        >URL: [https://api.blubrry.com/2/stats/keyword/totals.json](https://api.blubrry.com/2/stats/keyword/totals.json)
+
+        >Format: __JSON__
+
+        >Method: __GET__
+
+        >Note: Advanced parameters available upon request
+
+      operationId: "Totals"
+      x-code-samples:
+        - lang: 'PHP'
+          label: 'PHP'
+          source:
+            $ref: ../examples/php/statistics/totals
+        - lang: 'JavaScript'
+          label: 'NodeJS'
+          source:
+            $ref: ../examples/node/statistics/totals
+        - lang: 'C#'
+          label: 'C#'
+          source:
+            $ref: ../examples/c-sharp/statistics/totals
+        - lang: 'Python'
+          label: 'Python'
+          source:
+            $ref: ../examples/python/statistics/totals
+        - lang: 'Ruby'
+          label: 'Ruby'
+          source:
+            $ref: ../examples/ruby/statistics/totals
+      parameters:
+        - name: "keyword"
+          in: "path"
+          description: "Required - Specifies the Program"
+          required: true
+          schema:
+            type: "string"
+        - name: "start-date"
+          in: "query"
+          description: "Required - Start date for fetching Statistics data - formatted as YYYY-MM-DD"
+          required: true
+          schema:
+            type: "string"
+        - name: "end-date"
+          in: "query"
+          description: "End date for fetching Statistics data - formatted as YYYY-MM-DD. Defaults to start date if not specified. Start and end date range cannot exceed 45 days."
+          schema:
+            type: "string"
+        - name: "fields"
+          in: "query"
+          description: "Subset of fields to include in response - default: date, episode, downloads. Optional fields: url, title"
+          schema:
+            type: "string"
+            default: "data,episode,downloads"
+        - name: "start"
+          in: "query"
+          description: "First position of data to retrieve"
+          schema:
+            type: "integer"
+            default: 0
+        - name: "limit"
+          in: "query"
+          description: "Maximum number of records to include in the response"
+          schema:
+            type: "integer"
+            default: 1000
+            maximum: 1000
+            minimum: 1
+      responses:
+        '200':
+          description: "Success"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Total'
+        '400':
+          description: "Missing required field"
+        '403':
+          description: "User does not have access to this show"
+        '404':
+          description: "Show or episode does not exist"
+
+components:
+  headers:
+    xTotalHosted:
+      schema:
+        type: "integer"
+        description: "Number of programs that are available to query"
+    xTotalUnpublished:
+      schema:
+        type: "integer"
+        description: "Number of unpublished media fields available to query"
+    X-RawVoice-MD5-Checksum:
+      schema:
+        type: "string"
+        description: "MD5 checksum of the file uploaded"
+    X-RawVoice-Range:
+      schema:
+        type: "string"
+        description: "Range of start and end bytes which supports multi-PUT requests to upload content in chunks"
+
+  schemas:
+
+    Countries:
+      type: "object"
+      properties:
+        record_count:
+          type: "integer"
+          example: 2
+        114:
+          type: "object"
+          properties:
+            country_name:
+              type: "string"
+              example: Cambodia
+            total:
+              type: "integer"
+              example: 5000
+        223:
+          type: "object"
+          properties:
+            country_name:
+              type: "string"
+              example: Vietnam
+            total:
+              type: "integer"
+              example: 5000
+
+    Apps:
+      type: "object"
+      properties:
+        record_count:
+          type: "integer"
+          example: 2
+        144:
+          type: "object"
+          properties:
+            client_name:
+              type: "string"
+              example: Apple Podcasts
+            client_class_id:
+              type: "integer"
+              example: 5
+            total:
+              type: "integer"
+              example: 5000
+        207:
+          type: "object"
+          properties:
+            client_name:
+              type: "string"
+              example: Firefox
+            client_class_id:
+              type: "integer"
+              example: 2
+            total:
+              type: "integer"
+              example: 5000
+
+    AppTypes:
+      type: "object"
+      properties:
+        record_count:
+          type: "integer"
+          example: 1
+        5:
+          type: "object"
+          properties:
+            client_class_name:
+              type: "string"
+              example: Mobile Applications
+            total:
+              type: "integer"
+              example: 5000
+        2:
+          type: "object"
+          properties:
+            client_class_name:
+              type: "string"
+              example: Web browsers
+            total:
+              type: "integer"
+              example: 5000
+
+    StatsWidget:
+      type: "object"
+      properties:
+        program_keyword:
+          type: "string"
+        widget_title:
+          type: "string"
+        scale_min:
+          type: "number"
+        scale_max:
+          type: "integer"
+        scale_step:
+          type: "integer"
+        program_total:
+          type: "integer"
+        month_average:
+          type: "integer"
+        day_total_data:
+          type: "object"
+          description: "An associative array containing the totals for each of the most recent seven days"
+
+    Owner:
+      type: "object"
+      properties:
+        email:
+          type: "string"
+        name:
+          type: "string"
+
+    AppleCategory:
+      type: "object"
+      properties:
+        apple category 1:
+          type: "string"
+        apple category 2:
+          type: "string"
+        apple category 3:
+          type: "string"
+
+    Subscribe:
+      type: "object"
+      properties:
+        apple:
+          type: "string"
+        stitcher:
+          type: "string"
+        url:
+          type: "string"
+        google:
+          type: "string"
+        tunenin:
+          type: "string"
+        blubrry:
+          type: "string"
+        spotify:
+          type: "string"
+        iheart:
+          type: "string"
+        deezer:
+          type: "string"
+        pandora:
+          type: "string"
+
+    AddEpisode:
+      type: "object"
+      required:
+        - "status"
+        - "filename"
+        - "title"
+        - "content"
+      properties:
+        status:
+          description: "Set to draft (0) or public (1)"
+          type: "integer"
+          format: "tinyint"
+          enum:
+            - 0
+            - 1
+        filename:
+          description: "Podcast filename"
+          type: "string"
+          example: "GNC-2017-12-19.mp3"
+        title:
+          description: "Title of podcast"
+          type: "string"
+          example: "New Podcast Title!"
+        content:
+          description: "Podcast description or limited HTML version of show notes"
+          type: "string"
+          example: "Podcast description or limited HTML version of show notes"
+        explicit:
+          description: "Clean (2), Explicit (1), or None (0)"
+          type: "integer"
+          format: "tinyint"
+          enum:
+            - 0
+            - 1
+            - 2
+        itunes_title:
+          description: "Episode title for iTunes"
+          type: "string"
+          example: "Episode title for iTunes"
+        itunes_episode:
+          description: "(Deprecated) Episode title for iTunes"
+          type: "string"
+          example: "Episode Title for iTunes"
+        itunes_season:
+          description: "Season number for iTunes"
+          type: "integer"
+          example: "Season number for iTunes"
+        itunes_order:
+          description: "Order number for iTunes"
+          type: "integer"
+          example: "Order number for iTunes"
+        itunes_episode_number:
+          description: "Episode number for iTunes"
+          type: "integer"
+          example: "Episode number for iTunes"
+        release_date:
+          description: "Alternate post date"
+          type: "integer"
+          example: 1694647124
+        episode_type:
+          description: "Episode type"
+          type: "string"
+          example: "trailer, bonus, or full"
+        itunes_image:
+          description: "Episode image"
+          type: "string"
+          example: "Episode image"
+        podcast_link:
+          description: "Episode webpage"
+          type: "string"
+          example: "Episode webpage"
+        location:
+          description: "Episode location"
+          type: "string"
+          example: "city;Columbus;geo;geo:39.7837304,-100.445882;osm;R148838;"
+        credits:
+          description: "Episode credits"
+          type: "array"
+          example: "[{ 'person' => 'Joe Podcast', 'role' => 'host', 'img' => 'https://image.com/joepodcast.png', 'link' => 'https://aboutjoepodcast.com/' }, ...]"
+        podcast_subtitle:
+          description: "Podcast subtitle (Limited to 250 characters)"
+          type: "string"
+          example: "My podcast subtitle"
+    UpdateEpisode:
+      type: "object"
+      properties:
+        status:
+          description: "Set to draft (0) or public (1)"
+          type: "integer"
+          format: "tinyint"
+          enum:
+            - 0
+            - 1
+        filename:
+          description: "Podcast filename"
+          type: "string"
+          example: "http://media.blubrry.com/geeknewscentral/content.blubrry.com/geeknewscentral/GNC-2017-01-23.mp3"
+        title:
+          description: "Title of podcast"
+          type: "string"
+          example: "Title of podcast"
+        content:
+          description: "Podcast description or limited HTML version of show notes"
+          type: "string"
+          example: "Podcast description or limited HTML version of show notes"
+        explicit:
+          description: "Clean (2), Explicit (1), or None (0)"
+          type: "integer"
+          format: "tinyint"
+          enum:
+            - 0
+            - 1
+            - 2
+        itunes_title:
+          description: "Episode title for iTunes"
+          type: "string"
+          example: "Episode title for iTunes"
+        itunes_episode:
+          description: "(Deprecated) Episode title for iTunes"
+          type: "integer"
+          example: "Episode Title for iTunes"
+        itunes_season:
+          description: "Season number for iTunes"
+          type: "integer"
+          example: "Season number for iTunes"
+        itunes_order:
+          description: "Order number for iTunes"
+          type: "integer"
+          example: "Order number for iTunes"
+        itunes_episode_number:
+          description: "Episode number for iTunes"
+          type: "integer"
+          example: "Episode number for iTunes"
+        release_date:
+          description: "Alternate post date"
+          type: "integer"
+          example: 1694647124
+        itunes_image:
+          description: "Episode image"
+          type: "string"
+          example: "Episode image"
+        podcast_link:
+          description: "Episode webpage"
+          type: "string"
+          example: "Episode webpage"
+        location:
+          description: "Episode location"
+          type: "string"
+          example: "city;Columbus;geo;geo:39.7837304,-100.445882;osm;R148838;"
+        podcast_subtitle:
+          description: "Podcast subtitle (Limited to 250 characters)"
+          type: "string"
+          example: "My podcast subtitle"
+        credits:
+          description: "Episode credits"
+          type: "array"
+          example: "[{ 'person' => 'Joe Podcast', 'role' => 'host', 'img' => 'https://image.com/joepodcast.png', 'link' => 'https://aboutjoepodcast.com/' }, ...]"
+
+    Program:
+      type: "object"
+      required:
+        - "keyword"
+        - "title"
+        - "description"
+        - "apple category"
+        - "owner"
+        - "explicit"
+      properties:
+        keyword:
+          description: "Required - Specifies the Program"
+          type: "string"
+        title:
+          description: "Required - Title of Program"
+          type: "string"
+        description:
+          description: "Required - short Program description"
+          type: "string"
+        author:
+          description: "Author's name"
+          type: "string"
+        location:
+          description: "Author's location (example: Washington, DC)"
+          type: "string"
+        frequency:
+          description: "Program frequency (example: weekly, biweekly, monthly)"
+          type: "string"
+        link:
+          description: "Program html url"
+          type: "string"
+        explicit:
+          description: "iTunes explicit - 0 for none, 1 for explicit, 2 for clean"
+          type: "integer"
+          format: "tinyint"
+          enum:
+            - 0
+            - 1
+            - 2
+        last episode number:
+          description: "Most updated number of episodes"
+          type: "string"
+        media redirect url:
+          description: "Program redirect URL"
+          type: "string"
+        feed items:
+          description: "Posts per RSS - Default: 10, Minimum: 10, Maximum: 300"
+          type: "integer"
+          format: "int64"
+          default: 100
+          minimum: 10
+          maximum: 300
+        owner:
+          $ref: "#/components/schemas/Owner"
+        apple category:
+          $ref: "#/components/schemas/AppleCategory"
+        language:
+          type: "string"
+        donate url:
+          type: "string"
+        subscribe:
+          $ref: "#/components/schemas/Subscribe"
+
+    AllUnpublished:
+      type: "array"
+      items:
+        $ref: "#/components/schemas/Unpublished"
+      xml:
+        name: "file"
+
+    Unpublished:
+      type: "object"
+      properties:
+        name:
+          type: "string"
+        length:
+          type: "integer"
+          format: "int64"
+        created:
+          type: "string"
+        last_modified:
+          type: "string"
+
+    AllHosted:
+      type: "array"
+      items:
+        $ref: "#/components/schemas/Hosted"
+      xml:
+        name: "program"
+
+    Hosted:
+      type: "object"
+      properties:
+        program_title:
+          type: "string"
+          description: "The title of the program or podcast. This is the display name as it appears in directories or on user-facing interfaces."
+          example: "The Daily Podcast"
+
+        program_keyword:
+          type: "string"
+          description: "A unique keyword identifier for older programs, typically used in feed URLs. Deprecated for new programs in favor of 'program_id'."
+          example: "daily_podcast_keyword"
+
+        program_id:
+          type: "integer"
+          description: "The unique identifier for a program or podcast, used as the primary reference for media or stats related operations."
+          example: 12345
+
+        podcast_id:
+          type: "integer"
+          description: "The unique identifier for a program or podcast, used as the primary reference for media-related operations."
+          example: 12345
+
+        stats_program_id:
+          type: "integer"
+          description: "The unique identifier for a program or podcast, used as the primary reference for stats-related operations."
+          example: 78987
+
+        feed_url:
+          type: "string"
+          description: "The URL of the program's RSS feed. This can vary based on whether the feed is hosted with Blubrry, PowerPress, or a custom domain."
+          example: "https://feeds.blubrry.com/feeds/the_daily.xml"
+
+    AllMedia:
+      type: "array"
+      items:
+        $ref: "#/components/schemas/Media"
+      properties:
+        records:
+          type: "integer"
+
+    Media:
+      type: "object"
+      properties:
+        id:
+          type: "string"
+        status:
+          type: "string"
+
+    Delete:
+      type: "object"
+      properties:
+        text:
+          type: "string"
+
+    Publish:
+      type: "object"
+      properties:
+        text:
+          type: "string"
+        media_url:
+          type: "string"
+
+    Upload:
+      type: "object"
+      properties:
+        text:
+          type: "string"
+
+    Summary:
+      type: "object"
+      properties:
+        stats_url:
+          type: "string"
+          example: "https://stats.blubrry.com"
+        program_id:
+          type: "integer"
+          example: "12345"
+        overall:
+          type: "object"
+          properties:
+            total:
+              type: "integer"
+              example: "5000"
+            unique:
+              type: "integer"
+              example: "4000"
+            unique_repeat:
+              type: "integer"
+              example: "4000"
+        current_month:
+          type: "object"
+          properties:
+            total:
+              type: "integer"
+              example: "1000"
+            unique:
+              type: "integer"
+              example: "1700"
+            unique_repeat:
+              type: "integer"
+              example: "1250"
+        last_month:
+          type: "object"
+          properties:
+            total:
+              type: "integer"
+              example: "600"
+            unique:
+              type: "integer"
+              example: "450"
+            unique_repeat:
+              type: "integer"
+              example: "300"
+        media:
+          type: "array"
+          items:
+            type: "object"
+            properties:
+              id:
+                type: "integer"
+                example: "1234567"
+              title:
+                type: "string"
+                example: The Greatest Podcast Episode Ever
+              filename:
+                type: "string"
+                example: "ep1-greatest-ep-2020-01-05.mp3"
+              date:
+                type: "string"
+                example: "Mon, 01 Apr 2019 03:20:15 +0000"
+              overall:
+                type: "integer"
+                example: "750"
+              current_month:
+                type: "integer"
+                example: "120"
+
+    Total:
+      type: "object"
+      properties:
+        recordCount:
+          type: "integer"
+          example: "1"
+        results:
+          type: "object"
+          properties:
+            episode:
+              type: "string"
+              example: "episode1-2020-01-22.mp3"
+            date:
+              type: "string"
+              example: "2020-04-18"
+            url:
+              type: "string"
+              example: "https://content.blubrry.com/keyword/episode1-2020-01-22.mp3"
+            title:
+              type: "string"
+              example: "Episode 1"
+            downloads:
+              type: "string"
+              example: "856"
+
+    ApiResponse:
+      type: "object"
+      properties:
+        request:
+          type: "string"
+        message:
+          type: "string"
+
+    AddEpisodeSuccess:
+      type: "object"
+      properties:
+        status:
+          type: "string"
+          example: "Success"
+        success:
+          type: "string"
+          example: "Episode Posted Successfully"
+        created_at:
+          type: "string"
+          example: "Mon, 03 Feb 2020 19:06:58 +0000"
+        created_at_timestamp:
+          type: "string"
+          example: "1580756818"
+        episode_id:
+          type: "integer"
+          example: "22976504"
+        listing_url:
+          type: "string"
+          example: "https://blubrry.com/{keyword}/22976504/title/ (Note that this URL may not be live if the episode is in a draft state)"
+
+    UpdateEpisodeSuccess:
+      type: "object"
+      properties:
+        status:
+          type: "string"
+          example: "Success"
+        success:
+          type: "string"
+          example: "Episode Updated Successfully"
+        updated_at:
+          type: "string"
+          example: "Mon, 03 Feb 2020 19:06:58 +0000"
+        episode_id:
+          type: "integer"
+          example: "22976504"
+
+    UpdateEpisodeImageSuccess:
+      type: "object"
+      properties:
+        status:
+          type: "string"
+          example: "Success"
+        success:
+          type: "bool"
+          example: true
+        msg:
+          type: "string"
+          example: "Deleted existing episode image. Episode image file uploaded successfully."
+        updated_at:
+          type: "string"
+          example: "Mon, 03 Feb 2020 19:06:58 +0000"
+        episode_id:
+          type: "integer"
+          example: "88676548"
+        listing_url:
+          type: "string"
+          example: "https://blubrry.com/keyword/88676548/api-update-test-post/"
+        player_url:
+          type: "string"
+          example: "https://player.blubrry.com/?podcast_id=88676548"
+        episode_image_url:
+          type: "string"
+          example: "https://assets.blubrry.com/coverart/episode/747632/orig/88676548-1747687088.jpg"
+        episode_image_url_resized:
+          type: "string"
+          example: "https://assets.blubrry.com/coverart/episode/747632/160/88676548-1747687088.jpg"
+
+    DeleteEpisodeImageSuccess:
+      type: "object"
+      properties:
+        status:
+          type: "string"
+          example: "Success"
+        success:
+          type: "bool"
+          example: true
+        msg:
+          type: "string"
+          example: "Episode image file deleted successfully."
+        updated_at:
+          type: "string"
+          example: "Mon, 03 Feb 2020 19:06:58 +0000"
+        episode_id:
+          type: "integer"
+          example: "88676548"
+        listing_url:
+          type: "string"
+          example: "https://blubrry.com/keyword/88676548/api-update-test-post/"
+        player_url:
+          type: "string"
+          example: "https://player.blubrry.com/?podcast_id=88676548"
+
+    EpisodeKeywordError:
+      properties:
+        error:
+          type: "string"
+          example: "show keyword invalid"
+        code:
+          type: "string"
+          example: "episode_show_invalid"
+
+    RemoveMigrateMedia:
+      type: "object"
+      properties:
+        url:
+          type: "string"
+          description: "Individual URL to add to migration queue"
+        urls:
+          type: "array"
+          items:
+            type: "string"
+          description: "Multiple URLs separated by new lines to add to migration queue"
+        ids:
+          type: "array"
+          items:
+            type: "string"
+          description: "One or more unique migrate IDs"
+
+    AddMigrateMedia:
+      type: "object"
+      properties:
+        url:
+          type: "string"
+          description: "Individual URL to add to migration queue"
+        urls:
+          type: "array"
+          items:
+            type: "string"
+          description: "Multiple URLs separated by new lines to add to migration queue"
+
+    KeywordResult:
+      type: "object"
+      properties:
+        record_count:
+          type: "integer"
+          example: 1
+        results:
+          type: "object"
+          properties:
+            title:
+              type: "string"
+              example: "Your Show Title"
+            keyword:
+              type: "string"
+              example: "your_show_keyword"
+            total:
+              type: "integer"
+              example: 5000
+            full_downloads:
+              type: "integer"
+              example: 5000
+            partial_25:
+              type: "integer"
+              example: 5000
+            partial_50:
+              type: "integer"
+              example: 5000
+            partial_75:
+              type: "integer"
+              example: 5000
+            partial_99:
+              type: "integer"
+              example: 5000
+            id:
+              type: "string"
+              example: "1234567"
+
+    ShowEpisodesResult:
+      type: "object"
+      properties:
+        record_count:
+          type: "integer"
+          example: 1
+        title:
+          type: "string"
+          example: "Your Show Title"
+        keyword:
+          type: "string"
+          example: "your_show_keyword"
+        total:
+          type: "integer"
+          example: 5000
+        results:
+          type: "array"
+          items:
+            $ref: "#/components/schemas/EpisodeObject"
+
+    EpisodesResult:
+      type: "object"
+      properties:
+        record_count:
+          type: "integer"
+          example: 1
+        results:
+          type: "array"
+          items:
+            $ref: "#/components/schemas/EpisodeObject"
+
+    EpisodeObject:
+      type: "object"
+      properties:
+        episode_id:
+          type: "string"
+          example: "12345"
+        episode_label:
+          type: "string"
+          example: "Episode 1: Pilot"
+        episode_filename:
+          type: "string"
+          example: "episode1.mp3"
+        episode_date:
+          type: "string"
+          example: "04/25/2021"
+        duration_in_seconds:
+          type: "string"
+          example: "3600"
+        total:
+          type: "string"
+          example: "1000"
+        full_downloads:
+          type: "string"
+          example: "1000"
+        partial_25:
+          type: "integer"
+          example: 5000
+        partial_50:
+          type: "integer"
+          example: 5000
+        partial_75:
+          type: "integer"
+          example: 5000
+        partial_99:
+          type: "integer"
+          example: 5000
+
+    EpisodeListObject:
+      type: "object"
+      properties:
+        id:
+          type: "integer"
+          example: 111853976
+          description: "ID corresponding to a podcast episode"
+        title:
+          type: "string"
+          example: "Hired Help For Your Podcast – PCI 357"
+          description: "Title of episode"
+        program_id:
+          type: "string"
+          example: 809313
+          description: "ID corresponding to a podcast listing"
+        program_title:
+          type: "string"
+          example: "Podcast Insider"
+          description: "The name of the podcast show"
+        program_keyword:
+          type: "string"
+          example: "podcastinsider"
+          description: "A unique string ID for a podcast"
+        filename:
+          type: "string"
+          example: "PCI-2023-8-3.mp3"
+          description: "Filename of source media"
+        duration:
+          type: "integer"
+          example: 1188
+          description: "Length of episode in seconds"
+        description:
+          type: "string"
+          example: >
+            <strong>Are you considering hired help for your podcast?</strong>
+            <p><img class="alignleft size-full wp-image-87656" src="https://blubrry.com/wp-content/uploads/2023/08/Consultant_150x100.jpg" alt="Two women sitting at conference table facing each other" width="150" height="100" />In today’s episode we’ll be discussing eight factors to consider when hiring a paid podcast consultant for your podcast. Often times the podcast host is a jack of all trades for their show, which while admirable can be improved with hired help. If you’re looking to expand your podcast team, look no further to decide if that may be a good idea. First things first, what exactly do we mean when we say podcast consultant – read below for our explanation.</p>
+            <p><strong>Podcast Consultant:</strong> A podcast pro that provides guidance and expertise related to podcasting. Encompassing but not limited to: technical, developmental, and creative know-how; can be across the board or more dedicated to a specific aspect or task such as equipment and setup or audience growth tactics.</p>
+            <strong>Today’s Hosts: Mike Dell and MacKenzie Bennett</strong>
+            <strong>When hiring a podcast consultant, you should consider the following factors:</strong>
+            <p><strong>Budget:</strong> Be upfront about what you are wanting to spend and make sure you can sustain that budget for the long run.</p>
+            <p><strong>Experience:</strong> How much experience does the consultant have with podcasting? Have they worked on successful podcasts before? Their past experience can provide you with a sense of their skills and capabilities.</p>
+            <p><strong>Knowledge of the Industry:</strong> The podcasting industry is constantly changing. A good consultant should be up-to-date with current trends, technologies, and strategies in podcasting. They should understand the podcasting market and the specific niche that your podcast falls into.</p>
+            <p><strong>Technical Skills:</strong> Podcasting involves both content creation and technical setup. Your consultant should have knowledge about podcast recording, editing, equipment, software, and hosting platforms. They should also be familiar with podcast distribution and analytics.</p>
+            <p><strong>Marketing and Promotion:</strong> It’s not enough to just create a podcast, you need to get it heard. Your consultant should know how to effectively promote a podcast, including social media strategies, SEO for podcasts, and partnerships or sponsorships.</p>
+            <p><strong>Good Communication Skills:</strong> The consultant should be able to communicate clearly and effectively. They should be able to understand your vision for the podcast and help you achieve it. Regular updates and feedback are essential for a successful working relationship.</p>
+            <p><strong>References and Reviews:</strong> Check the consultant’s references and reviews from previous clients. This can give you a sense of their reliability and effectiveness.</p>
+            <p><strong>A Passion for Podcasting:</strong> Finally, a good podcast consultant should be passionate about podcasting. This passion will drive them to stay updated on industry changes, put in the extra effort to ensure the success of your podcast, and provide the energy needed to keep your project moving forward.</p>
+            <p>Just a tip…Make sure YOU keep all admin logins/passwords for your site, your hosting plan and make sure YOU are paying the hosting bills directly.</p>
+            <p class="p4">The best place for support with any Blubrry product or service is our <a href="https://blubrry.com/support/">ticket system</a>. Tickets give the whole team access vs. direct emails or calls.</p>
+            <p class="p5">Fill out our listener survey at <a href="https://surveys.blubrry.com/podcastinsider">surveys.blubrry.com/podcastinsider.</a></p>
+            <ul class="ul1"><li class="li6">Hosting customers can schedule a one-on-one call with Todd or a tech checkup with Mike.
+            <ul class="ul2"><li class="li7">todd@blubrry.com and mike@blubrry.com</li>
+            </ul></li>
+            </ul>
+          description: "Podcast description with HTML"
+        summary:
+          type: "string"
+          example: >
+            Are you considering hired help for your podcast?
+            In today's episode we'll be discussing eight factors to consider when hiring a paid podcast consultant for your podcast. Often times the podcast host is a jack of all trades for their show, which while admirable can be improved with hired help. If you're looking to expand your podcast team, look no further to decide if that may be a good idea. First things first, what exactly do we mean when we say podcast consultant - read below for our explanation.
+            Podcast Consultant: A podcast pro that provides guidance and expertise related to podcasting. Encompassing but not limited to: technical, developmental, and creative know-how; can be across the board or more dedicated to a specific aspect or task such as equipment and setup or audience growth tactics.
+            Today's Hosts: Mike Dell and MacKenzie Bennett
+            When hiring a podcast consultant, you should consider the following factors:
+            Budget: Be upfront about what you are wanting to spend and make sure you can sustain that budget for the long run.
+            Experience: How much experience does the consultant have with podcasting? Have they worked on successful podcasts before? Their past experience can provide you with a sense of their skills and capabilities.
+            Knowledge of the Industry: The podcasting industry is constantly changing. A good consultant should be up-to-date with current trends, technologies, and strategies in podcasting. They should understand the podcasting market and the specific niche that your podcast falls into.
+            Technical Skills: Podcasting involves both content creation and technical setup. Your consultant should have knowledge about podcast recording, editing, equipment, software, and hosting platforms. They should also be familiar with podcast distribution and analytics.
+            Marketing and Promotion: It's not enough to just create a podcast, you need to get it heard. Your consultant should know how to effectively promote a podcast, including social media strategies, SEO for podcasts, and partnerships or sponsorships.
+            Good Communication Skills: The consultant should be able to communicate clearly and effectively. They should be able to understand your vision for the podcast and help you achieve it. Regular updates and feedback are essential for a successful working relationship.
+            References and Reviews: Check the consultant's references and reviews from previous clients. This can give you a sense of their reliability and effectiveness.
+            A Passion for Podcasting: Finally, a good podcast consultant should be passionate about podcasting. This passion will drive them to stay updated on industry changes, put in the extra effort to ensure the success of your podcast, and provide the energy needed to keep your project moving forward.
+            Just a tip...Make sure YOU keep all admin logins/passwords for your site, your hosting plan and make sure YOU are paying the hosting bills directly.
+            The best place for support with any Blubrry product or service is our  ticket system. Tickets give the whole team access vs. direct emails or calls.
+            Fill out our listener survey at surveys.blubrry.com/podcastinsider.
+             	Hosting customers can schedule a one-on-one call with Todd or a tech checkup with Mike.
+             	todd@blubrry.com and mike@blubrry.com
+          description: "Podcast summary as text"
+        post_date:
+          type: "string"
+          example: "21:54:10 2023-08-03"
+          description: "Post date in H:i:s Y-m-d"
+        media_url:
+          type: "string"
+          example: "https://media.blubrry.com/podcastinsider/d/content.blubrry.com/podcastinsider/PCI-2023-8-3.mp3"
+          description: "URL for media"
+        player_url:
+          type: "string"
+          example: "https://player.blubrry.com/?podcast_id=111853976"
+          description: "URL for player"
+        listing_url:
+          type: "string"
+          example: "https://blubrry.com/podcastinsider/111853976/hired-help-for-your-podcast-pci-357/"
+          description: "URL for blubrry directory"
+        itunes_title:
+          type: "string"
+          example: "Podcast Insider"
+          description: "The name of the podcast show"
+        itunes_episode:
+          type: "string"
+          example: "Hired Help For Your Podcast – PCI 357"
+          description: "Title of episode"
+        itunes_season:
+          type: "integer"
+          example: 2
+          description: "Itunes season number"
+        podcast_link:
+          type: "string"
+          example: "https://blubrry.com/podcastinsider/111853976/hired-help-for-your-podcast-pci-357/"
+          description: "Link to episode webpage"
+        episode_type:
+          type: "string"
+          example: "trailer, bonus, or full"
+          description: "Episode type"
+        itunes_image:
+          type: "string"
+          example: "https://geeknewscentral.com/wp-content/uploads/2025/01/ai_im_2-5.jpg"
+          description: "Episode image"
+        location:
+          type: "string"
+          example: "city;Columbus;geo;geo:39.7837304,-100.445882;osm;R148838;"
+          description: "Episode location"
+        itunes_episode_number:
+          type: "integer"
+          example: 2
+          description: "Itunes episode number"
+        itunes_order:
+          type: "integer"
+          example: 2
+          description: "Order number for iTunes"
+        credits:
+          type: "array"
+          example: "[{ 'person' => 'Joe Podcast', 'role' => 'host', 'img' => 'https://image.com/joepodcast.png', 'link' => 'https://aboutjoepodcast.com/' }, ...]"
+          description: "Episode credits"
+
+    EpisodeListObjectArray:
+      type: "array"
+      items:
+        $ref: "#/components/schemas/EpisodeListObject"
+
+  requestBodies:
+    Program:
+      content:
+        application/json:
+          schema:
+            type: "object"
+            allOf:
+              - $ref: "#/components/schemas/Program"
+
+    Episode:
+      content:
+        application/json:
+          schema:
+            type: "object"
+            allOf:
+              - $ref: "#/components/schemas/AddEpisode"
+
+    RemoveMigrateMedia:
+      content:
+        application/x-www-form-urlencoded:
+          schema:
+            type: "object"
+            allOf:
+              - $ref: "#/components/schemas/RemoveMigrateMedia"
+
+    AddMigrateMedia:
+      content:
+        application/x-www-form-urlencoded:
+          schema:
+            type: "object"
+            allOf:
+              - $ref: "#/components/schemas/AddMigrateMedia"
+
+  parameters:
+    ProgramKeyword:
+      name: "keyword"
+      in: "path"
+      description: "Required - Program keyword"
+      required: true
+      schema:
+        type: "string"
+    Limit:
+      name: "limit"
+      in: "query"
+      description: "Optional - Number of results returned"
+      required: false
+      schema:
+        type: "integer"
+        minimum: 1
+        maximum: 50
+        default: 10
+    Offset:
+      name: "offset"
+      in: "query"
+      description: "Optional - Number of results to skip"
+      required: false
+      schema:
+        type: "integer"
+        minimum: 0
+        default: 0
+    StartDate:
+      name: "startDate"
+      in: "query"
+      description: "Optional - Specifies the start date range"
+      required: false
+      schema:
+        type: "string"
+        example: "2023-12-01"
+    EndDate:
+      name: "endDate"
+      in: "query"
+      description: "Optional - Specifies the end date range"
+      required: false
+      schema:
+        type: "string"
+        example: "2023-12-31"
+    EpisodeId:
+      name: "episode_id"
+      in: "path"
+      description: "Required - Episode ID"
+      required: true
+      schema:
+        type: "integer"

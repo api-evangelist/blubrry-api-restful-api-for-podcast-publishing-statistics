@@ -1,0 +1,70 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements — Blubrry Podcast Hosting & Statistics API
+  version: 1.0.0
+extends: openapi/blubrry-api-restful-api-for-podcast-publishing-statistics-podcaster-openapi.yaml
+x-generated: '2026-09-06'
+x-method: generated
+x-source: https://blubrry.com/developer/api/podcaster.yaml + https://blubrry.com/developer/api/oauth-2/
+x-note: Non-destructive Overlay 1.0.0 capturing the API Evangelist enrichment of Blubrry's own contract.
+  Every value here is traceable to Blubrry's published documentation or to a live probe recorded in this
+  repository; nothing is invented, and the original spec is not mutated.
+actions:
+- target: $.components
+  description: Blubrry documents OAuth 2.0 on https://blubrry.com/developer/api/oauth-2/ but the published
+    contract declares no securitySchemes. Add the documented scheme so the contract states its own auth
+    model.
+  update:
+    securitySchemes:
+      OAuth2:
+        type: oauth2
+        description: OAuth 2.0 authorization-code. Client ID/secret are created from Manage Account ->
+          Developers -> Create API Key. Access tokens expire after 1 hour; refresh tokens do not expire
+          but can be revoked. No scopes are supported. Documented at https://blubrry.com/developer/api/oauth-2/
+        flows:
+          authorizationCode:
+            authorizationUrl: https://api.blubrry.com/oauth2/authorize
+            tokenUrl: https://api.blubrry.com/oauth2/token
+            refreshUrl: https://api.blubrry.com/oauth2/token
+            scopes: {}
+- target: $
+  description: Apply the documented OAuth 2.0 requirement to every operation; the API rejects unauthenticated
+    calls with 401.
+  update:
+    security:
+    - OAuth2: []
+- target: $.info
+  description: Record the provenance, the authoritative source of this contract, and the enrichment artifacts
+    derived from it.
+  update:
+    x-apis-io-source: https://blubrry.com/developer/api/podcaster.yaml
+    x-apis-io-provider: blubrry-api-restful-api-for-podcast-publishing-statistics
+    x-apis-io-artifacts:
+    - conventions/blubrry-api-restful-api-for-podcast-publishing-statistics-conventions.yml
+    - errors/blubrry-api-restful-api-for-podcast-publishing-statistics-problem-types.yml
+    - data-model/blubrry-api-restful-api-for-podcast-publishing-statistics-data-model.yml
+    - lifecycle/blubrry-api-restful-api-for-podcast-publishing-statistics-lifecycle.yml
+    - conformance/blubrry-api-restful-api-for-podcast-publishing-statistics-conformance.yml
+- target: $.info
+  description: 'State the runtime facts the contract omits: no published rate limits, no rate-limit response
+    headers, no idempotency mechanism on the 8 mutating operations, and no delete-episode operation (addEpisode
+    is irreversible through the API).'
+  update:
+    x-rate-limits:
+      documented: false
+      headers: []
+      status_on_exhaustion: null
+      source: rate-limits/blubrry-api-restful-api-for-podcast-publishing-statistics-rate-limits.yml
+    x-idempotency:
+      supported: false
+      coverage: none
+      source: conventions/blubrry-api-restful-api-for-podcast-publishing-statistics-conventions.yml
+    x-reversibility:
+      grade: documented
+      coverage: partial
+      source: conventions/blubrry-api-restful-api-for-podcast-publishing-statistics-conventions.yml
+- target: $.paths['/stats/{keyword}/totals.json'].get
+  description: The summary says "(Deprecated)" but the OpenAPI deprecated flag is not set, so tooling
+    that reads the flag cannot see it. Set it.
+  update:
+    deprecated: true

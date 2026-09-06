@@ -1,4 +1,4 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
   title: Blubrry Podcast Hosting & Statistics Episode Media API
   version: '2'
@@ -168,14 +168,10 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
 components:
+  responses:
+    Unauthorized:
+      description: Missing or invalid access token.
   parameters:
-    Keyword:
-      name: keyword
-      in: path
-      required: true
-      description: Program keyword that identifies the show.
-      schema:
-        type: string
     Format:
       name: format
       in: path
@@ -193,9 +189,13 @@ components:
       description: Media filename including extension.
       schema:
         type: string
-  responses:
-    Unauthorized:
-      description: Missing or invalid access token.
+    Keyword:
+      name: keyword
+      in: path
+      required: true
+      description: Program keyword that identifies the show.
+      schema:
+        type: string
   securitySchemes:
     OAuth2:
       type: oauth2

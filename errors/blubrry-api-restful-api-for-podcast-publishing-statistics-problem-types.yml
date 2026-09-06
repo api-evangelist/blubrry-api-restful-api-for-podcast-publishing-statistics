@@ -1,0 +1,101 @@
+generated: '2026-09-06'
+method: derived
+source: >-
+  openapi/blubrry-api-restful-api-for-podcast-publishing-statistics-podcaster-openapi.yaml
+  (Blubrry's own published contract), plus a live probe of https://api.blubrry.com/2/media/index.json
+format: vendor-json
+rfc9457: false
+note: >-
+  Blubrry does not use RFC 9457 application/problem+json. Two different error envelopes are in
+  play and they disagree, which is the finding: the published contract types its 400/401 bodies
+  as {error, code} (schema EpisodeKeywordError) while the live API returns
+  {error: <int>, error_description: <string>} — observed on an unauthenticated call. The 403
+  and 404 responses in the contract declare no content at all. There is no error-reference page
+  on the developer portal, so titles and remediation below are derived from the contract's own
+  response descriptions and example values, never invented.
+envelopes:
+- name: EpisodeKeywordError
+  source: contract
+  media_type: application/json
+  shape:
+    error: string   # human-readable message, e.g. "show keyword invalid"
+    code: string    # machine token, e.g. "episode_show_invalid"
+  used_by_status: ['400', '401']
+- name: OAuthError
+  source: probed
+  media_type: application/json
+  shape:
+    error: integer            # the HTTP status repeated as a number
+    error_description: string
+  evidence:
+    url: https://api.blubrry.com/2/media/index.json
+    status: 401
+    body: '{"error":401,"error_description":"Unauthorized - Check Authentication"}'
+  used_by_status: ['401']
+problem_types:
+- id: episode_show_invalid
+  status: 400
+  title: Show keyword invalid
+  detail: The program keyword in the path does not identify a show on this account.
+  envelope: EpisodeKeywordError
+  example_code: episode_show_invalid
+  example_error: show keyword invalid
+  remediation: >-
+    Call listPrograms (GET /media/index.{format}) to get the keywords the token's account can
+    address, and use one of those.
+  operations: [getEpisodes, addEpisode, updateEpisode, updateEpisodeImage, deleteEpisodeImage, getEpisode]
+- id: episode_not_found
+  status: 401
+  title: Episode not found
+  detail: >-
+    Declared on getEpisode. Blubrry returns 401 rather than 404 here, which is a contract
+    oddity worth knowing before writing retry logic — a 401 on this operation does not
+    necessarily mean the token is bad.
+  envelope: EpisodeKeywordError
+  example_code: episode_not_found
+  remediation: Verify the episode_id belongs to the show keyword before retrying; do not refresh the token on this 401 alone.
+  operations: [getEpisode]
+- id: missing_keyword
+  status: 400
+  title: Missing keyword
+  detail: The required program keyword path parameter was absent.
+  envelope: unspecified
+  remediation: Supply the keyword path parameter.
+  operations: [listUnpublishedMedia, publishMedia, uploadMedia, deleteMedia, migrateMediaStatus]
+- id: missing_required_field
+  status: 400
+  title: Missing required field
+  detail: A required form field in the request body was absent.
+  envelope: unspecified
+  remediation: >-
+    Check the request body schema for the operation (AddEpisode / UpdateEpisode /
+    AddMigrateMedia / RemoveMigrateMedia); all Blubrry write bodies are
+    application/x-www-form-urlencoded or multipart/form-data, not JSON.
+  operations_count: 12
+- id: show_access_denied
+  status: 403
+  title: User does not have access to this show
+  detail: >-
+    The authorized account is not entitled to the requested show. Blubrry's OAuth has no
+    scopes, so this is the only authorization boundary in the API — it is per-show, not
+    per-permission.
+  envelope: unspecified
+  remediation: Re-run the authorization-code flow against an account that owns the show, or use a keyword returned by listStatsPrograms.
+  operations_count: 11
+- id: show_or_episode_not_found
+  status: 404
+  title: Show or episode does not exist
+  detail: The show keyword or episode id does not resolve.
+  envelope: unspecified
+  remediation: Resolve the keyword via listPrograms / listStatsPrograms and the episode id via getEpisodes before calling.
+  operations_count: 11
+summary:
+  status_codes: ['400', '401', '403', '404']
+  distinct_problem_types: 6
+  rfc9457_conformant: false
+  documented_error_reference_page: false
+gaps:
+- No 429 / rate-limit error is declared anywhere in the contract.
+- No 5xx responses are declared on any of the 27 operations.
+- 403 and 404 responses declare no response body schema, so an agent cannot parse a reason.
+- The contract envelope ({error,code}) and the live envelope ({error,error_description}) differ.

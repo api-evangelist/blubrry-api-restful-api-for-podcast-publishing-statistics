@@ -1,0 +1,126 @@
+# Blubrry
+
+> Blubrry is a podcast hosting, publishing and audience-measurement platform, operated by RawVoice and in
+> business since 2005. Its v2 REST API covers media hosting, episode publishing and podcast download
+> statistics, and its statistics are IAB Tech Lab certified. Blubrry publishes a first-party OpenAPI 3.0.0
+> contract covering 27 operations across three tags: Episode, Media and Statistics.
+
+Generated 2026-09-06 by the API Evangelist enrichment pipeline from Blubrry's own published contract and
+developer documentation. Blubrry does not serve an /llms.txt of its own (probed 2026-09-06, HTTP 403 from
+the S3 origin, which is that host's shape for "no such path").
+
+Base URL: https://api.blubrry.com/2
+Auth: OAuth 2.0 authorization-code. Bearer access token, 1 hour TTL. Refresh tokens do not expire.
+      No scopes — a token is account-wide, bounded only by a per-show 403.
+Contract: https://blubrry.com/developer/api/podcaster.yaml (OpenAPI 3.0.0)
+
+## Contract
+
+- [OpenAPI 3.0.0 (first-party, verbatim)](https://blubrry.com/developer/api/podcaster.yaml): 25 paths, 27 operations, 35 component schemas.
+- [API reference (ReDoc)](https://blubrry.com/developer/api/podcaster.html): the rendered contract.
+- [Developer portal](https://blubrry.com/developer/): PowerPress plugin internals, WebDAV media upload, RawVoice RSS.
+
+## Documentation
+
+- [Blubrry Podcast API overview](https://blubrry.com/developer/api/): what each of the four API areas does.
+- [OAuth 2 authentication](https://blubrry.com/developer/api/oauth-2/): authorization-code flow, token lifetimes, credential creation.
+- [API Licensing Agreement](https://blubrry.com/developer/api/api-licensing-agreement/): the terms governing API use.
+- [Support documentation index](https://blubrry.com/support/documentation-index/)
+- [Getting started](https://blubrry.com/support/getting-started/)
+
+## Getting credentials
+
+1. Sign in to your Blubrry account at https://blubrry.com/signin.php
+2. Choose "Manage Account" from the account menu.
+3. Under "Developers", select "Create API Key" to get a client ID and secret.
+4. Run the authorization-code flow against https://api.blubrry.com/oauth2/authorize
+5. Exchange the code at https://api.blubrry.com/oauth2/token (client_secret_basic).
+
+## Operations
+
+### Media (8)
+- listPrograms — GET /media/index.{format} — the shows this token can address.
+- listUnpublishedMedia — GET /media/{keyword}/index.{format}
+- uploadMedia — PUT /media/{keyword}/{mediafile.ext} — chunked via X-RawVoice-Range, MD5 checksum returned.
+- publishMedia — GET /media/{keyword}/{mediafile.ext}
+- deleteMedia — DELETE /media/{keyword}/{mediafile.ext} — destructive, no restore.
+- post_addMigrateMedia — POST /media/{keyword}/migrate_add.json
+- post_removeMigrateMedia — POST /media/{keyword}/migrate_remove.json
+- migrateMediaStatus — GET /media/{keyword}/migrate_status.json
+
+### Episode (6)
+- getEpisodes — GET /episode/{keyword}/ — limit 1-50 (default 10), offset.
+- getEpisode — GET /episode/{keyword}/{episode_id}/
+- addEpisode — POST /episode/{keyword}/add — publish, schedule or draft. NOT reversible via the API.
+- updateEpisode — POST /episode/{keyword}/update/{episode_id}/
+- updateEpisodeImage — PUT /episode/{keyword}/update-image/{episode_id}/
+- deleteEpisodeImage — DELETE /episode/{keyword}/delete-image/{episode_id}/
+
+### Statistics (13)
+- listStatsPrograms — GET /stats/index.{format}
+- keyword — GET /stats/{keyword}/ — show totals.
+- Summary — GET /stats/{keyword}/summary.{format} — overall, current month, last month, per media.
+- Totals — GET /stats/{keyword}/totals.json — DEPRECATED, no sunset date published.
+- episodes — GET /stats/{keyword}/episodes/ — per-episode totals with partial-play buckets (25/50/75/99%).
+- show-episodes — GET /stats/{keyword}/show-episodes/
+- Show Countries / Apps / App Types — GET /stats/{keyword}/{countries,apps,app-types}/
+- Episode Countries / Apps / App Types — GET /stats/{keyword}/{episode_id}/{countries,apps,app-types}/
+- Widget — GET /stats/{keyword}/widget/preview.json
+
+## Calling conventions
+
+- Request bodies are application/x-www-form-urlencoded or multipart/form-data. Blubrry accepts NO JSON bodies.
+- Responses are application/json. Some read paths take a {format} extension (index.json, summary.json).
+- Everything is addressed by the show's `keyword` (a slug), not by a numeric id. Get keywords from listPrograms.
+- Pagination is limit/offset and exists ONLY on getEpisodes. Media and statistics listings are unpaginated;
+  volume is reported after the fact in the xTotalHosted / xTotalUnpublished response headers.
+- Statistics accept startDate and endDate query parameters (YYYY-MM-DD).
+- Errors: 400, 401, 403, 404. Two envelopes are in play — {error, code} in the contract and
+  {"error": 401, "error_description": "..."} live. Not RFC 9457. No 429 and no 5xx are declared.
+- NOTE: getEpisode returns 401 (not 404) with code episode_not_found for a missing episode. Do not refresh
+  the token on that 401 alone.
+
+## What Blubrry does NOT publish
+
+Recorded honestly so an agent does not go looking:
+- No rate limits. No RateLimit-*, X-RateLimit-* or Retry-After header on any response (probed 2026-09-06).
+- No idempotency key on any of the 8 mutating operations. A retried addEpisode creates a second episode.
+- No delete-episode operation. An episode published in error must be removed from the web dashboard.
+- No status page, no API changelog, no deprecation policy, no SLA.
+- No webhooks and no AsyncAPI — Blubrry has no event surface.
+- No MCP server and no A2A agent card.
+- No /.well-known/ documents on any Blubrry host (32 paths probed across 4 hosts, 0 served).
+- No sandbox or test mode.
+- The Podcast Network API is described in prose but its reference page
+  (https://blubrry.com/developer/api/network.html) no longer resolves.
+
+## Client libraries
+
+- blubrry/blubrry-api (PHP, Apache-2.0, https://github.com/blubrry/blubrry-api) — first-party, but not
+  published to Packagist and last committed 2019-09-18.
+- PowerPress (WordPress plugin, https://wordpress.org/plugins/powerpress/) — first-party and actively
+  maintained (11.17.9, 2026-08-28), but a publishing plugin rather than an API client.
+- day4/blubrry-sdk (PHP, Packagist, 2.0.0 / 2020-10-12) — third-party, not endorsed by Blubrry.
+
+## Pricing
+
+https://blubrry.com/services/plans-pricing/ — hosting is priced on monthly publishing HOURS, not on API
+calls: Standard 1.5 ($7), Standard 3 ($15), Advanced 6 ($25), Advanced 12 ($50), Advanced 25 ($90), Pro
+Unlimited (from $100, bandwidth usage fees). Statistics: Free, Standard ($5/mo), Advanced (bundled with
+Advanced hosting, and the only tier carrying IAB-certified measurement). The API itself is not metered or
+priced separately, and no tier gates API access.
+
+## Standards
+
+- OAuth 2.0 (RFC 6749) and Bearer tokens (RFC 6750) — documented and implemented.
+- IAB Tech Lab Podcast Measurement Certification — Blubrry states it was the first podcast host to achieve
+  IAB Certified Compliance. This is the domain standard for podcast audience measurement and it is what
+  makes the Statistics API's numbers comparable across hosts.
+- The AddEpisode/UpdateEpisode write schema is field-for-field an RSS/iTunes podcast item.
+
+## Optional
+
+- [Podcast Insider blog](https://blubrry.com/podcast-insider/) and [feed](https://blubrry.com/podcast-insider/feed/)
+- [Partners](https://blubrry.com/services/partners/)
+- [Terms of service](https://blubrry.com/about/terms-of-service/)
+- [Privacy policy](https://blubrry.com/about/privacy-policy/)
