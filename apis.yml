@@ -85,6 +85,12 @@ apis:
   - Statistics
   - Analytics
   - Downloads
+  - Audiences
+  tags_raw:
+  - Podcasting
+  - Statistics
+  - Analytics
+  - Downloads
   - Audience
   properties:
   - type: Documentation
@@ -98,7 +104,7 @@ apis:
   baseURL: https://api.blubrry.com/2
   tags:
   - Podcasting
-  - Network
+  - Networks
   - Subscription
   - Directory
   tags_raw:
