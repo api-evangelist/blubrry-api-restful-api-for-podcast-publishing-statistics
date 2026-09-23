@@ -1,9 +1,8 @@
 {
   "provider": "blubrry-api-restful-api-for-podcast-publishing-statistics",
   "sources": [
-    "blubrry-api-restful-api-for-podcast-publishing-statistics-episode-api-openapi.yml",
-    "blubrry-api-restful-api-for-podcast-publishing-statistics-media-api-openapi.yml",
-    "blubrry-api-restful-api-for-podcast-publishing-statistics-statistics-api-openapi.yml"
+    "_original/blubrry-api-restful-api-for-podcast-publishing-statistics-openapi.yml",
+    "_original/blubrry-api-restful-api-for-podcast-publishing-statistics-podcaster-openapi.yaml"
   ],
   "outputs": [
     "blubrry-api-restful-api-for-podcast-publishing-statistics-episode-api-openapi.yml",
@@ -14,10 +13,17 @@
   "errors": [],
   "warnings": [],
   "notes": [
-    "blubrry-api-restful-api-for-podcast-publishing-statistics-episode-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
-    "blubrry-api-restful-api-for-podcast-publishing-statistics-media-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
-    "blubrry-api-restful-api-for-podcast-publishing-statistics-statistics-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "sourced from openapi/_original/ (2 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "blubrry-api-restful-api-for-podcast-publishing-statistics-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "blubrry-api-restful-api-for-podcast-publishing-statistics-podcaster-openapi.yaml: upgraded openapi 3.0.0 -> OpenAPI 3.2.0",
+    "tag 'Episode' spans 2 source specs (blubrry-api-restful-api-for-podcast-publishing-statistics-openapi.yml, blubrry-api-restful-api-for-podcast-publishing-statistics-podcaster-openapi.yaml): per-path servers applied",
+    "tag 'Media' spans 2 source specs (blubrry-api-restful-api-for-podcast-publishing-statistics-openapi.yml, blubrry-api-restful-api-for-podcast-publishing-statistics-podcaster-openapi.yaml): per-path servers applied",
+    "tag 'Statistics' spans 2 source specs (blubrry-api-restful-api-for-podcast-publishing-statistics-openapi.yml, blubrry-api-restful-api-for-podcast-publishing-statistics-podcaster-openapi.yaml): per-path servers applied",
     "apis.yml register: already-registered"
   ],
-  "skipped": []
+  "skipped": [
+    "blubrry-api-restful-api-for-podcast-publishing-statistics-episode-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "blubrry-api-restful-api-for-podcast-publishing-statistics-media-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "blubrry-api-restful-api-for-podcast-publishing-statistics-statistics-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }

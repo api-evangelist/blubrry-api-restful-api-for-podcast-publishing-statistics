@@ -1,27 +1,11 @@
 openapi: 3.2.0
 info:
-  title: Blubrry Podcast Hosting & Episode Statistics API
-  version: '2'
-  description: 'REST API for podcast publishing, media hosting, episode management, and
-
-    podcast download statistics on Blubrry. Authentication is OAuth 2.0
-
-    Bearer; obtain a client_id / secret from Blubrry and request an access
-
-    token at https://api.blubrry.com/oauth2/token.
-
-
-    Source spec: https://blubrry.com/developer/api/podcaster.yaml
-
-    '
-  contact:
-    name: Blubrry Developer
-    url: https://blubrry.com/developer/api/
+  title: Blubrry Api Restful Api For Podcast Publishing Statistics…
+  version: '1.0'
+  description: 'Operations tagged Statistics across 2 of this provider''s published API definitions: blubrry-api-restful-api-for-podcast-publishing-statistics-openapi.yml, blubrry-api-restful-api-for-podcast-publishing-statistics-podcaster-openapi.yaml. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://api.blubrry.com/2
   description: Production
-security:
-- OAuth2: []
 tags:
 - name: Statistics
   description: Podcast download statistics.
@@ -39,6 +23,11 @@ paths:
           description: Shows returned.
         '401':
           $ref: '#/components/responses/Unauthorized'
+      security:
+      - OAuth2: []
+    servers:
+    - url: https://api.blubrry.com/2
+      description: Production
   /stats/{keyword}/summary.{format}:
     get:
       tags:
@@ -54,6 +43,11 @@ paths:
           description: Summary returned.
         '401':
           $ref: '#/components/responses/Unauthorized'
+      security:
+      - OAuth2: []
+    servers:
+    - url: https://api.blubrry.com/2
+      description: Production
   /stats/{keyword}/show-episodes/:
     get:
       tags:
@@ -67,6 +61,11 @@ paths:
           description: Episode stats returned.
         '401':
           $ref: '#/components/responses/Unauthorized'
+      security:
+      - OAuth2: []
+    servers:
+    - url: https://api.blubrry.com/2
+      description: Production
   /stats/{keyword}/:
     get:
       tags:
@@ -80,6 +79,11 @@ paths:
           description: Monthly stats returned.
         '401':
           $ref: '#/components/responses/Unauthorized'
+      security:
+      - OAuth2: []
+    servers:
+    - url: https://api.blubrry.com/2
+      description: Production
   /stats/{keyword}/countries/:
     get:
       tags:
@@ -93,6 +97,11 @@ paths:
           description: Country stats returned.
         '401':
           $ref: '#/components/responses/Unauthorized'
+      security:
+      - OAuth2: []
+    servers:
+    - url: https://api.blubrry.com/2
+      description: Production
   /stats/{keyword}/app-types/:
     get:
       tags:
@@ -106,6 +115,11 @@ paths:
           description: App type stats returned.
         '401':
           $ref: '#/components/responses/Unauthorized'
+      security:
+      - OAuth2: []
+    servers:
+    - url: https://api.blubrry.com/2
+      description: Production
   /stats/{keyword}/apps/:
     get:
       tags:
@@ -119,6 +133,11 @@ paths:
           description: App stats returned.
         '401':
           $ref: '#/components/responses/Unauthorized'
+      security:
+      - OAuth2: []
+    servers:
+    - url: https://api.blubrry.com/2
+      description: Production
   /stats/{keyword}/episodes/:
     get:
       tags:
@@ -132,6 +151,11 @@ paths:
           description: Episode list returned.
         '401':
           $ref: '#/components/responses/Unauthorized'
+      security:
+      - OAuth2: []
+    servers:
+    - url: https://api.blubrry.com/2
+      description: Production
   /stats/{keyword}/{episode_id}/countries/:
     get:
       tags:
@@ -146,6 +170,11 @@ paths:
           description: Country stats returned.
         '401':
           $ref: '#/components/responses/Unauthorized'
+      security:
+      - OAuth2: []
+    servers:
+    - url: https://api.blubrry.com/2
+      description: Production
   /stats/{keyword}/{episode_id}/app-types/:
     get:
       tags:
@@ -160,6 +189,11 @@ paths:
           description: App type stats returned.
         '401':
           $ref: '#/components/responses/Unauthorized'
+      security:
+      - OAuth2: []
+    servers:
+    - url: https://api.blubrry.com/2
+      description: Production
   /stats/{keyword}/{episode_id}/apps/:
     get:
       tags:
@@ -174,6 +208,11 @@ paths:
           description: App stats returned.
         '401':
           $ref: '#/components/responses/Unauthorized'
+      security:
+      - OAuth2: []
+    servers:
+    - url: https://api.blubrry.com/2
+      description: Production
   /stats/{keyword}/widget/preview.json:
     get:
       tags:
@@ -187,6 +226,11 @@ paths:
           description: Widget preview returned.
         '401':
           $ref: '#/components/responses/Unauthorized'
+      security:
+      - OAuth2: []
+    servers:
+    - url: https://api.blubrry.com/2
+      description: Production
   /stats/{keyword}/totals.json:
     get:
       tags:
@@ -200,10 +244,12 @@ paths:
           description: Totals returned.
         '401':
           $ref: '#/components/responses/Unauthorized'
+      security:
+      - OAuth2: []
+    servers:
+    - url: https://api.blubrry.com/2
+      description: Production
 components:
-  responses:
-    Unauthorized:
-      description: Missing or invalid access token.
   parameters:
     Format:
       name: format
@@ -228,6 +274,355 @@ components:
       description: Program keyword that identifies the show.
       schema:
         type: string
+    StartDate:
+      name: startDate
+      in: query
+      description: Optional - Specifies the start date range
+      required: false
+      schema:
+        type: string
+        example: '2023-12-01'
+    EndDate:
+      name: endDate
+      in: query
+      description: Optional - Specifies the end date range
+      required: false
+      schema:
+        type: string
+        example: '2023-12-31'
+  responses:
+    Unauthorized:
+      description: Missing or invalid access token.
+  schemas:
+    EpisodesResult:
+      type: object
+      properties:
+        record_count:
+          type: integer
+          example: 1
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/EpisodeObject'
+    ShowEpisodesResult:
+      type: object
+      properties:
+        record_count:
+          type: integer
+          example: 1
+        title:
+          type: string
+          example: Your Show Title
+        keyword:
+          type: string
+          example: your_show_keyword
+        total:
+          type: integer
+          example: 5000
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/EpisodeObject'
+    Apps:
+      type: object
+      properties:
+        record_count:
+          type: integer
+          example: 2
+        144:
+          type: object
+          properties:
+            client_name:
+              type: string
+              example: Apple Podcasts
+            client_class_id:
+              type: integer
+              example: 5
+            total:
+              type: integer
+              example: 5000
+        207:
+          type: object
+          properties:
+            client_name:
+              type: string
+              example: Firefox
+            client_class_id:
+              type: integer
+              example: 2
+            total:
+              type: integer
+              example: 5000
+    AllHosted:
+      type: array
+      items:
+        $ref: '#/components/schemas/Hosted'
+      xml:
+        name: program
+    Summary:
+      type: object
+      properties:
+        stats_url:
+          type: string
+          example: https://stats.blubrry.com
+        program_id:
+          type: integer
+          example: '12345'
+        overall:
+          type: object
+          properties:
+            total:
+              type: integer
+              example: '5000'
+            unique:
+              type: integer
+              example: '4000'
+            unique_repeat:
+              type: integer
+              example: '4000'
+        current_month:
+          type: object
+          properties:
+            total:
+              type: integer
+              example: '1000'
+            unique:
+              type: integer
+              example: '1700'
+            unique_repeat:
+              type: integer
+              example: '1250'
+        last_month:
+          type: object
+          properties:
+            total:
+              type: integer
+              example: '600'
+            unique:
+              type: integer
+              example: '450'
+            unique_repeat:
+              type: integer
+              example: '300'
+        media:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: integer
+                example: '1234567'
+              title:
+                type: string
+                example: The Greatest Podcast Episode Ever
+              filename:
+                type: string
+                example: ep1-greatest-ep-2020-01-05.mp3
+              date:
+                type: string
+                example: Mon, 01 Apr 2019 03:20:15 +0000
+              overall:
+                type: integer
+                example: '750'
+              current_month:
+                type: integer
+                example: '120'
+    AppTypes:
+      type: object
+      properties:
+        record_count:
+          type: integer
+          example: 1
+        5:
+          type: object
+          properties:
+            client_class_name:
+              type: string
+              example: Mobile Applications
+            total:
+              type: integer
+              example: 5000
+        2:
+          type: object
+          properties:
+            client_class_name:
+              type: string
+              example: Web browsers
+            total:
+              type: integer
+              example: 5000
+    KeywordResult:
+      type: object
+      properties:
+        record_count:
+          type: integer
+          example: 1
+        results:
+          type: object
+          properties:
+            title:
+              type: string
+              example: Your Show Title
+            keyword:
+              type: string
+              example: your_show_keyword
+            total:
+              type: integer
+              example: 5000
+            full_downloads:
+              type: integer
+              example: 5000
+            partial_25:
+              type: integer
+              example: 5000
+            partial_50:
+              type: integer
+              example: 5000
+            partial_75:
+              type: integer
+              example: 5000
+            partial_99:
+              type: integer
+              example: 5000
+            id:
+              type: string
+              example: '1234567'
+    EpisodeObject:
+      type: object
+      properties:
+        episode_id:
+          type: string
+          example: '12345'
+        episode_label:
+          type: string
+          example: 'Episode 1: Pilot'
+        episode_filename:
+          type: string
+          example: episode1.mp3
+        episode_date:
+          type: string
+          example: 04/25/2021
+        duration_in_seconds:
+          type: string
+          example: '3600'
+        total:
+          type: string
+          example: '1000'
+        full_downloads:
+          type: string
+          example: '1000'
+        partial_25:
+          type: integer
+          example: 5000
+        partial_50:
+          type: integer
+          example: 5000
+        partial_75:
+          type: integer
+          example: 5000
+        partial_99:
+          type: integer
+          example: 5000
+    StatsWidget:
+      type: object
+      properties:
+        program_keyword:
+          type: string
+        widget_title:
+          type: string
+        scale_min:
+          type: number
+        scale_max:
+          type: integer
+        scale_step:
+          type: integer
+        program_total:
+          type: integer
+        month_average:
+          type: integer
+        day_total_data:
+          type: object
+          description: An associative array containing the totals for each of the most recent seven days
+    Countries:
+      type: object
+      properties:
+        record_count:
+          type: integer
+          example: 2
+        114:
+          type: object
+          properties:
+            country_name:
+              type: string
+              example: Cambodia
+            total:
+              type: integer
+              example: 5000
+        223:
+          type: object
+          properties:
+            country_name:
+              type: string
+              example: Vietnam
+            total:
+              type: integer
+              example: 5000
+    Hosted:
+      type: object
+      properties:
+        program_title:
+          type: string
+          description: The title of the program or podcast. This is the display name as it appears in directories or on user-facing interfaces.
+          example: The Daily Podcast
+        program_keyword:
+          type: string
+          description: A unique keyword identifier for older programs, typically used in feed URLs. Deprecated for new programs in favor of 'program_id'.
+          example: daily_podcast_keyword
+        program_id:
+          type: integer
+          description: The unique identifier for a program or podcast, used as the primary reference for media or stats related operations.
+          example: 12345
+        podcast_id:
+          type: integer
+          description: The unique identifier for a program or podcast, used as the primary reference for media-related operations.
+          example: 12345
+        stats_program_id:
+          type: integer
+          description: The unique identifier for a program or podcast, used as the primary reference for stats-related operations.
+          example: 78987
+        feed_url:
+          type: string
+          description: The URL of the program's RSS feed. This can vary based on whether the feed is hosted with Blubrry, PowerPress, or a custom domain.
+          example: https://feeds.blubrry.com/feeds/the_daily.xml
+    Total:
+      type: object
+      properties:
+        recordCount:
+          type: integer
+          example: '1'
+        results:
+          type: object
+          properties:
+            episode:
+              type: string
+              example: episode1-2020-01-22.mp3
+            date:
+              type: string
+              example: '2020-04-18'
+            url:
+              type: string
+              example: https://content.blubrry.com/keyword/episode1-2020-01-22.mp3
+            title:
+              type: string
+              example: Episode 1
+            downloads:
+              type: string
+              example: '856'
+  headers:
+    xTotalHosted:
+      schema:
+        type: integer
+        description: Number of programs that are available to query
   securitySchemes:
     OAuth2:
       type: oauth2
@@ -242,3 +637,6 @@ components:
           tokenUrl: https://api.blubrry.com/oauth2/token
           refreshUrl: https://api.blubrry.com/oauth2/token
           scopes: {}
+x-refined-from:
+- blubrry-api-restful-api-for-podcast-publishing-statistics-openapi.yml
+- blubrry-api-restful-api-for-podcast-publishing-statistics-podcaster-openapi.yaml

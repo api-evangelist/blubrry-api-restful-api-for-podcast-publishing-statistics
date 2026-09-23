@@ -1,27 +1,11 @@
 openapi: 3.2.0
 info:
-  title: Blubrry Podcast Hosting & Statistics Episode API
-  version: '2'
-  description: 'REST API for podcast publishing, media hosting, episode management, and
-
-    podcast download statistics on Blubrry. Authentication is OAuth 2.0
-
-    Bearer; obtain a client_id / secret from Blubrry and request an access
-
-    token at https://api.blubrry.com/oauth2/token.
-
-
-    Source spec: https://blubrry.com/developer/api/podcaster.yaml
-
-    '
-  contact:
-    name: Blubrry Developer
-    url: https://blubrry.com/developer/api/
+  title: Blubrry Api Restful Api For Podcast Publishing Statistics…
+  version: '1.0'
+  description: 'Operations tagged Episode across 2 of this provider''s published API definitions: blubrry-api-restful-api-for-podcast-publishing-statistics-openapi.yml, blubrry-api-restful-api-for-podcast-publishing-statistics-podcaster-openapi.yaml. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://api.blubrry.com/2
   description: Production
-security:
-- OAuth2: []
 tags:
 - name: Episode
   description: Read, create, and update episodes for shows hosted on Blubrry.
@@ -42,6 +26,11 @@ paths:
           description: Episode list returned.
         '401':
           $ref: '#/components/responses/Unauthorized'
+      security:
+      - OAuth2: []
+    servers:
+    - url: https://api.blubrry.com/2
+      description: Production
   /episode/{keyword}/{episode_id}/:
     get:
       tags:
@@ -58,6 +47,11 @@ paths:
           $ref: '#/components/responses/Unauthorized'
         '404':
           description: Episode not found.
+      security:
+      - OAuth2: []
+    servers:
+    - url: https://api.blubrry.com/2
+      description: Production
   /episode/{keyword}/add:
     post:
       tags:
@@ -80,6 +74,11 @@ paths:
           description: Validation error.
         '401':
           $ref: '#/components/responses/Unauthorized'
+      security:
+      - OAuth2: []
+    servers:
+    - url: https://api.blubrry.com/2
+      description: Production
   /episode/{keyword}/update/{episode_id}/:
     post:
       tags:
@@ -102,6 +101,11 @@ paths:
           $ref: '#/components/responses/Unauthorized'
         '404':
           description: Episode not found.
+      security:
+      - OAuth2: []
+    servers:
+    - url: https://api.blubrry.com/2
+      description: Production
   /episode/{keyword}/update-image/{episode_id}/:
     put:
       tags:
@@ -126,6 +130,11 @@ paths:
           description: Image updated.
         '401':
           $ref: '#/components/responses/Unauthorized'
+      security:
+      - OAuth2: []
+    servers:
+    - url: https://api.blubrry.com/2
+      description: Production
   /episode/{keyword}/delete-image/{episode_id}/:
     delete:
       tags:
@@ -140,10 +149,126 @@ paths:
           description: Image deleted.
         '401':
           $ref: '#/components/responses/Unauthorized'
+      security:
+      - OAuth2: []
+    servers:
+    - url: https://api.blubrry.com/2
+      description: Production
+  /episode/{keyword}/?limit={limit}&offset={offset}:
+    get:
+      tags:
+      - Episode
+      summary: Get episode list
+      description: 'Returns a list of most recent episodes
+
+
+        >URL: https://api.blubrry.com/2/episode/keyword/
+
+
+        >Format: __JSON__
+
+
+        >Method: __GET__'
+      operationId: getEpisodes
+      parameters:
+      - $ref: '#/components/parameters/ProgramKeyword'
+      - $ref: '#/components/parameters/Limit_2'
+      - $ref: '#/components/parameters/Offset_2'
+      x-code-samples:
+      - lang: PHP
+        label: PHP
+        source:
+          $ref: ../examples/php/episode/list
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/EpisodeListObjectArray'
+                  record_count:
+                    type: integer
+                    example: 100
+                    description: The number of episodes returned in the query
+                  limit:
+                    type: integer
+                    example: 10
+                    description: The number of results that are limited to
+                  offset:
+                    type: integer
+                    example: 0
+                    description: The number of episodes to skip within a list of episodes
+        '400':
+          description: 'Error: episode_show_invalid'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EpisodeKeywordError'
+    servers:
+    - url: https://api.blubrry.com/2
 components:
-  responses:
-    Unauthorized:
-      description: Missing or invalid access token.
+  parameters:
+    EpisodeId:
+      name: episode_id
+      in: path
+      required: true
+      schema:
+        type: integer
+    Keyword:
+      name: keyword
+      in: path
+      required: true
+      description: Program keyword that identifies the show.
+      schema:
+        type: string
+    Offset:
+      name: offset
+      in: query
+      schema:
+        type: integer
+        default: 0
+    Limit:
+      name: limit
+      in: query
+      schema:
+        type: integer
+        default: 10
+    EpisodeId_2:
+      name: episode_id
+      in: path
+      description: Required - Episode ID
+      required: true
+      schema:
+        type: integer
+    ProgramKeyword:
+      name: keyword
+      in: path
+      description: Required - Program keyword
+      required: true
+      schema:
+        type: string
+    Offset_2:
+      name: offset
+      in: query
+      description: Optional - Number of results to skip
+      required: false
+      schema:
+        type: integer
+        minimum: 0
+        default: 0
+    Limit_2:
+      name: limit
+      in: query
+      description: Optional - Number of results returned
+      required: false
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 50
+        default: 10
   schemas:
     EpisodeInput:
       type: object
@@ -181,32 +306,365 @@ components:
           - publish
           - draft
           - future
-  parameters:
-    EpisodeId:
-      name: episode_id
-      in: path
-      required: true
-      schema:
-        type: integer
-    Offset:
-      name: offset
-      in: query
-      schema:
-        type: integer
-        default: 0
-    Keyword:
-      name: keyword
-      in: path
-      required: true
-      description: Program keyword that identifies the show.
-      schema:
-        type: string
-    Limit:
-      name: limit
-      in: query
-      schema:
-        type: integer
-        default: 10
+    EpisodeListObject:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 111853976
+          description: ID corresponding to a podcast episode
+        title:
+          type: string
+          example: Hired Help For Your Podcast – PCI 357
+          description: Title of episode
+        program_id:
+          type: string
+          example: 809313
+          description: ID corresponding to a podcast listing
+        program_title:
+          type: string
+          example: Podcast Insider
+          description: The name of the podcast show
+        program_keyword:
+          type: string
+          example: podcastinsider
+          description: A unique string ID for a podcast
+        filename:
+          type: string
+          example: PCI-2023-8-3.mp3
+          description: Filename of source media
+        duration:
+          type: integer
+          example: 1188
+          description: Length of episode in seconds
+        description:
+          type: string
+          example: '<strong>Are you considering hired help for your podcast?</strong> <p><img class="alignleft size-full wp-image-87656" src="https://blubrry.com/wp-content/uploads/2023/08/Consultant_150x100.jpg" alt="Two women sitting at conference table facing each other" width="150" height="100" />In today’s episode we’ll be discussing eight factors to consider when hiring a paid podcast consultant for your podcast. Often times the podcast host is a jack of all trades for their show, which while admirable can be improved with hired help. If you’re looking to expand your podcast team, look no further to decide if that may be a good idea. First things first, what exactly do we mean when we say podcast consultant – read below for our explanation.</p> <p><strong>Podcast Consultant:</strong> A podcast pro that provides guidance and expertise related to podcasting. Encompassing but not limited to: technical, developmental, and creative know-how; can be across the board or more dedicated to a specific aspect or task such as equipment and setup or audience growth tactics.</p> <strong>Today’s Hosts: Mike Dell and MacKenzie Bennett</strong> <strong>When hiring a podcast consultant, you should consider the following factors:</strong> <p><strong>Budget:</strong> Be upfront about what you are wanting to spend and make sure you can sustain that budget for the long run.</p> <p><strong>Experience:</strong> How much experience does the consultant have with podcasting? Have they worked on successful podcasts before? Their past experience can provide you with a sense of their skills and capabilities.</p> <p><strong>Knowledge of the Industry:</strong> The podcasting industry is constantly changing. A good consultant should be up-to-date with current trends, technologies, and strategies in podcasting. They should understand the podcasting market and the specific niche that your podcast falls into.</p> <p><strong>Technical Skills:</strong> Podcasting involves both content creation and technical setup. Your consultant should have knowledge about podcast recording, editing, equipment, software, and hosting platforms. They should also be familiar with podcast distribution and analytics.</p> <p><strong>Marketing and Promotion:</strong> It’s not enough to just create a podcast, you need to get it heard. Your consultant should know how to effectively promote a podcast, including social media strategies, SEO for podcasts, and partnerships or sponsorships.</p> <p><strong>Good Communication Skills:</strong> The consultant should be able to communicate clearly and effectively. They should be able to understand your vision for the podcast and help you achieve it. Regular updates and feedback are essential for a successful working relationship.</p> <p><strong>References and Reviews:</strong> Check the consultant’s references and reviews from previous clients. This can give you a sense of their reliability and effectiveness.</p> <p><strong>A Passion for Podcasting:</strong> Finally, a good podcast consultant should be passionate about podcasting. This passion will drive them to stay updated on industry changes, put in the extra effort to ensure the success of your podcast, and provide the energy needed to keep your project moving forward.</p> <p>Just a tip…Make sure YOU keep all admin logins/passwords for your site, your hosting plan and make sure YOU are paying the hosting bills directly.</p> <p class="p4">The best place for support with any Blubrry product or service is our <a href="https://blubrry.com/support/">ticket system</a>. Tickets give the whole team access vs. direct emails or calls.</p> <p class="p5">Fill out our listener survey at <a href="https://surveys.blubrry.com/podcastinsider">surveys.blubrry.com/podcastinsider.</a></p> <ul class="ul1"><li class="li6">Hosting customers can schedule a one-on-one call with Todd or a tech checkup with Mike. <ul class="ul2"><li class="li7">todd@blubrry.com and mike@blubrry.com</li> </ul></li> </ul>
+
+            '
+          description: Podcast description with HTML
+        summary:
+          type: string
+          example: "Are you considering hired help for your podcast? In today's episode we'll be discussing eight factors to consider when hiring a paid podcast consultant for your podcast. Often times the podcast host is a jack of all trades for their show, which while admirable can be improved with hired help. If you're looking to expand your podcast team, look no further to decide if that may be a good idea. First things first, what exactly do we mean when we say podcast consultant - read below for our explanation. Podcast Consultant: A podcast pro that provides guidance and expertise related to podcasting. Encompassing but not limited to: technical, developmental, and creative know-how; can be across the board or more dedicated to a specific aspect or task such as equipment and setup or audience growth tactics. Today's Hosts: Mike Dell and MacKenzie Bennett When hiring a podcast consultant, you should consider the following factors: Budget: Be upfront about what you are wanting to spend and make sure you can sustain that budget for the long run. Experience: How much experience does the consultant have with podcasting? Have they worked on successful podcasts before? Their past experience can provide you with a sense of their skills and capabilities. Knowledge of the Industry: The podcasting industry is constantly changing. A good consultant should be up-to-date with current trends, technologies, and strategies in podcasting. They should understand the podcasting market and the specific niche that your podcast falls into. Technical Skills: Podcasting involves both content creation and technical setup. Your consultant should have knowledge about podcast recording, editing, equipment, software, and hosting platforms. They should also be familiar with podcast distribution and analytics. Marketing and Promotion: It's not enough to just create a podcast, you need to get it heard. Your consultant should know how to effectively promote a podcast, including social media strategies, SEO for podcasts, and partnerships or sponsorships. Good Communication Skills: The consultant should be able to communicate clearly and effectively. They should be able to understand your vision for the podcast and help you achieve it. Regular updates and feedback are essential for a successful working relationship. References and Reviews: Check the consultant's references and reviews from previous clients. This can give you a sense of their reliability and effectiveness. A Passion for Podcasting: Finally, a good podcast consultant should be passionate about podcasting. This passion will drive them to stay updated on industry changes, put in the extra effort to ensure the success of your podcast, and provide the energy needed to keep your project moving forward. Just a tip...Make sure YOU keep all admin logins/passwords for your site, your hosting plan and make sure YOU are paying the hosting bills directly. The best place for support with any Blubrry product or service is our  ticket system. Tickets give the whole team access vs. direct emails or calls. Fill out our listener survey at surveys.blubrry.com/podcastinsider.\n \tHosting customers can schedule a one-on-one call with Todd or a tech checkup with Mike.\n \ttodd@blubrry.com and mike@blubrry.com\n"
+          description: Podcast summary as text
+        post_date:
+          type: string
+          example: 21:54:10 2023-08-03
+          description: Post date in H:i:s Y-m-d
+        media_url:
+          type: string
+          example: https://media.blubrry.com/podcastinsider/d/content.blubrry.com/podcastinsider/PCI-2023-8-3.mp3
+          description: URL for media
+        player_url:
+          type: string
+          example: https://player.blubrry.com/?podcast_id=111853976
+          description: URL for player
+        listing_url:
+          type: string
+          example: https://blubrry.com/podcastinsider/111853976/hired-help-for-your-podcast-pci-357/
+          description: URL for blubrry directory
+        itunes_title:
+          type: string
+          example: Podcast Insider
+          description: The name of the podcast show
+        itunes_episode:
+          type: string
+          example: Hired Help For Your Podcast – PCI 357
+          description: Title of episode
+        itunes_season:
+          type: integer
+          example: 2
+          description: Itunes season number
+        podcast_link:
+          type: string
+          example: https://blubrry.com/podcastinsider/111853976/hired-help-for-your-podcast-pci-357/
+          description: Link to episode webpage
+        episode_type:
+          type: string
+          example: trailer, bonus, or full
+          description: Episode type
+        itunes_image:
+          type: string
+          example: https://geeknewscentral.com/wp-content/uploads/2025/01/ai_im_2-5.jpg
+          description: Episode image
+        location:
+          type: string
+          example: city;Columbus;geo;geo:39.7837304,-100.445882;osm;R148838;
+          description: Episode location
+        itunes_episode_number:
+          type: integer
+          example: 2
+          description: Itunes episode number
+        itunes_order:
+          type: integer
+          example: 2
+          description: Order number for iTunes
+        credits:
+          type: array
+          example: '[{ ''person'' => ''Joe Podcast'', ''role'' => ''host'', ''img'' => ''https://image.com/joepodcast.png'', ''link'' => ''https://aboutjoepodcast.com/'' }, ...]'
+          description: Episode credits
+    DeleteEpisodeImageSuccess:
+      type: object
+      properties:
+        status:
+          type: string
+          example: Success
+        success:
+          type: bool
+          example: true
+        msg:
+          type: string
+          example: Episode image file deleted successfully.
+        updated_at:
+          type: string
+          example: Mon, 03 Feb 2020 19:06:58 +0000
+        episode_id:
+          type: integer
+          example: '88676548'
+        listing_url:
+          type: string
+          example: https://blubrry.com/keyword/88676548/api-update-test-post/
+        player_url:
+          type: string
+          example: https://player.blubrry.com/?podcast_id=88676548
+    UpdateEpisodeImageSuccess:
+      type: object
+      properties:
+        status:
+          type: string
+          example: Success
+        success:
+          type: bool
+          example: true
+        msg:
+          type: string
+          example: Deleted existing episode image. Episode image file uploaded successfully.
+        updated_at:
+          type: string
+          example: Mon, 03 Feb 2020 19:06:58 +0000
+        episode_id:
+          type: integer
+          example: '88676548'
+        listing_url:
+          type: string
+          example: https://blubrry.com/keyword/88676548/api-update-test-post/
+        player_url:
+          type: string
+          example: https://player.blubrry.com/?podcast_id=88676548
+        episode_image_url:
+          type: string
+          example: https://assets.blubrry.com/coverart/episode/747632/orig/88676548-1747687088.jpg
+        episode_image_url_resized:
+          type: string
+          example: https://assets.blubrry.com/coverart/episode/747632/160/88676548-1747687088.jpg
+    EpisodeListObjectArray:
+      type: array
+      items:
+        $ref: '#/components/schemas/EpisodeListObject'
+    AddEpisodeSuccess:
+      type: object
+      properties:
+        status:
+          type: string
+          example: Success
+        success:
+          type: string
+          example: Episode Posted Successfully
+        created_at:
+          type: string
+          example: Mon, 03 Feb 2020 19:06:58 +0000
+        created_at_timestamp:
+          type: string
+          example: '1580756818'
+        episode_id:
+          type: integer
+          example: '22976504'
+        listing_url:
+          type: string
+          example: https://blubrry.com/{keyword}/22976504/title/ (Note that this URL may not be live if the episode is in a draft state)
+    AddEpisode:
+      type: object
+      required:
+      - status
+      - filename
+      - title
+      - content
+      properties:
+        status:
+          description: Set to draft (0) or public (1)
+          type: integer
+          format: tinyint
+          enum:
+          - 0
+          - 1
+        filename:
+          description: Podcast filename
+          type: string
+          example: GNC-2017-12-19.mp3
+        title:
+          description: Title of podcast
+          type: string
+          example: New Podcast Title!
+        content:
+          description: Podcast description or limited HTML version of show notes
+          type: string
+          example: Podcast description or limited HTML version of show notes
+        explicit:
+          description: Clean (2), Explicit (1), or None (0)
+          type: integer
+          format: tinyint
+          enum:
+          - 0
+          - 1
+          - 2
+        itunes_title:
+          description: Episode title for iTunes
+          type: string
+          example: Episode title for iTunes
+        itunes_episode:
+          description: (Deprecated) Episode title for iTunes
+          type: string
+          example: Episode Title for iTunes
+        itunes_season:
+          description: Season number for iTunes
+          type: integer
+          example: Season number for iTunes
+        itunes_order:
+          description: Order number for iTunes
+          type: integer
+          example: Order number for iTunes
+        itunes_episode_number:
+          description: Episode number for iTunes
+          type: integer
+          example: Episode number for iTunes
+        release_date:
+          description: Alternate post date
+          type: integer
+          example: 1694647124
+        episode_type:
+          description: Episode type
+          type: string
+          example: trailer, bonus, or full
+        itunes_image:
+          description: Episode image
+          type: string
+          example: Episode image
+        podcast_link:
+          description: Episode webpage
+          type: string
+          example: Episode webpage
+        location:
+          description: Episode location
+          type: string
+          example: city;Columbus;geo;geo:39.7837304,-100.445882;osm;R148838;
+        credits:
+          description: Episode credits
+          type: array
+          example: '[{ ''person'' => ''Joe Podcast'', ''role'' => ''host'', ''img'' => ''https://image.com/joepodcast.png'', ''link'' => ''https://aboutjoepodcast.com/'' }, ...]'
+        podcast_subtitle:
+          description: Podcast subtitle (Limited to 250 characters)
+          type: string
+          example: My podcast subtitle
+    UpdateEpisode:
+      type: object
+      properties:
+        status:
+          description: Set to draft (0) or public (1)
+          type: integer
+          format: tinyint
+          enum:
+          - 0
+          - 1
+        filename:
+          description: Podcast filename
+          type: string
+          example: http://media.blubrry.com/geeknewscentral/content.blubrry.com/geeknewscentral/GNC-2017-01-23.mp3
+        title:
+          description: Title of podcast
+          type: string
+          example: Title of podcast
+        content:
+          description: Podcast description or limited HTML version of show notes
+          type: string
+          example: Podcast description or limited HTML version of show notes
+        explicit:
+          description: Clean (2), Explicit (1), or None (0)
+          type: integer
+          format: tinyint
+          enum:
+          - 0
+          - 1
+          - 2
+        itunes_title:
+          description: Episode title for iTunes
+          type: string
+          example: Episode title for iTunes
+        itunes_episode:
+          description: (Deprecated) Episode title for iTunes
+          type: integer
+          example: Episode Title for iTunes
+        itunes_season:
+          description: Season number for iTunes
+          type: integer
+          example: Season number for iTunes
+        itunes_order:
+          description: Order number for iTunes
+          type: integer
+          example: Order number for iTunes
+        itunes_episode_number:
+          description: Episode number for iTunes
+          type: integer
+          example: Episode number for iTunes
+        release_date:
+          description: Alternate post date
+          type: integer
+          example: 1694647124
+        itunes_image:
+          description: Episode image
+          type: string
+          example: Episode image
+        podcast_link:
+          description: Episode webpage
+          type: string
+          example: Episode webpage
+        location:
+          description: Episode location
+          type: string
+          example: city;Columbus;geo;geo:39.7837304,-100.445882;osm;R148838;
+        podcast_subtitle:
+          description: Podcast subtitle (Limited to 250 characters)
+          type: string
+          example: My podcast subtitle
+        credits:
+          description: Episode credits
+          type: array
+          example: '[{ ''person'' => ''Joe Podcast'', ''role'' => ''host'', ''img'' => ''https://image.com/joepodcast.png'', ''link'' => ''https://aboutjoepodcast.com/'' }, ...]'
+    UpdateEpisodeSuccess:
+      type: object
+      properties:
+        status:
+          type: string
+          example: Success
+        success:
+          type: string
+          example: Episode Updated Successfully
+        updated_at:
+          type: string
+          example: Mon, 03 Feb 2020 19:06:58 +0000
+        episode_id:
+          type: integer
+          example: '22976504'
+    EpisodeKeywordError:
+      properties:
+        error:
+          type: string
+          example: show keyword invalid
+        code:
+          type: string
+          example: episode_show_invalid
+  responses:
+    Unauthorized:
+      description: Missing or invalid access token.
   securitySchemes:
     OAuth2:
       type: oauth2
@@ -221,3 +679,6 @@ components:
           tokenUrl: https://api.blubrry.com/oauth2/token
           refreshUrl: https://api.blubrry.com/oauth2/token
           scopes: {}
+x-refined-from:
+- blubrry-api-restful-api-for-podcast-publishing-statistics-openapi.yml
+- blubrry-api-restful-api-for-podcast-publishing-statistics-podcaster-openapi.yaml

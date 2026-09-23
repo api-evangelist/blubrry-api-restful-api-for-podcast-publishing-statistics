@@ -1,27 +1,11 @@
 openapi: 3.2.0
 info:
-  title: Blubrry Podcast Hosting & Statistics Episode Media API
-  version: '2'
-  description: 'REST API for podcast publishing, media hosting, episode management, and
-
-    podcast download statistics on Blubrry. Authentication is OAuth 2.0
-
-    Bearer; obtain a client_id / secret from Blubrry and request an access
-
-    token at https://api.blubrry.com/oauth2/token.
-
-
-    Source spec: https://blubrry.com/developer/api/podcaster.yaml
-
-    '
-  contact:
-    name: Blubrry Developer
-    url: https://blubrry.com/developer/api/
+  title: Blubrry Api Restful Api For Podcast Publishing Statistics…
+  version: '1.0'
+  description: 'Operations tagged Media across 2 of this provider''s published API definitions: blubrry-api-restful-api-for-podcast-publishing-statistics-openapi.yml, blubrry-api-restful-api-for-podcast-publishing-statistics-podcaster-openapi.yaml. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://api.blubrry.com/2
   description: Production
-security:
-- OAuth2: []
 tags:
 - name: Media
   description: Upload and manage media files hosted on Blubrry.
@@ -40,6 +24,11 @@ paths:
           description: Shows returned.
         '401':
           $ref: '#/components/responses/Unauthorized'
+      security:
+      - OAuth2: []
+    servers:
+    - url: https://api.blubrry.com/2
+      description: Production
   /media/{keyword}/index.{format}:
     get:
       tags:
@@ -55,6 +44,11 @@ paths:
           description: Media list returned.
         '401':
           $ref: '#/components/responses/Unauthorized'
+      security:
+      - OAuth2: []
+    servers:
+    - url: https://api.blubrry.com/2
+      description: Production
   /media/{keyword}/{filename}:
     get:
       tags:
@@ -71,6 +65,8 @@ paths:
           $ref: '#/components/responses/Unauthorized'
         '404':
           description: Media not found.
+      security:
+      - OAuth2: []
     put:
       tags:
       - Media
@@ -91,6 +87,8 @@ paths:
           description: Media uploaded.
         '401':
           $ref: '#/components/responses/Unauthorized'
+      security:
+      - OAuth2: []
     delete:
       tags:
       - Media
@@ -104,6 +102,11 @@ paths:
           description: Media deleted.
         '401':
           $ref: '#/components/responses/Unauthorized'
+      security:
+      - OAuth2: []
+    servers:
+    - url: https://api.blubrry.com/2
+      description: Production
   /media/{keyword}/migrate_add.json:
     post:
       tags:
@@ -129,6 +132,11 @@ paths:
           description: Migration queued.
         '401':
           $ref: '#/components/responses/Unauthorized'
+      security:
+      - OAuth2: []
+    servers:
+    - url: https://api.blubrry.com/2
+      description: Production
   /media/{keyword}/migrate_remove.json:
     post:
       tags:
@@ -154,6 +162,11 @@ paths:
           description: Migration request removed.
         '401':
           $ref: '#/components/responses/Unauthorized'
+      security:
+      - OAuth2: []
+    servers:
+    - url: https://api.blubrry.com/2
+      description: Production
   /media/{keyword}/migrate_status.json:
     get:
       tags:
@@ -167,11 +180,286 @@ paths:
           description: Migration status returned.
         '401':
           $ref: '#/components/responses/Unauthorized'
+      security:
+      - OAuth2: []
+    servers:
+    - url: https://api.blubrry.com/2
+      description: Production
+  /media/{keyword}/{mediafile.ext}:
+    delete:
+      tags:
+      - Media
+      summary: Delete Media
+      description: 'Deletes a specified media file
+
+
+        >URL: https://api.blubrry.com/2/media/keyword/mediafile.ext
+
+
+        >Formats: __JSON__, __XML__
+
+
+        >Method: __DELETE__'
+      operationId: deleteMedia
+      x-code-samples:
+      - lang: PHP
+        label: PHP
+        source:
+          $ref: ../examples/php/media/delete_media
+      - lang: JavaScript
+        label: NodeJS
+        source:
+          $ref: ../examples/node/media/delete_media
+      - lang: C#
+        label: C#
+        source:
+          $ref: ../examples/c-sharp/media/delete_media
+      - lang: Python
+        label: Python
+        source:
+          $ref: ../examples/python/media/delete_media
+      - lang: Ruby
+        label: Ruby
+        source:
+          $ref: ../examples/ruby/media/delete_media
+      parameters:
+      - name: keyword
+        in: path
+        description: Required - Specifies the program
+        required: true
+        schema:
+          type: string
+      - name: mediafile.ext
+        in: path
+        description: Required - Specifies the media file to delete (ext is the file type)
+        required: true
+        schema:
+          type: string
+      - name: format
+        in: query
+        description: Specifies the format of the response returned. (json or xml)
+        schema:
+          type: string
+          enum:
+          - json
+          - xml
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Delete'
+            application/xml:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Delete'
+                xml:
+                  name: status
+    get:
+      tags:
+      - Media
+      summary: Publish Media File
+      description: 'Makes the uploaded media file publicly available
+
+
+        >URL: https://api.blubrry.com/2/media/keyword/mediafile.ext
+
+
+        >Formats: __JSON__, __XML__
+
+
+        >Method: __GET__'
+      operationId: publishMedia
+      x-code-samples:
+      - lang: PHP
+        label: PHP
+        source:
+          $ref: ../examples/php/media/publish_media_file
+      - lang: JavaScript
+        label: NodeJS
+        source:
+          $ref: ../examples/node/media/publish_media
+      - lang: C#
+        label: C#
+        source:
+          $ref: ../examples/c-sharp/media/publish_media
+      - lang: Python
+        label: Python
+        source:
+          $ref: ../examples/python/media/publish_media_file
+      - lang: Ruby
+        label: Ruby
+        source:
+          $ref: ../examples/ruby/media/publish_media_file
+      parameters:
+      - name: keyword
+        in: path
+        description: Specifies the program/show keyword
+        required: true
+        schema:
+          type: string
+      - name: mediafile.ext
+        in: path
+        description: Specifies the media file to publish (ext is the file type)
+        required: true
+        schema:
+          type: string
+      - name: format
+        in: query
+        description: Specifies the format of the response returned.
+        required: true
+        schema:
+          type: string
+          enum:
+          - json
+          - xml
+      - name: publish
+        in: query
+        description: Specifies whether the media file will be made publicly available.
+        required: true
+        schema:
+          type: string
+          enum:
+          - 'true'
+          - 'false'
+          default: 'true'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Publish'
+            application/xml:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Publish'
+                xml:
+                  name: status
+        '400':
+          description: Missing keyword
+    put:
+      tags:
+      - Media
+      summary: Upload Media
+      description: 'Uploads a media file to the server
+
+
+        For instructions on uploading via WebDAV, visit our support documentation.
+
+
+        >URL: https://api.blubrry.com/2/media/keyword/mediafile.ext
+
+
+        >Formats: __XML__, __JSON__
+
+
+        >Method: __PUT__'
+      operationId: uploadMedia
+      x-code-samples:
+      - lang: PHP
+        label: PHP
+        source:
+          $ref: ../examples/php/media/upload_media
+      - lang: JavaScript
+        label: NodeJS
+        source:
+          $ref: ../examples/node/media/upload_media
+      - lang: C#
+        label: C#
+        source:
+          $ref: ../examples/c-sharp/media/upload_media
+      - lang: Python
+        label: Python
+        source:
+          $ref: ../examples/python/media/upload_media
+      - lang: Ruby
+        label: Ruby
+        source:
+          $ref: ../examples/ruby/media/upload_media
+      parameters:
+      - name: X-RawVoice-MD5-Checksum
+        description: Optional - MD5 checksum of the file being uploaded. When specified, the server will return the final uploaded MD5 checksum
+        in: header
+        schema:
+          type: string
+      - name: X-RawVoice-Range
+        in: header
+        description: Optional - Range of start and end bytes
+        schema:
+          type: string
+      - name: Content-Type
+        in: header
+        description: File type of media being uploaded
+        required: true
+        schema:
+          type: string
+      - name: Content-Length
+        in: header
+        description: Length in bytes of the media file
+        required: true
+        schema:
+          type: string
+      - name: keyword
+        in: path
+        description: Specifies the program
+        required: true
+        schema:
+          type: string
+      - name: mediafile.ext
+        in: path
+        description: Specifies the media file to upload (ext is the file type)
+        required: true
+        schema:
+          type: string
+      - name: format
+        in: query
+        description: Specifies the format of the response returned.
+        schema:
+          type: string
+          enum:
+          - json
+          - xml
+      content: null
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Upload'
+            application/xml:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Upload'
+                xml:
+                  name: status
+          headers:
+            X-RawVoice-MD5-Checksum:
+              description: When specified, the server will return the final uploaded MD5 checksum
+              schema:
+                $ref: '#/components/headers/X-RawVoice-MD5-Checksum'
+            X-RawVoice-Range:
+              description: Range of start and end bytes which supports multi-PUT requests to upload content in chunks
+              schema:
+                $ref: '#/components/headers/X-RawVoice-Range'
+        '400':
+          description: Missing keyword
+    servers:
+    - url: https://api.blubrry.com/2
 components:
-  responses:
-    Unauthorized:
-      description: Missing or invalid access token.
   parameters:
+    Filename:
+      name: filename
+      in: path
+      required: true
+      description: Media filename including extension.
+      schema:
+        type: string
     Format:
       name: format
       in: path
@@ -182,13 +470,6 @@ components:
         enum:
         - json
         - xml
-    Filename:
-      name: filename
-      in: path
-      required: true
-      description: Media filename including extension.
-      schema:
-        type: string
     Keyword:
       name: keyword
       in: path
@@ -196,6 +477,139 @@ components:
       description: Program keyword that identifies the show.
       schema:
         type: string
+  responses:
+    Unauthorized:
+      description: Missing or invalid access token.
+  schemas:
+    Media:
+      type: object
+      properties:
+        id:
+          type: string
+        status:
+          type: string
+    AllUnpublished:
+      type: array
+      items:
+        $ref: '#/components/schemas/Unpublished'
+      xml:
+        name: file
+    Unpublished:
+      type: object
+      properties:
+        name:
+          type: string
+        length:
+          type: integer
+          format: int64
+        created:
+          type: string
+        last_modified:
+          type: string
+    AllMedia:
+      type: array
+      items:
+        $ref: '#/components/schemas/Media'
+      properties:
+        records:
+          type: integer
+    Upload:
+      type: object
+      properties:
+        text:
+          type: string
+    AddMigrateMedia:
+      type: object
+      properties:
+        url:
+          type: string
+          description: Individual URL to add to migration queue
+        urls:
+          type: array
+          items:
+            type: string
+          description: Multiple URLs separated by new lines to add to migration queue
+    RemoveMigrateMedia:
+      type: object
+      properties:
+        url:
+          type: string
+          description: Individual URL to add to migration queue
+        urls:
+          type: array
+          items:
+            type: string
+          description: Multiple URLs separated by new lines to add to migration queue
+        ids:
+          type: array
+          items:
+            type: string
+          description: One or more unique migrate IDs
+    AllHosted:
+      type: array
+      items:
+        $ref: '#/components/schemas/Hosted'
+      xml:
+        name: program
+    ApiResponse:
+      type: object
+      properties:
+        request:
+          type: string
+        message:
+          type: string
+    Delete:
+      type: object
+      properties:
+        text:
+          type: string
+    Hosted:
+      type: object
+      properties:
+        program_title:
+          type: string
+          description: The title of the program or podcast. This is the display name as it appears in directories or on user-facing interfaces.
+          example: The Daily Podcast
+        program_keyword:
+          type: string
+          description: A unique keyword identifier for older programs, typically used in feed URLs. Deprecated for new programs in favor of 'program_id'.
+          example: daily_podcast_keyword
+        program_id:
+          type: integer
+          description: The unique identifier for a program or podcast, used as the primary reference for media or stats related operations.
+          example: 12345
+        podcast_id:
+          type: integer
+          description: The unique identifier for a program or podcast, used as the primary reference for media-related operations.
+          example: 12345
+        stats_program_id:
+          type: integer
+          description: The unique identifier for a program or podcast, used as the primary reference for stats-related operations.
+          example: 78987
+        feed_url:
+          type: string
+          description: The URL of the program's RSS feed. This can vary based on whether the feed is hosted with Blubrry, PowerPress, or a custom domain.
+          example: https://feeds.blubrry.com/feeds/the_daily.xml
+    Publish:
+      type: object
+      properties:
+        text:
+          type: string
+        media_url:
+          type: string
+  headers:
+    xTotalHosted:
+      schema:
+        type: integer
+        description: Number of programs that are available to query
+    X-RawVoice-Range:
+      schema:
+        type: string
+        description: Range of start and end bytes which supports multi-PUT requests to upload content in chunks
+    X-RawVoice-MD5-Checksum:
+      schema:
+        type: string
+        description: MD5 checksum of the file uploaded
   securitySchemes:
     OAuth2:
       type: oauth2
@@ -210,3 +624,6 @@ components:
           tokenUrl: https://api.blubrry.com/oauth2/token
           refreshUrl: https://api.blubrry.com/oauth2/token
           scopes: {}
+x-refined-from:
+- blubrry-api-restful-api-for-podcast-publishing-statistics-openapi.yml
+- blubrry-api-restful-api-for-podcast-publishing-statistics-podcaster-openapi.yaml
