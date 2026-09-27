@@ -210,65 +210,6 @@ paths:
     servers:
     - url: https://api.blubrry.com/2
 components:
-  parameters:
-    EpisodeId:
-      name: episode_id
-      in: path
-      required: true
-      schema:
-        type: integer
-    Keyword:
-      name: keyword
-      in: path
-      required: true
-      description: Program keyword that identifies the show.
-      schema:
-        type: string
-    Offset:
-      name: offset
-      in: query
-      schema:
-        type: integer
-        default: 0
-    Limit:
-      name: limit
-      in: query
-      schema:
-        type: integer
-        default: 10
-    EpisodeId_2:
-      name: episode_id
-      in: path
-      description: Required - Episode ID
-      required: true
-      schema:
-        type: integer
-    ProgramKeyword:
-      name: keyword
-      in: path
-      description: Required - Program keyword
-      required: true
-      schema:
-        type: string
-    Offset_2:
-      name: offset
-      in: query
-      description: Optional - Number of results to skip
-      required: false
-      schema:
-        type: integer
-        minimum: 0
-        default: 0
-    Limit_2:
-      name: limit
-      in: query
-      description: Optional - Number of results returned
-      required: false
-      schema:
-        type: integer
-        minimum: 1
-        maximum: 50
-        default: 10
   schemas:
     EpisodeInput:
       type: object
@@ -403,6 +344,25 @@ components:
           type: array
           example: '[{ ''person'' => ''Joe Podcast'', ''role'' => ''host'', ''img'' => ''https://image.com/joepodcast.png'', ''link'' => ''https://aboutjoepodcast.com/'' }, ...]'
           description: Episode credits
+    UpdateEpisodeSuccess:
+      type: object
+      properties:
+        status:
+          type: string
+          example: Success
+        success:
+          type: string
+          example: Episode Updated Successfully
+        updated_at:
+          type: string
+          example: Mon, 03 Feb 2020 19:06:58 +0000
+        episode_id:
+          type: integer
+          example: '22976504'
+    EpisodeListObjectArray:
+      type: array
+      items:
+        $ref: '#/components/schemas/EpisodeListObject'
     DeleteEpisodeImageSuccess:
       type: object
       properties:
@@ -427,6 +387,27 @@ components:
         player_url:
           type: string
           example: https://player.blubrry.com/?podcast_id=88676548
+    AddEpisodeSuccess:
+      type: object
+      properties:
+        status:
+          type: string
+          example: Success
+        success:
+          type: string
+          example: Episode Posted Successfully
+        created_at:
+          type: string
+          example: Mon, 03 Feb 2020 19:06:58 +0000
+        created_at_timestamp:
+          type: string
+          example: '1580756818'
+        episode_id:
+          type: integer
+          example: '22976504'
+        listing_url:
+          type: string
+          example: https://blubrry.com/{keyword}/22976504/title/ (Note that this URL may not be live if the episode is in a draft state)
     UpdateEpisodeImageSuccess:
       type: object
       properties:
@@ -457,31 +438,80 @@ components:
         episode_image_url_resized:
           type: string
           example: https://assets.blubrry.com/coverart/episode/747632/160/88676548-1747687088.jpg
-    EpisodeListObjectArray:
-      type: array
-      items:
-        $ref: '#/components/schemas/EpisodeListObject'
-    AddEpisodeSuccess:
+    UpdateEpisode:
       type: object
       properties:
         status:
-          type: string
-          example: Success
-        success:
-          type: string
-          example: Episode Posted Successfully
-        created_at:
-          type: string
-          example: Mon, 03 Feb 2020 19:06:58 +0000
-        created_at_timestamp:
-          type: string
-          example: '1580756818'
-        episode_id:
+          description: Set to draft (0) or public (1)
           type: integer
-          example: '22976504'
-        listing_url:
+          format: tinyint
+          enum:
+          - 0
+          - 1
+        filename:
+          description: Podcast filename
           type: string
-          example: https://blubrry.com/{keyword}/22976504/title/ (Note that this URL may not be live if the episode is in a draft state)
+          example: http://media.blubrry.com/geeknewscentral/content.blubrry.com/geeknewscentral/GNC-2017-01-23.mp3
+        title:
+          description: Title of podcast
+          type: string
+          example: Title of podcast
+        content:
+          description: Podcast description or limited HTML version of show notes
+          type: string
+          example: Podcast description or limited HTML version of show notes
+        explicit:
+          description: Clean (2), Explicit (1), or None (0)
+          type: integer
+          format: tinyint
+          enum:
+          - 0
+          - 1
+          - 2
+        itunes_title:
+          description: Episode title for iTunes
+          type: string
+          example: Episode title for iTunes
+        itunes_episode:
+          description: (Deprecated) Episode title for iTunes
+          type: integer
+          example: Episode Title for iTunes
+        itunes_season:
+          description: Season number for iTunes
+          type: integer
+          example: Season number for iTunes
+        itunes_order:
+          description: Order number for iTunes
+          type: integer
+          example: Order number for iTunes
+        itunes_episode_number:
+          description: Episode number for iTunes
+          type: integer
+          example: Episode number for iTunes
+        release_date:
+          description: Alternate post date
+          type: integer
+          example: 1694647124
+        itunes_image:
+          description: Episode image
+          type: string
+          example: Episode image
+        podcast_link:
+          description: Episode webpage
+          type: string
+          example: Episode webpage
+        location:
+          description: Episode location
+          type: string
+          example: city;Columbus;geo;geo:39.7837304,-100.445882;osm;R148838;
+        podcast_subtitle:
+          description: Podcast subtitle (Limited to 250 characters)
+          type: string
+          example: My podcast subtitle
+        credits:
+          description: Episode credits
+          type: array
+          example: '[{ ''person'' => ''Joe Podcast'', ''role'' => ''host'', ''img'' => ''https://image.com/joepodcast.png'', ''link'' => ''https://aboutjoepodcast.com/'' }, ...]'
     AddEpisode:
       type: object
       required:
@@ -565,95 +595,6 @@ components:
           description: Podcast subtitle (Limited to 250 characters)
           type: string
           example: My podcast subtitle
-    UpdateEpisode:
-      type: object
-      properties:
-        status:
-          description: Set to draft (0) or public (1)
-          type: integer
-          format: tinyint
-          enum:
-          - 0
-          - 1
-        filename:
-          description: Podcast filename
-          type: string
-          example: http://media.blubrry.com/geeknewscentral/content.blubrry.com/geeknewscentral/GNC-2017-01-23.mp3
-        title:
-          description: Title of podcast
-          type: string
-          example: Title of podcast
-        content:
-          description: Podcast description or limited HTML version of show notes
-          type: string
-          example: Podcast description or limited HTML version of show notes
-        explicit:
-          description: Clean (2), Explicit (1), or None (0)
-          type: integer
-          format: tinyint
-          enum:
-          - 0
-          - 1
-          - 2
-        itunes_title:
-          description: Episode title for iTunes
-          type: string
-          example: Episode title for iTunes
-        itunes_episode:
-          description: (Deprecated) Episode title for iTunes
-          type: integer
-          example: Episode Title for iTunes
-        itunes_season:
-          description: Season number for iTunes
-          type: integer
-          example: Season number for iTunes
-        itunes_order:
-          description: Order number for iTunes
-          type: integer
-          example: Order number for iTunes
-        itunes_episode_number:
-          description: Episode number for iTunes
-          type: integer
-          example: Episode number for iTunes
-        release_date:
-          description: Alternate post date
-          type: integer
-          example: 1694647124
-        itunes_image:
-          description: Episode image
-          type: string
-          example: Episode image
-        podcast_link:
-          description: Episode webpage
-          type: string
-          example: Episode webpage
-        location:
-          description: Episode location
-          type: string
-          example: city;Columbus;geo;geo:39.7837304,-100.445882;osm;R148838;
-        podcast_subtitle:
-          description: Podcast subtitle (Limited to 250 characters)
-          type: string
-          example: My podcast subtitle
-        credits:
-          description: Episode credits
-          type: array
-          example: '[{ ''person'' => ''Joe Podcast'', ''role'' => ''host'', ''img'' => ''https://image.com/joepodcast.png'', ''link'' => ''https://aboutjoepodcast.com/'' }, ...]'
-    UpdateEpisodeSuccess:
-      type: object
-      properties:
-        status:
-          type: string
-          example: Success
-        success:
-          type: string
-          example: Episode Updated Successfully
-        updated_at:
-          type: string
-          example: Mon, 03 Feb 2020 19:06:58 +0000
-        episode_id:
-          type: integer
-          example: '22976504'
     EpisodeKeywordError:
       properties:
         error:
@@ -662,6 +603,65 @@ components:
         code:
           type: string
           example: episode_show_invalid
+  parameters:
+    Offset:
+      name: offset
+      in: query
+      schema:
+        type: integer
+        default: 0
+    Limit:
+      name: limit
+      in: query
+      schema:
+        type: integer
+        default: 10
+    EpisodeId:
+      name: episode_id
+      in: path
+      required: true
+      schema:
+        type: integer
+    Keyword:
+      name: keyword
+      in: path
+      required: true
+      description: Program keyword that identifies the show.
+      schema:
+        type: string
+    Limit_2:
+      name: limit
+      in: query
+      description: Optional - Number of results returned
+      required: false
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 50
+        default: 10
+    Offset_2:
+      name: offset
+      in: query
+      description: Optional - Number of results to skip
+      required: false
+      schema:
+        type: integer
+        minimum: 0
+        default: 0
+    EpisodeId_2:
+      name: episode_id
+      in: path
+      description: Required - Episode ID
+      required: true
+      schema:
+        type: integer
+    ProgramKeyword:
+      name: keyword
+      in: path
+      description: Required - Program keyword
+      required: true
+      schema:
+        type: string
   responses:
     Unauthorized:
       description: Missing or invalid access token.

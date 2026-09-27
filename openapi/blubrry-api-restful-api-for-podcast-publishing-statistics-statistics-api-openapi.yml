@@ -251,6 +251,12 @@ paths:
       description: Production
 components:
   parameters:
+    EpisodeId:
+      name: episode_id
+      in: path
+      required: true
+      schema:
+        type: integer
     Format:
       name: format
       in: path
@@ -261,12 +267,6 @@ components:
         enum:
         - json
         - xml
-    EpisodeId:
-      name: episode_id
-      in: path
-      required: true
-      schema:
-        type: integer
     Keyword:
       name: keyword
       in: path
@@ -274,14 +274,6 @@ components:
       description: Program keyword that identifies the show.
       schema:
         type: string
-    StartDate:
-      name: startDate
-      in: query
-      description: Optional - Specifies the start date range
-      required: false
-      schema:
-        type: string
-        example: '2023-12-01'
     EndDate:
       name: endDate
       in: query
@@ -290,10 +282,24 @@ components:
       schema:
         type: string
         example: '2023-12-31'
+    StartDate:
+      name: startDate
+      in: query
+      description: Optional - Specifies the start date range
+      required: false
+      schema:
+        type: string
+        example: '2023-12-01'
   responses:
     Unauthorized:
       description: Missing or invalid access token.
   schemas:
+    AllHosted:
+      type: array
+      items:
+        $ref: '#/components/schemas/Hosted'
+      xml:
+        name: program
     EpisodesResult:
       type: object
       properties:
@@ -304,61 +310,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/EpisodeObject'
-    ShowEpisodesResult:
-      type: object
-      properties:
-        record_count:
-          type: integer
-          example: 1
-        title:
-          type: string
-          example: Your Show Title
-        keyword:
-          type: string
-          example: your_show_keyword
-        total:
-          type: integer
-          example: 5000
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/EpisodeObject'
-    Apps:
-      type: object
-      properties:
-        record_count:
-          type: integer
-          example: 2
-        144:
-          type: object
-          properties:
-            client_name:
-              type: string
-              example: Apple Podcasts
-            client_class_id:
-              type: integer
-              example: 5
-            total:
-              type: integer
-              example: 5000
-        207:
-          type: object
-          properties:
-            client_name:
-              type: string
-              example: Firefox
-            client_class_id:
-              type: integer
-              example: 2
-            total:
-              type: integer
-              example: 5000
-    AllHosted:
-      type: array
-      items:
-        $ref: '#/components/schemas/Hosted'
-      xml:
-        name: program
     Summary:
       type: object
       properties:
@@ -427,27 +378,159 @@ components:
               current_month:
                 type: integer
                 example: '120'
-    AppTypes:
+    EpisodeObject:
+      type: object
+      properties:
+        episode_id:
+          type: string
+          example: '12345'
+        episode_label:
+          type: string
+          example: 'Episode 1: Pilot'
+        episode_filename:
+          type: string
+          example: episode1.mp3
+        episode_date:
+          type: string
+          example: 04/25/2021
+        duration_in_seconds:
+          type: string
+          example: '3600'
+        total:
+          type: string
+          example: '1000'
+        full_downloads:
+          type: string
+          example: '1000'
+        partial_25:
+          type: integer
+          example: 5000
+        partial_50:
+          type: integer
+          example: 5000
+        partial_75:
+          type: integer
+          example: 5000
+        partial_99:
+          type: integer
+          example: 5000
+    Hosted:
+      type: object
+      properties:
+        program_title:
+          type: string
+          description: The title of the program or podcast. This is the display name as it appears in directories or on user-facing interfaces.
+          example: The Daily Podcast
+        program_keyword:
+          type: string
+          description: A unique keyword identifier for older programs, typically used in feed URLs. Deprecated for new programs in favor of 'program_id'.
+          example: daily_podcast_keyword
+        program_id:
+          type: integer
+          description: The unique identifier for a program or podcast, used as the primary reference for media or stats related operations.
+          example: 12345
+        podcast_id:
+          type: integer
+          description: The unique identifier for a program or podcast, used as the primary reference for media-related operations.
+          example: 12345
+        stats_program_id:
+          type: integer
+          description: The unique identifier for a program or podcast, used as the primary reference for stats-related operations.
+          example: 78987
+        feed_url:
+          type: string
+          description: The URL of the program's RSS feed. This can vary based on whether the feed is hosted with Blubrry, PowerPress, or a custom domain.
+          example: https://feeds.blubrry.com/feeds/the_daily.xml
+    StatsWidget:
+      type: object
+      properties:
+        program_keyword:
+          type: string
+        widget_title:
+          type: string
+        scale_min:
+          type: number
+        scale_max:
+          type: integer
+        scale_step:
+          type: integer
+        program_total:
+          type: integer
+        month_average:
+          type: integer
+        day_total_data:
+          type: object
+          description: An associative array containing the totals for each of the most recent seven days
+    ShowEpisodesResult:
       type: object
       properties:
         record_count:
           type: integer
           example: 1
-        5:
+        title:
+          type: string
+          example: Your Show Title
+        keyword:
+          type: string
+          example: your_show_keyword
+        total:
+          type: integer
+          example: 5000
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/EpisodeObject'
+    Countries:
+      type: object
+      properties:
+        record_count:
+          type: integer
+          example: 2
+        114:
           type: object
           properties:
-            client_class_name:
+            country_name:
               type: string
-              example: Mobile Applications
+              example: Cambodia
             total:
               type: integer
               example: 5000
-        2:
+        223:
           type: object
           properties:
-            client_class_name:
+            country_name:
               type: string
-              example: Web browsers
+              example: Vietnam
+            total:
+              type: integer
+              example: 5000
+    Apps:
+      type: object
+      properties:
+        record_count:
+          type: integer
+          example: 2
+        144:
+          type: object
+          properties:
+            client_name:
+              type: string
+              example: Apple Podcasts
+            client_class_id:
+              type: integer
+              example: 5
+            total:
+              type: integer
+              example: 5000
+        207:
+          type: object
+          properties:
+            client_name:
+              type: string
+              example: Firefox
+            client_class_id:
+              type: integer
+              example: 2
             total:
               type: integer
               example: 5000
@@ -487,113 +570,30 @@ components:
             id:
               type: string
               example: '1234567'
-    EpisodeObject:
-      type: object
-      properties:
-        episode_id:
-          type: string
-          example: '12345'
-        episode_label:
-          type: string
-          example: 'Episode 1: Pilot'
-        episode_filename:
-          type: string
-          example: episode1.mp3
-        episode_date:
-          type: string
-          example: 04/25/2021
-        duration_in_seconds:
-          type: string
-          example: '3600'
-        total:
-          type: string
-          example: '1000'
-        full_downloads:
-          type: string
-          example: '1000'
-        partial_25:
-          type: integer
-          example: 5000
-        partial_50:
-          type: integer
-          example: 5000
-        partial_75:
-          type: integer
-          example: 5000
-        partial_99:
-          type: integer
-          example: 5000
-    StatsWidget:
-      type: object
-      properties:
-        program_keyword:
-          type: string
-        widget_title:
-          type: string
-        scale_min:
-          type: number
-        scale_max:
-          type: integer
-        scale_step:
-          type: integer
-        program_total:
-          type: integer
-        month_average:
-          type: integer
-        day_total_data:
-          type: object
-          description: An associative array containing the totals for each of the most recent seven days
-    Countries:
+    AppTypes:
       type: object
       properties:
         record_count:
           type: integer
-          example: 2
-        114:
+          example: 1
+        5:
           type: object
           properties:
-            country_name:
+            client_class_name:
               type: string
-              example: Cambodia
+              example: Mobile Applications
             total:
               type: integer
               example: 5000
-        223:
+        2:
           type: object
           properties:
-            country_name:
+            client_class_name:
               type: string
-              example: Vietnam
+              example: Web browsers
             total:
               type: integer
               example: 5000
-    Hosted:
-      type: object
-      properties:
-        program_title:
-          type: string
-          description: The title of the program or podcast. This is the display name as it appears in directories or on user-facing interfaces.
-          example: The Daily Podcast
-        program_keyword:
-          type: string
-          description: A unique keyword identifier for older programs, typically used in feed URLs. Deprecated for new programs in favor of 'program_id'.
-          example: daily_podcast_keyword
-        program_id:
-          type: integer
-          description: The unique identifier for a program or podcast, used as the primary reference for media or stats related operations.
-          example: 12345
-        podcast_id:
-          type: integer
-          description: The unique identifier for a program or podcast, used as the primary reference for media-related operations.
-          example: 12345
-        stats_program_id:
-          type: integer
-          description: The unique identifier for a program or podcast, used as the primary reference for stats-related operations.
-          example: 78987
-        feed_url:
-          type: string
-          description: The URL of the program's RSS feed. This can vary based on whether the feed is hosted with Blubrry, PowerPress, or a custom domain.
-          example: https://feeds.blubrry.com/feeds/the_daily.xml
     Total:
       type: object
       properties:
