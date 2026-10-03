@@ -210,6 +210,68 @@ paths:
     servers:
     - url: https://api.blubrry.com/2
 components:
+  parameters:
+    Keyword:
+      name: keyword
+      in: path
+      required: true
+      description: Program keyword that identifies the show.
+      schema:
+        type: string
+    EpisodeId:
+      name: episode_id
+      in: path
+      required: true
+      schema:
+        type: integer
+    Offset:
+      name: offset
+      in: query
+      schema:
+        type: integer
+        default: 0
+    Limit:
+      name: limit
+      in: query
+      schema:
+        type: integer
+        default: 10
+    ProgramKeyword:
+      name: keyword
+      in: path
+      description: Required - Program keyword
+      required: true
+      schema:
+        type: string
+    EpisodeId_2:
+      name: episode_id
+      in: path
+      description: Required - Episode ID
+      required: true
+      schema:
+        type: integer
+    Offset_2:
+      name: offset
+      in: query
+      description: Optional - Number of results to skip
+      required: false
+      schema:
+        type: integer
+        minimum: 0
+        default: 0
+    Limit_2:
+      name: limit
+      in: query
+      description: Optional - Number of results returned
+      required: false
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 50
+        default: 10
+  responses:
+    Unauthorized:
+      description: Missing or invalid access token.
   schemas:
     EpisodeInput:
       type: object
@@ -230,7 +292,7 @@ components:
           type: string
           enum:
           - clean
-          - true
+          - 'yes'
           - 'no'
         media_url:
           type: string
@@ -344,100 +406,6 @@ components:
           type: array
           example: '[{ ''person'' => ''Joe Podcast'', ''role'' => ''host'', ''img'' => ''https://image.com/joepodcast.png'', ''link'' => ''https://aboutjoepodcast.com/'' }, ...]'
           description: Episode credits
-    UpdateEpisodeSuccess:
-      type: object
-      properties:
-        status:
-          type: string
-          example: Success
-        success:
-          type: string
-          example: Episode Updated Successfully
-        updated_at:
-          type: string
-          example: Mon, 03 Feb 2020 19:06:58 +0000
-        episode_id:
-          type: integer
-          example: '22976504'
-    EpisodeListObjectArray:
-      type: array
-      items:
-        $ref: '#/components/schemas/EpisodeListObject'
-    DeleteEpisodeImageSuccess:
-      type: object
-      properties:
-        status:
-          type: string
-          example: Success
-        success:
-          type: bool
-          example: true
-        msg:
-          type: string
-          example: Episode image file deleted successfully.
-        updated_at:
-          type: string
-          example: Mon, 03 Feb 2020 19:06:58 +0000
-        episode_id:
-          type: integer
-          example: '88676548'
-        listing_url:
-          type: string
-          example: https://blubrry.com/keyword/88676548/api-update-test-post/
-        player_url:
-          type: string
-          example: https://player.blubrry.com/?podcast_id=88676548
-    AddEpisodeSuccess:
-      type: object
-      properties:
-        status:
-          type: string
-          example: Success
-        success:
-          type: string
-          example: Episode Posted Successfully
-        created_at:
-          type: string
-          example: Mon, 03 Feb 2020 19:06:58 +0000
-        created_at_timestamp:
-          type: string
-          example: '1580756818'
-        episode_id:
-          type: integer
-          example: '22976504'
-        listing_url:
-          type: string
-          example: https://blubrry.com/{keyword}/22976504/title/ (Note that this URL may not be live if the episode is in a draft state)
-    UpdateEpisodeImageSuccess:
-      type: object
-      properties:
-        status:
-          type: string
-          example: Success
-        success:
-          type: bool
-          example: true
-        msg:
-          type: string
-          example: Deleted existing episode image. Episode image file uploaded successfully.
-        updated_at:
-          type: string
-          example: Mon, 03 Feb 2020 19:06:58 +0000
-        episode_id:
-          type: integer
-          example: '88676548'
-        listing_url:
-          type: string
-          example: https://blubrry.com/keyword/88676548/api-update-test-post/
-        player_url:
-          type: string
-          example: https://player.blubrry.com/?podcast_id=88676548
-        episode_image_url:
-          type: string
-          example: https://assets.blubrry.com/coverart/episode/747632/orig/88676548-1747687088.jpg
-        episode_image_url_resized:
-          type: string
-          example: https://assets.blubrry.com/coverart/episode/747632/160/88676548-1747687088.jpg
     UpdateEpisode:
       type: object
       properties:
@@ -512,6 +480,78 @@ components:
           description: Episode credits
           type: array
           example: '[{ ''person'' => ''Joe Podcast'', ''role'' => ''host'', ''img'' => ''https://image.com/joepodcast.png'', ''link'' => ''https://aboutjoepodcast.com/'' }, ...]'
+    EpisodeListObjectArray:
+      type: array
+      items:
+        $ref: '#/components/schemas/EpisodeListObject'
+    EpisodeKeywordError:
+      properties:
+        error:
+          type: string
+          example: show keyword invalid
+        code:
+          type: string
+          example: episode_show_invalid
+    AddEpisodeSuccess:
+      type: object
+      properties:
+        status:
+          type: string
+          example: Success
+        success:
+          type: string
+          example: Episode Posted Successfully
+        created_at:
+          type: string
+          example: Mon, 03 Feb 2020 19:06:58 +0000
+        created_at_timestamp:
+          type: string
+          example: '1580756818'
+        episode_id:
+          type: integer
+          example: '22976504'
+        listing_url:
+          type: string
+          example: https://blubrry.com/{keyword}/22976504/title/ (Note that this URL may not be live if the episode is in a draft state)
+    UpdateEpisodeSuccess:
+      type: object
+      properties:
+        status:
+          type: string
+          example: Success
+        success:
+          type: string
+          example: Episode Updated Successfully
+        updated_at:
+          type: string
+          example: Mon, 03 Feb 2020 19:06:58 +0000
+        episode_id:
+          type: integer
+          example: '22976504'
+    DeleteEpisodeImageSuccess:
+      type: object
+      properties:
+        status:
+          type: string
+          example: Success
+        success:
+          type: bool
+          example: true
+        msg:
+          type: string
+          example: Episode image file deleted successfully.
+        updated_at:
+          type: string
+          example: Mon, 03 Feb 2020 19:06:58 +0000
+        episode_id:
+          type: integer
+          example: '88676548'
+        listing_url:
+          type: string
+          example: https://blubrry.com/keyword/88676548/api-update-test-post/
+        player_url:
+          type: string
+          example: https://player.blubrry.com/?podcast_id=88676548
     AddEpisode:
       type: object
       required:
@@ -595,76 +635,36 @@ components:
           description: Podcast subtitle (Limited to 250 characters)
           type: string
           example: My podcast subtitle
-    EpisodeKeywordError:
+    UpdateEpisodeImageSuccess:
+      type: object
       properties:
-        error:
+        status:
           type: string
-          example: show keyword invalid
-        code:
+          example: Success
+        success:
+          type: bool
+          example: true
+        msg:
           type: string
-          example: episode_show_invalid
-  parameters:
-    Offset:
-      name: offset
-      in: query
-      schema:
-        type: integer
-        default: 0
-    Limit:
-      name: limit
-      in: query
-      schema:
-        type: integer
-        default: 10
-    EpisodeId:
-      name: episode_id
-      in: path
-      required: true
-      schema:
-        type: integer
-    Keyword:
-      name: keyword
-      in: path
-      required: true
-      description: Program keyword that identifies the show.
-      schema:
-        type: string
-    Limit_2:
-      name: limit
-      in: query
-      description: Optional - Number of results returned
-      required: false
-      schema:
-        type: integer
-        minimum: 1
-        maximum: 50
-        default: 10
-    Offset_2:
-      name: offset
-      in: query
-      description: Optional - Number of results to skip
-      required: false
-      schema:
-        type: integer
-        minimum: 0
-        default: 0
-    EpisodeId_2:
-      name: episode_id
-      in: path
-      description: Required - Episode ID
-      required: true
-      schema:
-        type: integer
-    ProgramKeyword:
-      name: keyword
-      in: path
-      description: Required - Program keyword
-      required: true
-      schema:
-        type: string
-  responses:
-    Unauthorized:
-      description: Missing or invalid access token.
+          example: Deleted existing episode image. Episode image file uploaded successfully.
+        updated_at:
+          type: string
+          example: Mon, 03 Feb 2020 19:06:58 +0000
+        episode_id:
+          type: integer
+          example: '88676548'
+        listing_url:
+          type: string
+          example: https://blubrry.com/keyword/88676548/api-update-test-post/
+        player_url:
+          type: string
+          example: https://player.blubrry.com/?podcast_id=88676548
+        episode_image_url:
+          type: string
+          example: https://assets.blubrry.com/coverart/episode/747632/orig/88676548-1747687088.jpg
+        episode_image_url_resized:
+          type: string
+          example: https://assets.blubrry.com/coverart/episode/747632/160/88676548-1747687088.jpg
   securitySchemes:
     OAuth2:
       type: oauth2
