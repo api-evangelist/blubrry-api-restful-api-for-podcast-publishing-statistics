@@ -251,6 +251,12 @@ paths:
       description: Production
 components:
   parameters:
+    EpisodeId:
+      name: episode_id
+      in: path
+      required: true
+      schema:
+        type: integer
     Format:
       name: format
       in: path
@@ -261,12 +267,6 @@ components:
         enum:
         - json
         - xml
-    EpisodeId:
-      name: episode_id
-      in: path
-      required: true
-      schema:
-        type: integer
     Keyword:
       name: keyword
       in: path
@@ -318,6 +318,26 @@ components:
             total:
               type: integer
               example: 5000
+    StatsWidget:
+      type: object
+      properties:
+        program_keyword:
+          type: string
+        widget_title:
+          type: string
+        scale_min:
+          type: number
+        scale_max:
+          type: integer
+        scale_step:
+          type: integer
+        program_total:
+          type: integer
+        month_average:
+          type: integer
+        day_total_data:
+          type: object
+          description: An associative array containing the totals for each of the most recent seven days
     Hosted:
       type: object
       properties:
@@ -345,60 +365,6 @@ components:
           type: string
           description: The URL of the program's RSS feed. This can vary based on whether the feed is hosted with Blubrry, PowerPress, or a custom domain.
           example: https://feeds.blubrry.com/feeds/the_daily.xml
-    Total:
-      type: object
-      properties:
-        recordCount:
-          type: integer
-          example: '1'
-        results:
-          type: object
-          properties:
-            episode:
-              type: string
-              example: episode1-2020-01-22.mp3
-            date:
-              type: string
-              example: '2020-04-18'
-            url:
-              type: string
-              example: https://content.blubrry.com/keyword/episode1-2020-01-22.mp3
-            title:
-              type: string
-              example: Episode 1
-            downloads:
-              type: string
-              example: '856'
-    Apps:
-      type: object
-      properties:
-        record_count:
-          type: integer
-          example: 2
-        144:
-          type: object
-          properties:
-            client_name:
-              type: string
-              example: Apple Podcasts
-            client_class_id:
-              type: integer
-              example: 5
-            total:
-              type: integer
-              example: 5000
-        207:
-          type: object
-          properties:
-            client_name:
-              type: string
-              example: Firefox
-            client_class_id:
-              type: integer
-              example: 2
-            total:
-              type: integer
-              example: 5000
     EpisodeObject:
       type: object
       properties:
@@ -435,12 +401,85 @@ components:
         partial_99:
           type: integer
           example: 5000
+    Countries:
+      type: object
+      properties:
+        record_count:
+          type: integer
+          example: 2
+        114:
+          type: object
+          properties:
+            country_name:
+              type: string
+              example: Cambodia
+            total:
+              type: integer
+              example: 5000
+        223:
+          type: object
+          properties:
+            country_name:
+              type: string
+              example: Vietnam
+            total:
+              type: integer
+              example: 5000
+    Apps:
+      type: object
+      properties:
+        record_count:
+          type: integer
+          example: 2
+        144:
+          type: object
+          properties:
+            client_name:
+              type: string
+              example: Apple Podcasts
+            client_class_id:
+              type: integer
+              example: 5
+            total:
+              type: integer
+              example: 5000
+        207:
+          type: object
+          properties:
+            client_name:
+              type: string
+              example: Firefox
+            client_class_id:
+              type: integer
+              example: 2
+            total:
+              type: integer
+              example: 5000
     EpisodesResult:
       type: object
       properties:
         record_count:
           type: integer
           example: 1
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/EpisodeObject'
+    ShowEpisodesResult:
+      type: object
+      properties:
+        record_count:
+          type: integer
+          example: 1
+        title:
+          type: string
+          example: Your Show Title
+        keyword:
+          type: string
+          example: your_show_keyword
+        total:
+          type: integer
+          example: 5000
         results:
           type: array
           items:
@@ -481,75 +520,36 @@ components:
             id:
               type: string
               example: '1234567'
-    Countries:
-      type: object
-      properties:
-        record_count:
-          type: integer
-          example: 2
-        114:
-          type: object
-          properties:
-            country_name:
-              type: string
-              example: Cambodia
-            total:
-              type: integer
-              example: 5000
-        223:
-          type: object
-          properties:
-            country_name:
-              type: string
-              example: Vietnam
-            total:
-              type: integer
-              example: 5000
-    StatsWidget:
-      type: object
-      properties:
-        program_keyword:
-          type: string
-        widget_title:
-          type: string
-        scale_min:
-          type: number
-        scale_max:
-          type: integer
-        scale_step:
-          type: integer
-        program_total:
-          type: integer
-        month_average:
-          type: integer
-        day_total_data:
-          type: object
-          description: An associative array containing the totals for each of the most recent seven days
     AllHosted:
       type: array
       items:
         $ref: '#/components/schemas/Hosted'
       xml:
         name: program
-    ShowEpisodesResult:
+    Total:
       type: object
       properties:
-        record_count:
+        recordCount:
           type: integer
-          example: 1
-        title:
-          type: string
-          example: Your Show Title
-        keyword:
-          type: string
-          example: your_show_keyword
-        total:
-          type: integer
-          example: 5000
+          example: '1'
         results:
-          type: array
-          items:
-            $ref: '#/components/schemas/EpisodeObject'
+          type: object
+          properties:
+            episode:
+              type: string
+              example: episode1-2020-01-22.mp3
+            date:
+              type: string
+              example: '2020-04-18'
+            url:
+              type: string
+              example: https://content.blubrry.com/keyword/episode1-2020-01-22.mp3
+            title:
+              type: string
+              example: Episode 1
+            downloads:
+              type: string
+              example: '856'
     Summary:
       type: object
       properties:

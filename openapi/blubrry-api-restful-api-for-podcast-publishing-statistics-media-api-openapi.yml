@@ -457,6 +457,13 @@ paths:
     - url: https://api.blubrry.com/2
 components:
   parameters:
+    Keyword:
+      name: keyword
+      in: path
+      required: true
+      description: Program keyword that identifies the show.
+      schema:
+        type: string
     Filename:
       name: filename
       in: path
@@ -474,40 +481,21 @@ components:
         enum:
         - json
         - xml
-    Keyword:
-      name: keyword
-      in: path
-      required: true
-      description: Program keyword that identifies the show.
-      schema:
-        type: string
   responses:
     Unauthorized:
       description: Missing or invalid access token.
   schemas:
-    AllMedia:
-      type: array
-      items:
-        $ref: '#/components/schemas/Media'
-      properties:
-        records:
-          type: integer
-    Unpublished:
-      type: object
-      properties:
-        name:
-          type: string
-        length:
-          type: integer
-          format: int64
-        created:
-          type: string
-        last_modified:
-          type: string
     Upload:
       type: object
       properties:
         text:
+          type: string
+    Media:
+      type: object
+      properties:
+        id:
+          type: string
+        status:
           type: string
     Hosted:
       type: object
@@ -536,6 +524,18 @@ components:
           type: string
           description: The URL of the program's RSS feed. This can vary based on whether the feed is hosted with Blubrry, PowerPress, or a custom domain.
           example: https://feeds.blubrry.com/feeds/the_daily.xml
+    Unpublished:
+      type: object
+      properties:
+        name:
+          type: string
+        length:
+          type: integer
+          format: int64
+        created:
+          type: string
+        last_modified:
+          type: string
     RemoveMigrateMedia:
       type: object
       properties:
@@ -570,30 +570,19 @@ components:
           items:
             type: string
           description: Multiple URLs separated by new lines to add to migration queue
-    AllUnpublished:
+    AllMedia:
       type: array
       items:
-        $ref: '#/components/schemas/Unpublished'
-      xml:
-        name: file
+        $ref: '#/components/schemas/Media'
+      properties:
+        records:
+          type: integer
     AllHosted:
       type: array
       items:
         $ref: '#/components/schemas/Hosted'
       xml:
         name: program
-    Delete:
-      type: object
-      properties:
-        text:
-          type: string
-    Media:
-      type: object
-      properties:
-        id:
-          type: string
-        status:
-          type: string
     ApiResponse:
       type: object
       properties:
@@ -601,11 +590,18 @@ components:
           type: string
         message:
           type: string
+    Delete:
+      type: object
+      properties:
+        text:
+          type: string
+    AllUnpublished:
+      type: array
+      items:
+        $ref: '#/components/schemas/Unpublished'
+      xml:
+        name: file
   headers:
-    X-RawVoice-Range:
-      schema:
-        type: string
-        description: Range of start and end bytes which supports multi-PUT requests to upload content in chunks
     xTotalHosted:
       schema:
         type: integer
@@ -614,6 +610,10 @@ components:
       schema:
         type: string
         description: MD5 checksum of the file uploaded
+    X-RawVoice-Range:
+      schema:
+        type: string
+        description: Range of start and end bytes which supports multi-PUT requests to upload content in chunks
   securitySchemes:
     OAuth2:
       type: oauth2
