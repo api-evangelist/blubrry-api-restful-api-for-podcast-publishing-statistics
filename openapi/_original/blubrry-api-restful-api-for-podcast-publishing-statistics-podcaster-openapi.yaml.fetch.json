@@ -1,0 +1,12 @@
+{
+ "url": "https://blubrry.com/developer/api/podcaster.yaml",
+ "requested_url": "https://blubrry.com/developer/api/podcaster.yaml",
+ "status": 200,
+ "content_type": "",
+ "bytes": 87048,
+ "sha256": "5511a65249d1fe6ec2a51f4a4e96ee29559307e7de91ff1e01075b413b5f0a91",
+ "fetched_at": "2026-10-04",
+ "fetched_by": "APIEvangelist-Harvest/1.0 (+https://apievangelist.com)",
+ "match": "equivalent",
+ "note": "Re-fetched from the provider by verify-openapi-sources.py; the provider's current document describes the same operations (Jaccard 1.0), but the bytes differ, so the archive is an earlier or reformatted copy."
+}
