@@ -152,6 +152,10 @@ apis:
   - type: Overlay
     url: overlays/blubrry-api-restful-api-for-podcast-publishing-statistics-statistics-api-overlay.yaml
 common:
+- type: Plans
+  url: plans/blubrry-api-restful-api-for-podcast-publishing-statistics-plans-pricing.yml
+- type: FinOps
+  url: finops/blubrry-api-restful-api-for-podcast-publishing-statistics-finops.yml
 - type: CapabilityMap
   url: capabilities/blubrry-api-restful-api-for-podcast-publishing-statistics-capability-edges.yml
   name: Blubrry API Business Capability Map
