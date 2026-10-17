@@ -456,19 +456,15 @@ paths:
     servers:
     - url: https://api.blubrry.com/2
 components:
+  responses:
+    Unauthorized:
+      description: Missing or invalid access token.
   parameters:
     Keyword:
       name: keyword
       in: path
       required: true
       description: Program keyword that identifies the show.
-      schema:
-        type: string
-    Filename:
-      name: filename
-      in: path
-      required: true
-      description: Media filename including extension.
       schema:
         type: string
     Format:
@@ -481,15 +477,58 @@ components:
         enum:
         - json
         - xml
-  responses:
-    Unauthorized:
-      description: Missing or invalid access token.
+    Filename:
+      name: filename
+      in: path
+      required: true
+      description: Media filename including extension.
+      schema:
+        type: string
+  headers:
+    xTotalHosted:
+      schema:
+        type: integer
+        description: Number of programs that are available to query
+    X-RawVoice-Range:
+      schema:
+        type: string
+        description: Range of start and end bytes which supports multi-PUT requests to upload content in chunks
+    X-RawVoice-MD5-Checksum:
+      schema:
+        type: string
+        description: MD5 checksum of the file uploaded
   schemas:
+    AllMedia:
+      type: array
+      items:
+        $ref: '#/components/schemas/Media'
+      properties:
+        records:
+          type: integer
+    AllUnpublished:
+      type: array
+      items:
+        $ref: '#/components/schemas/Unpublished'
+      xml:
+        name: file
     Upload:
       type: object
       properties:
         text:
           type: string
+    Publish:
+      type: object
+      properties:
+        text:
+          type: string
+        media_url:
+          type: string
+    AllHosted:
+      type: array
+      items:
+        $ref: '#/components/schemas/Hosted'
+      xml:
+        name: program
     Media:
       type: object
       properties:
@@ -497,6 +536,50 @@ components:
           type: string
         status:
           type: string
+    RemoveMigrateMedia:
+      type: object
+      properties:
+        url:
+          type: string
+          description: Individual URL to add to migration queue
+        urls:
+          type: array
+          items:
+            type: string
+          description: Multiple URLs separated by new lines to add to migration queue
+        ids:
+          type: array
+          items:
+            type: string
+          description: One or more unique migrate IDs
+    Unpublished:
+      type: object
+      properties:
+        name:
+          type: string
+        length:
+          type: integer
+          format: int64
+        created:
+          type: string
+        last_modified:
+          type: string
+    Delete:
+      type: object
+      properties:
+        text:
+          type: string
+    AddMigrateMedia:
+      type: object
+      properties:
+        url:
+          type: string
+          description: Individual URL to add to migration queue
+        urls:
+          type: array
+          items:
+            type: string
+          description: Multiple URLs separated by new lines to add to migration queue
     Hosted:
       type: object
       properties:
@@ -524,65 +607,6 @@ components:
           type: string
           description: The URL of the program's RSS feed. This can vary based on whether the feed is hosted with Blubrry, PowerPress, or a custom domain.
           example: https://feeds.blubrry.com/feeds/the_daily.xml
-    Unpublished:
-      type: object
-      properties:
-        name:
-          type: string
-        length:
-          type: integer
-          format: int64
-        created:
-          type: string
-        last_modified:
-          type: string
-    RemoveMigrateMedia:
-      type: object
-      properties:
-        url:
-          type: string
-          description: Individual URL to add to migration queue
-        urls:
-          type: array
-          items:
-            type: string
-          description: Multiple URLs separated by new lines to add to migration queue
-        ids:
-          type: array
-          items:
-            type: string
-          description: One or more unique migrate IDs
-    Publish:
-      type: object
-      properties:
-        text:
-          type: string
-        media_url:
-          type: string
-    AddMigrateMedia:
-      type: object
-      properties:
-        url:
-          type: string
-          description: Individual URL to add to migration queue
-        urls:
-          type: array
-          items:
-            type: string
-          description: Multiple URLs separated by new lines to add to migration queue
-    AllMedia:
-      type: array
-      items:
-        $ref: '#/components/schemas/Media'
-      properties:
-        records:
-          type: integer
-    AllHosted:
-      type: array
-      items:
-        $ref: '#/components/schemas/Hosted'
-      xml:
-        name: program
     ApiResponse:
       type: object
       properties:
@@ -590,30 +614,6 @@ components:
           type: string
         message:
           type: string
-    Delete:
-      type: object
-      properties:
-        text:
-          type: string
-    AllUnpublished:
-      type: array
-      items:
-        $ref: '#/components/schemas/Unpublished'
-      xml:
-        name: file
-  headers:
-    xTotalHosted:
-      schema:
-        type: integer
-        description: Number of programs that are available to query
-    X-RawVoice-MD5-Checksum:
-      schema:
-        type: string
-        description: MD5 checksum of the file uploaded
-    X-RawVoice-Range:
-      schema:
-        type: string
-        description: Range of start and end bytes which supports multi-PUT requests to upload content in chunks
   securitySchemes:
     OAuth2:
       type: oauth2
