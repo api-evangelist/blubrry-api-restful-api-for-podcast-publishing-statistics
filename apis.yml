@@ -35,6 +35,12 @@ created: '2025-05-02'
 modified: '2026-09-16'
 specificationVersion: '0.23'
 tags:
+- Podcasts
+- Audio
+- Media
+- Publishing
+- Statistics
+tags_raw:
 - Podcasting
 - Audio
 - Media
@@ -49,6 +55,11 @@ apis:
   humanURL: https://blubrry.com/developer/api/
   baseURL: https://api.blubrry.com/2
   tags:
+  - Podcasts
+  - Media
+  - Hosting
+  - Publishing
+  tags_raw:
   - Podcasting
   - Media
   - Hosting
@@ -66,6 +77,11 @@ apis:
   humanURL: https://blubrry.com/developer/api/
   baseURL: https://api.blubrry.com/2
   tags:
+  - Podcasts
+  - Episodes
+  - Publishing
+  - CMS
+  tags_raw:
   - Podcasting
   - Episodes
   - Publishing
@@ -81,7 +97,7 @@ apis:
   humanURL: https://blubrry.com/developer/api/
   baseURL: https://api.blubrry.com/2
   tags:
-  - Podcasting
+  - Podcasts
   - Statistics
   - Analytics
   - Downloads
@@ -103,7 +119,7 @@ apis:
   humanURL: https://blubrry.com/developer/api/
   baseURL: https://api.blubrry.com/2
   tags:
-  - Podcasting
+  - Podcasts
   - Networks
   - Subscription
   - Directory
