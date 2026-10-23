@@ -640,3 +640,9 @@ components:
 x-refined-from:
 - blubrry-api-restful-api-for-podcast-publishing-statistics-openapi.yml
 - blubrry-api-restful-api-for-podcast-publishing-statistics-podcaster-openapi.yaml
+x-provenance:
+  method: harvested
+  publisher: Blubrry API
+  source: https://blubrry.com/developer/api/podcaster.yaml
+  note: split by refine-openapis from the provider's own published document, verified by fetch (openapi/_original/*.fetch.json);
+    stamped by stamp-openapi-provenance.py (roadmap#793)
