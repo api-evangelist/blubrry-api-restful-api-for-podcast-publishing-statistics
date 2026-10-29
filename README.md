@@ -1,4 +1,4 @@
-# Blubrry API (blubrry-api-restful-api-for-podcast-publishing-statistics)
+# Blubrry API
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -66,116 +66,154 @@
 
 Blubrry is a podcast hosting and statistics platform providing a RESTful API for podcast publishing, media management, episode management, audience statistics, and podcast network functionality. The API uses OAuth 2.0 authentication and enables third-party applications to integrate with podcast hosting workflows.
 
-**APIs.json:** [https://raw.githubusercontent.com/api-evangelist/blubrry-api-restful-api-for-podcast-publishing-statistics/refs/heads/main/apis.yml](https://raw.githubusercontent.com/api-evangelist/blubrry-api-restful-api-for-podcast-publishing-statistics/refs/heads/main/apis.yml)
+**Areas:** Podcasts · Audio · Media · Publishing · Statistics
 
-## Scope
+## Blubrry API on APIs.io
 
-- **Type:** Index
+Everything profiled for Blubrry API is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/blubrry-api-restful-api-for-podcast-publishing-statistics/](https://apis.io/providers/blubrry-api-restful-api-for-podcast-publishing-statistics/)** — or go straight to one of the APIs or properties below.
 
-## Tags
+### APIs (7)
 
-- Podcasting
-- Audio
-- Media
-- Publishing
-- Statistics
+- [Blubrry Podcast Media Hosting API](https://apis.io/apis/blubrry-api-restful-api-for-podcast-publishing-statistics/blubrry-podcast-media-hosting-api/) — The Blubrry Podcast Media Hosting API enables uploading and managing podcast media files through third-party applications. Supports listing shows,…
+- [Blubrry Episode Management API](https://apis.io/apis/blubrry-api-restful-api-for-podcast-publishing-statistics/blubrry-episode-management-api/) — The Blubrry Episode Management API supports creating new podcast episodes (publish, schedule, or save as draft) and updating existing episode fields.…
+- [Blubrry Podcast Statistics API](https://apis.io/apis/blubrry-api-restful-api-for-podcast-publishing-statistics/blubrry-podcast-statistics-api/) — The Blubrry Podcast Statistics API provides analytics for podcast episodes including download and play counts, overall show download summaries, monthly…
+- [Blubrry Podcast Network API](https://apis.io/apis/blubrry-api-restful-api-for-podcast-publishing-statistics/blubrry-podcast-network-api/) — The Blubrry Podcast Network API provides access to user subscriptions with show management, episode metadata storage including playback status and position,…
+- [Blubrry API Episode API](https://apis.io/apis/blubrry-api-restful-api-for-podcast-publishing-statistics/blubrry-api-restful-api-for-podcast-publishing-statistics-episode-api/) — Read, create, and update episodes for shows hosted on Blubrry.
+- [Blubrry API Media API](https://apis.io/apis/blubrry-api-restful-api-for-podcast-publishing-statistics/blubrry-api-restful-api-for-podcast-publishing-statistics-media-api/) — Upload and manage media files hosted on Blubrry.
+- [Blubrry API Statistics API](https://apis.io/apis/blubrry-api-restful-api-for-podcast-publishing-statistics/blubrry-api-restful-api-for-podcast-publishing-statistics-statistics-api/) — Podcast download statistics.
 
-## Timestamps
+### Published properties
 
-- **Created:** 2025-05-02
-- **Modified:** 2026-04-21
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-## APIs
+#### MCP servers (1)
 
-### Blubrry Podcast Media Hosting API
+Model Context Protocol servers that expose the API to agents.
 
-The Blubrry Podcast Media Hosting API enables uploading and managing podcast media files through third-party applications. Supports listing shows, retrieving unpublished media files, deleting media, and publishing podcast media for shows hosted on Blubrry.
+- [Blubrry Podcast Hosting & Statistics](https://apis.io/servers/blubrry-api-restful-api-for-podcast-publishing-statistics/blubrry/)
 
-- **Human URL:** [https://blubrry.com/developer/api/](https://blubrry.com/developer/api/)
+#### Agentic access (1)
 
-#### Tags
+Which operations an agent can call, which act, and which need a human in the loop.
 
-- Podcasting
-- Media
-- Hosting
-- Publishing
+- [Blubrry Api Restful Api For Podcast Publishing Statistics Agentic Access](https://apis.io/agentic-access/blubrry-api-restful-api-for-podcast-publishing-statistics/blubrry-api-restful-api-for-podcast-publishing-statistics-agentic-access/)
 
-#### Properties
+#### Collections (4)
 
-- [Documentation](https://blubrry.com/developer/api/)
-- [Authentication](https://blubrry.com/developer/api/)
-- [Postman Collection](collections/blubrry-api-restful-api-for-podcast-publishing-statistics.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/blubrry-api-restful-api-for-podcast-publishing-statistics.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+Postman and Open Collection request collections.
 
-### Blubrry Episode Management API
+- [Blubrry Podcast Hosting & Statistics API](https://apis.io/collections/blubrry-api-restful-api-for-podcast-publishing-statistics/open-blubrry-api-restful-api-for-podcast-publishing-statistics/)
+- [Blubrry Podcast Hosting & Statistics Episode API](https://apis.io/collections/blubrry-api-restful-api-for-podcast-publishing-statistics/open-blubrry-api-restful-api-for-podcast-publishing-statistics-episode-api/)
+- [Blubrry Podcast Hosting & Statistics Episode Media API](https://apis.io/collections/blubrry-api-restful-api-for-podcast-publishing-statistics/open-blubrry-api-restful-api-for-podcast-publishing-statistics-media-api/)
+- [Blubrry Podcast Hosting & Episode Statistics API](https://apis.io/collections/blubrry-api-restful-api-for-podcast-publishing-statistics/open-blubrry-api-restful-api-for-podcast-publishing-statistics-statistics-api/)
 
-The Blubrry Episode Management API supports creating new podcast episodes (publish, schedule, or save as draft) and updating existing episode fields. Enables CMS and podcast production tools to manage episode metadata programmatically.
+#### Overlays (4)
 
-- **Human URL:** [https://blubrry.com/developer/api/](https://blubrry.com/developer/api/)
+OpenAPI overlays, including conversational phrasing for each operation.
 
-#### Tags
+- [Blubrry Api Restful Api For Podcast Publishing Statistics Episode Api Overlay](https://apis.io/overlays/blubrry-api-restful-api-for-podcast-publishing-statistics/blubrry-api-restful-api-for-podcast-publishing-statistics-episode-api-overlay/)
+- [Blubrry Api Restful Api For Podcast Publishing Statistics Media Api Overlay](https://apis.io/overlays/blubrry-api-restful-api-for-podcast-publishing-statistics/blubrry-api-restful-api-for-podcast-publishing-statistics-media-api-overlay/)
+- [Blubrry Api Restful Api For Podcast Publishing Statistics Podcaster Overlay](https://apis.io/overlays/blubrry-api-restful-api-for-podcast-publishing-statistics/blubrry-api-restful-api-for-podcast-publishing-statistics-podcaster-overlay/)
+- [Blubrry Api Restful Api For Podcast Publishing Statistics Statistics Api Overlay](https://apis.io/overlays/blubrry-api-restful-api-for-podcast-publishing-statistics/blubrry-api-restful-api-for-podcast-publishing-statistics-statistics-api-overlay/)
 
-- Podcasting
-- Episodes
-- Publishing
-- CMS
+#### Security (2)
 
-#### Properties
+Authentication, trust centre, and vulnerability disclosure.
 
-- [Documentation](https://blubrry.com/developer/api/)
-- [Postman Collection](collections/blubrry-api-restful-api-for-podcast-publishing-statistics.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/blubrry-api-restful-api-for-podcast-publishing-statistics.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+- [Blubrry Api Restful Api For Podcast Publishing Statistics Authentication](https://apis.io/security/blubrry-api-restful-api-for-podcast-publishing-statistics/blubrry-api-restful-api-for-podcast-publishing-statistics-authentication/)
+- [Blubrry Api Restful Api For Podcast Publishing Statistics Domain Security](https://apis.io/security/blubrry-api-restful-api-for-podcast-publishing-statistics/blubrry-api-restful-api-for-podcast-publishing-statistics-domain-security/)
 
-### Blubrry Podcast Statistics API
+#### OAuth scopes (1)
 
-The Blubrry Podcast Statistics API provides analytics for podcast episodes including download and play counts, overall show download summaries, monthly download breakdowns, and episode-level statistics for measuring podcast audience reach and growth.
+The permissions the API asks for.
 
-- **Human URL:** [https://blubrry.com/developer/api/](https://blubrry.com/developer/api/)
+- [Blubrry Api Restful Api For Podcast Publishing Statistics Scopes](https://apis.io/scopes/blubrry-api-restful-api-for-podcast-publishing-statistics/blubrry-api-restful-api-for-podcast-publishing-statistics-scopes/)
 
-#### Tags
+#### Plans and pricing (1)
 
-- Podcasting
-- Statistics
-- Analytics
-- Downloads
-- Audience
+Published plans, tiers and prices.
 
-#### Properties
+- [Blubrry Api Restful Api For Podcast Publishing Statistics Plans Pricing](https://apis.io/plans/blubrry-api-restful-api-for-podcast-publishing-statistics/blubrry-api-restful-api-for-podcast-publishing-statistics-plans-pricing/)
 
-- [Documentation](https://blubrry.com/developer/api/)
-- [Postman Collection](collections/blubrry-api-restful-api-for-podcast-publishing-statistics.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/blubrry-api-restful-api-for-podcast-publishing-statistics.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+#### Rate limits (1)
 
-### Blubrry Podcast Network API
+Published request limits.
 
-The Blubrry Podcast Network API provides access to user subscriptions with show management, episode metadata storage including playback status and position, show navigation by category and search, and access to Blubrry's podcast directory.
+- [Blubrry Api Restful Api For Podcast Publishing Statistics Rate Limits](https://apis.io/rate-limits/blubrry-api-restful-api-for-podcast-publishing-statistics/blubrry-api-restful-api-for-podcast-publishing-statistics-rate-limits/)
 
-- **Human URL:** [https://blubrry.com/developer/api/](https://blubrry.com/developer/api/)
+#### FinOps (1)
 
-#### Tags
+What the API costs to run, by operation.
 
-- Podcasting
-- Network
-- Subscriptions
-- Directory
+- [Blubrry Api Restful Api For Podcast Publishing Statistics Finops](https://apis.io/finops/blubrry-api-restful-api-for-podcast-publishing-statistics/blubrry-api-restful-api-for-podcast-publishing-statistics-finops/)
 
-#### Properties
+## Where to find this API
 
-- [Documentation](https://blubrry.com/developer/api/)
-- [Postman Collection](collections/blubrry-api-restful-api-for-podcast-publishing-statistics.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/blubrry-api-restful-api-for-podcast-publishing-statistics.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
 
-## Common Properties
-
-- [GitHub Organization](https://github.com/blubrry)
-- [LinkedIn](https://www.linkedin.com/company/rawvoice)
 - [Website](https://blubrry.com)
-- [Portal](https://blubrry.com/developer/api/)
 - [Documentation](https://blubrry.com/developer/api/)
-- [Authentication](https://blubrry.com/developer/api/)
-- [Integrations](https://blubrry.com/services/partners/)
+- [Getting started](https://blubrry.com/support/getting-started/)
+- [API reference](https://blubrry.com/developer/api/podcaster.html)
+- [Pricing](https://blubrry.com/services/plans-pricing/)
+- [Sign up](https://blubrry.com/createaccount.php)
+- [Support](https://blubrry.com/support/)
+- [Blog](https://blubrry.com/podcast-insider/feed/)
+- [Terms of service](https://blubrry.com/about/terms-of-service/)
+- [Privacy policy](https://blubrry.com/about/privacy-policy/)
+- [GitHub](https://github.com/blubrry)
 
-## Maintainers
+## API Evangelist rating
 
-**FN:** Kin Lane
-**Email:** kinlane@gmail.com
+**Kin Score 54.5** — strong · rubric 0.25.0 · scored 2026-10-23
+
+| Facet | Score |
+|---|---|
+| Discoverability | 73.2 |
+| Contract quality | 46.6 |
+| Contract governance | 18.2 |
+| Operational transparency | 2.6 |
+| Developer ergonomics | 66.1 |
+| Access clarity | 84.2 |
+
+**Agent readiness 32.8** — agent-ready
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | derived (partial credit) |
+| Reversibility Documented | — |
+| MCP Server | — |
+| Auth Clarity | negotiable (partial credit) |
+| Idempotency | — |
+| Error Semantics | derived (partial credit) |
+| OpenAPI Examples | partial |
+| Rate Limit Signal | documented (partial credit) |
+| Event Surface Described | — |
+| Agent Skills | derived (partial credit) |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | documented (partial credit) |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+| Pagination Ratio | paginated |
+| Operation Distinctiveness | distinct |
+
+**Regulatory alignment 39.2** — Horizontal (data, software, accessibility, platform)
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/blubrry-api-restful-api-for-podcast-publishing-statistics/](https://apis.io/providers/blubrry-api-restful-api-for-podcast-publishing-statistics/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Blubrry API: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/blubrry-api-restful-api-for-podcast-publishing-statistics/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
