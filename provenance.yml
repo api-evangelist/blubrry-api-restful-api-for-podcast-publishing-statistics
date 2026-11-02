@@ -53,6 +53,9 @@ artifacts:
   front-door-ai/2026-09-17.yml:
     method: unknown
     evidence: no authorship recorded
+  heartbeat/2026-11-02.yml:
+    method: unknown
+    evidence: no authorship recorded
   integrations/_index.yml:
     method: generated
     evidence: carries an API Evangelist house phrase
@@ -62,7 +65,7 @@ artifacts:
   kin/checks-2026-10-23T222754.yml:
     method: generated
     evidence: Kin Score snapshot written by score.rb
-  kin/checks-2026-10-31T095417.yml:
+  kin/checks-2026-11-02T082323.yml:
     method: generated
     evidence: Kin Score snapshot written by score.rb
   kin/score-2026-09-23T000603.yml:
@@ -119,6 +122,15 @@ artifacts:
   kin/score-2026-10-31T095417.yml:
     method: generated
     evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-11-01T171331.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-11-01T200237.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-11-02T082323.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
   lifecycle/blubrry-api-restful-api-for-podcast-publishing-statistics-lifecycle.yml:
     method: searched
     evidence: declared in the artifact
@@ -160,6 +172,9 @@ artifacts:
   packages/blubrry-api-restful-api-for-podcast-publishing-statistics-packages.yml:
     method: searched
     evidence: declared in the artifact
+  patterns/blubrry-api-restful-api-for-podcast-publishing-statistics-patterns.yml:
+    method: derived
+    evidence: declared in the artifact
   plans/blubrry-api-restful-api-for-podcast-publishing-statistics-plans-pricing.yml:
     method: searched
     evidence: declared in the artifact
@@ -168,6 +183,9 @@ artifacts:
     evidence: no authorship recorded
   rate-limits/blubrry-api-restful-api-for-podcast-publishing-statistics-rate-limits.yml:
     method: searched
+    evidence: declared in the artifact
+  rules/blubrry-api-restful-api-for-podcast-publishing-statistics-rules.yml:
+    method: generated
     evidence: declared in the artifact
   scopes/blubrry-api-restful-api-for-podcast-publishing-statistics-scopes.yml:
     method: searched
@@ -185,6 +203,9 @@ artifacts:
     method: generated
     evidence: declared in the artifact
   skills/blubrry-api-restful-api-for-podcast-publishing-statistics-publish-episode.md:
+    method: generated
+    evidence: declared in the artifact
+  sla/blubrry-api-restful-api-for-podcast-publishing-statistics-sla.yml:
     method: generated
     evidence: declared in the artifact
   well-known/blubrry-api-restful-api-for-podcast-publishing-statistics-well-known.yml:
