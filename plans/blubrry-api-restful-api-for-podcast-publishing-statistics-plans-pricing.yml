@@ -1,0 +1,163 @@
+# Pricing transcribed from the provider's own page — see provenance. Numbers are quoted, not derived.
+generated: '2026-10-28'
+method: searched
+source: https://blubrry.com/services/plans-pricing/
+sources:
+- https://blubrry.com/services/plans-pricing/
+provenance:
+  tool: engine/economics/harvest_pricing.py
+  run: 20261028T141238
+  grounding: every price_text was found verbatim in the fetched page text
+audience: business-product
+pricing_basis: tiered-subscription
+delivery:
+  delivery: managed
+  method: page
+  read: '2026-10-28'
+  managed_tier: Standard 1.5
+published: true
+note: Blubrry podcast hosting and statistics plans; annual option noted as 'Save 10%' without stated annual
+  prices. No API-specific pricing on page.
+plan_count: 9
+currency: USD
+plans:
+- name: Standard 1.5
+  price_text: $7 /month
+  price: 7
+  currency: USD
+  period: month
+  unit: plan
+  included_quota: Up to 1.5 hours monthly publishing; standard statistics; free WordPress site; AI tools
+- name: Standard 3
+  price_text: $15 /month
+  price: 15
+  currency: USD
+  period: month
+  unit: plan
+  included_quota: Up to 3 hours monthly publishing; standard statistics
+- name: Advanced 6
+  price_text: $25 /month
+  price: 25
+  currency: USD
+  period: month
+  unit: plan
+  included_quota: Publish up to 6 hours each month; advanced analytics
+- name: Advanced 12
+  price_text: $50 /month
+  price: 50
+  currency: USD
+  period: month
+  unit: plan
+  included_quota: Up to 12 hours of audio and/or video content every month
+- name: Advanced 25
+  price_text: $90 /month
+  price: 90
+  currency: USD
+  period: month
+  unit: plan
+  included_quota: Up to 25 hours each month
+- name: Pro Unlimited
+  price_text: Starting at $100 /month
+  price: 100
+  currency: USD
+  period: month
+  unit: plan
+  included_quota: Unlimited publishing; multiple shows; FTP access
+  overage: bandwidth usage fees
+- name: Free Statistics
+  price_text: Free
+  period: month
+  unit: plan
+  included_quota: Total plays and downloads, top locations, top apps/devices
+- name: Standard Statistics
+  price_text: $5 /month
+  price: 5
+  currency: USD
+  period: month
+  unit: plan
+  included_quota: Full location/app/device data; compare 3 most recent episodes
+- name: Advanced Statistics
+  price_text: Included with Advanced Hosting
+  period: month
+  unit: plan
+  included_quota: IAB-certified stats, listener retention, partial plays
+x-canonical:
+  generated: '2026-11-01'
+  vocabulary: engine/economics/plans-canonical.yml
+  models:
+  - hybrid
+  - subscription
+  units: []
+  plans:
+  - name: Standard 1.5
+    access: other
+    model: subscription
+    model_how: derived
+    units:
+    - other
+    periods:
+    - month
+  - name: Standard 3
+    access: other
+    model: subscription
+    model_how: derived
+    units:
+    - other
+    periods:
+    - month
+  - name: Advanced 6
+    access: other
+    model: subscription
+    model_how: derived
+    units:
+    - other
+    periods:
+    - month
+  - name: Advanced 12
+    access: other
+    model: subscription
+    model_how: derived
+    units:
+    - other
+    periods:
+    - month
+  - name: Advanced 25
+    access: other
+    model: subscription
+    model_how: derived
+    units:
+    - other
+    periods:
+    - month
+  - name: Pro Unlimited
+    access: other
+    model: hybrid
+    model_how: derived
+    units:
+    - other
+    periods:
+    - month
+  - name: Free Statistics
+    access: other
+    model: unstated
+    model_how: derived
+    units:
+    - other
+    periods:
+    - month
+  - name: Standard Statistics
+    access: other
+    model: subscription
+    model_how: derived
+    units:
+    - other
+    periods:
+    - month
+  - name: Advanced Statistics
+    access: other
+    model: unstated
+    model_how: derived
+    units:
+    - other
+    periods:
+    - month
